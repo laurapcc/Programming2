@@ -8,7 +8,6 @@
 //#define MAXSTACK 1024
 //#define EMPTY_STACK -1
 
-
 struct Stack {
  int top;
  EleStack *item[MAXSTACK];
@@ -21,7 +20,7 @@ Initialize the stack reserving memory. Output: NULL if there was an error or the
 Stack * stack_ini(){
     Stack *s = NULL;
     if (!(s = (Stack *)malloc(sizeof(Stack)))){
-        fprintf(errno,"Error initializing stack");
+        fprintf(stderr,"Error initializing stack");
         return NULL;
     }
 
@@ -49,19 +48,22 @@ not insert it or the resulting stack if it succeeds
 ------------------------------------------------------------------*/
 Status stack_push(Stack *stc, const EleStack *el_stc){
     if (!stc || !el_stc){
-        fprintf(errno,"Error in stack_push");
+        fprintf(stderr,"Error in stack_push");
         return ERROR;
     }
 
     //stack full
     if (stack_isFull(stc)){
-        fprintf(errno,"Stack full");
+        fprintf(stderr,"Stack full");
         return ERROR;
     }
 
     //copy of el_stc
     EleStack *el_stc_copy = EleStack_copy(el_stc);
-    if (!el_stc_copy) return ERROR;
+    if (!el_stc_copy){
+   	fprintf(stderr,"No copy");
+	return ERROR;
+    }
 
     stc->top++;
     stc->item[stc->top] = el_stc_copy;
@@ -76,14 +78,14 @@ or the extracted EleStack if it succeeds. Note that the stack will be modified
 EleStack * stack_pop(Stack *stc){
     //Error control
     if (!stc){
-        fprintf(errno,"Error in stack_pop");
+        fprintf(stderr,"Error in stack_pop");
         return NULL;
     }
 
     EleStack *el_s;
 
     if (stack_isEmpty(stc)){
-        fprintf(errno,"Stack empty");
+        fprintf(stderr,"Stack empty");
         return NULL;
     }
 
@@ -125,11 +127,12 @@ int stack_print(FILE* pf, const Stack* stc){
     //Error control
     if (!pf || !stc) return -1;
 
-    int num_char = 0;
+    int i, num_char, total_char = 0;
 
-    for (int i = stc->top; i > EMPTY_STACK; i--){
-        num_char += EleStack_print(pf,stc->item[i]);
-        num_char += fprintf(pf, "\n");
+    for (i = stc->top; i > EMPTY_STACK; i--){
+        num_char = EleStack_print(pf,stc->item[i]);
+	if (num_char == -1) return -1;
+	total_char += num_char;
     }
-    return num_char;
+    return total_char;
 }

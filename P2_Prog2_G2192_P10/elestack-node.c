@@ -15,7 +15,7 @@ Initialize a stack EleStack. Output: Pointer to the initialized EleStack or NULL
 EleStack * EleStack_ini(){
     EleStack *ele = NULL;
     if (!(ele = (EleStack *)malloc(sizeof(EleStack)))){
-        fprintf(errno,"Error initializing Element of stack");
+        fprintf(stderr,"Error initializing Element of stack");
         return NULL;
     }
 
@@ -56,12 +56,12 @@ an error.
 
 // he cambiado void por node
 
-Node *EleStack_getInfo(EleStack *ele){
+void *EleStack_getInfo(EleStack *ele){
     if (!ele) return NULL;
     Node *n;
     n = ele->info;
 
-    return n;
+    return (void *)n;
 
 }
 
@@ -70,7 +70,7 @@ Copy one EleStack in another, reserving memory. Input: the EleStack to copy. Out
 copied EleStack or NULL in case of error.
 ------------------------------------------------------------------*/
 EleStack *EleStack_copy(const EleStack *ele){
-  if (ele) return NULL;
+  if (!ele) return NULL;
   EleStack *target = NULL;
   if (!(target = (EleStack *)malloc(sizeof(EleStack)))) return NULL;
   target->info = ele->info;
@@ -98,10 +98,7 @@ Output: Returns the number of written characters.
 int EleStack_print(FILE *pf, const EleStack *ele){
   if (!pf || !ele) return -1;
 
-  Node *n = NULL;
-  n = EleStack_getInfo(ele);
-  int result = node_print(pf, n);
-
+  int result = node_print(pf, ele->info);
   return result;
 
 }

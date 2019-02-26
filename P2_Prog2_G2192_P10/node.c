@@ -32,7 +32,11 @@ int node_getId(const Node *n){
 }
 
 char *node_getName(const Node *n){
-    if (n) return (n->name);
+    if (!n) return NULL;
+
+    Node *n2 = NULL;
+    n2 = node_copy(n);
+    if (n2) return n2->name;
     else return NULL;
 }
 
@@ -84,9 +88,6 @@ Node *node_copy(const Node *src){
 int node_print(FILE *pf, const Node * n){
     int num_char = 0;
     if (!pf || !n) return -1;
-    int result = fprintf (pf,"[%d, %s, %d]\n",n->id,n->name,n->nConnect);
-    if (!(result)) return -1;
-    num_char = result;
-    //num_char += fprintf (pf,"[%d, %s, %d]\n",n->id,n->name,n->nConnect);
+    num_char += fprintf (pf,"[%d, %s, %d]\n",n->id,n->name,n->nConnect);
     return num_char;
 }
