@@ -14,7 +14,7 @@ int main() {
 
     Graph *g;
     g = graph_ini();
-    if (!g) return EXIT_FAILURE);
+    if (!g) return (EXIT_FAILURE);
 
     Node *n1, *n2;
     n1 = node_ini();

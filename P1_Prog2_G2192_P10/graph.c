@@ -59,18 +59,18 @@ int *graph_getConectionsIndex(const Graph * g, int index) {
 
 Graph * graph_ini() {
     Graph *g = NULL;
-    if (!(g = (Graph *) malloc(MAX_NODES * sizeof (Graph)))) {
+    if (!(g = (Graph *)malloc(sizeof (Graph)))) {
         fprintf(stderr, "Graph cannot be initialized");
         return NULL;
     }
-    
+
     g->num_edges=0;
     g->num_nodes=0;
-    
+
     for(int i=0;i<MAX_NODES;i++){
         g->nodes[i] = NULL;
     }
-    
+
     return g;
 }
 
@@ -88,22 +88,22 @@ Status graph_insertNode(Graph *g, const Node *n){
     Node *aux = NULL;
     int id = node_getId(n);
     if (find_node_index((g),id) != -1) return ERROR;
-    
+
     aux = node_copy(n);
     if(!aux) return ERROR;
-    
+
     node_setConnect(aux,0);
-    
+
     g->nodes[g->num_nodes] = aux;
     g->num_nodes ++;
-    
+
     for (int i=0;i<g->num_nodes;i++){
         g->connections[i][g->num_nodes] = FALSE;
         g->connections[g->num_nodes][i] = FALSE;
     }
-    
+
     return OK;
-    
+
 }
 
 /* Adds an edge between the nodes of id "nId1" and "nId2".
@@ -112,30 +112,30 @@ Status graph_insertNode(Graph *g, const Node *n){
 Status graph_insertEdge(Graph * g, const int nId1, const int nId2){
     if(!g) return ERROR;
     int from, to;
-    
+
     from = find_node_index(g, nId1);
     to = find_node_index(g, nId2);
     if (from < 0 || to < 0) return ERROR;
-    
+
     g->connections[from][to] = TRUE;
-    
+
     int conn = node_getConnect(g->nodes[from]) + 1;
     node_setConnect(g->nodes[from], conn);
-    
+
     g->num_edges++;
-    
+
     return OK;
-    
+
 }
 
 /* Returns a copy of the node of id "nId"*/
 Node *graph_getNode(const Graph *g, int nId){
     if (!g) return NULL;
     int index;
-    
+
     index = find_node_index(g, nId);
     if (index < 0) return NULL;
-    
+
     return node_copy(g->nodes[index]);
 }
 
@@ -143,56 +143,56 @@ Node *graph_getNode(const Graph *g, int nId){
 Status graph_setNode(Graph *g, const Node * n){
     if (!g || !n) return ERROR;
     int index;
-    
+
     index = find_node_index(g, node_getId(n));
     if (index == -1) return ERROR;
-    
+
     Node *aux = node_copy(n);
     if (!aux) return  ERROR;
-    
+
     node_destroy(g->nodes[index]);
     g->nodes[index] = aux;
-    
+
     return OK;
-    
+
 }
 
 /* Returns the address of an array with the ids of all nodes in the graph.
  * Reserves memory for the array. */
 int *graph_getNodesId(const Graph *g){
     if (!g) return NULL;
-    
+
     int *array;
     array = (int *)malloc(g->num_nodes*sizeof(int));
     if (!array){
         fprintf(stderr,"Error\n");
         return NULL;
     }
-    
+
     for (int i = 0; i < g->num_nodes; i++){
         array[i] = node_getId(g->nodes[i]);
     }
-    
+
     return array;
-    
+
 }
 
 /* Returns the number of nodes in the graph. -1 if there have been errors */
 int graph_getNumberOfNodes(const Graph * g){
     if(!g) return -1;
-    
+
     int num = g->num_nodes;
     return num;
-    
+
 }
 
 /* Returns the number of edges of the graph. -1 if there have been errors */
 int graph_getNumberOfEdges(const Graph * g){
     if(!g) return -1;
-    
+
     int num = g->num_edges;
     return num;
-    
+
 }
 
 /* Determines if two nodes are connected */
@@ -200,10 +200,10 @@ Bool graph_areConnected(const Graph * g, const int nId1, const int nId2){
     int index1 = find_node_index(g, nId1);
     int index2 = find_node_index(g, nId2);
     if(!g || index1 == -1 || index2 == -1)  return FALSE;
-    
+
     if ((g->connections[index1][index2])==1) return TRUE;
     else return FALSE;
-    
+
 }
 
 /* Returns the number of connections from the id node fromId */
@@ -214,9 +214,9 @@ int graph_getNumberOfConnectionsFrom(const Graph * g, const int fromId){
         if (g->connections[fromId][i] == 1) counter ++;
         if (g->connections[i][fromId] == 1) counter ++;
     }
-    
+
     return counter;
-    
+
 }
 
 
@@ -224,24 +224,24 @@ int graph_getNumberOfConnectionsFrom(const Graph * g, const int fromId){
  * Reserves memory for the array.*/
 int *graph_getConnectionsFrom(const Graph * g, const int fromId){
     if (!g) return NULL;
-    
+
     int *array;
     array = (int *)malloc(g->num_nodes*sizeof(int));
     if (!array){
         fprintf(stderr,"Error\n");
         return NULL;
     }
-    
+
     for (int i = 0, j = 0; i < g->num_nodes; i++){
         if(g->connections[fromId][node_getId(g->nodes[i])] == 1){
             array[j] = node_getId(g->nodes[i]);
             j++;
         }
-        
+
     }
     return array;
-    
-    
+
+
 }
 
 /* Prints in the flow pf the data of a graph, returning the number of printed
@@ -275,7 +275,7 @@ int graph_print(FILE *pf, const Graph * g) {
         fprintf(stderr, "%d", errno);
     return numcar;
 }
-        
+
 // Read from the stream fin the graph information
 Status graph_readFromFile(FILE *fin, Graph * g){ // from appendix 5
     Node *n;
@@ -286,7 +286,7 @@ Status graph_readFromFile(FILE *fin, Graph * g){ // from appendix 5
     if (fgets (buff, MAX_LINE, fin) != NULL){
         if (sscanf(buff, "%d", &nnodes) != 1) return ERROR;
     }
-    
+
     // init buffer_node
     n = node_ini();
     if (!n) return ERROR;
@@ -299,23 +299,23 @@ Status graph_readFromFile(FILE *fin, Graph * g){ // from appendix 5
             // insert node in the graph
         if (graph_insertNode (g, n) == ERROR) break;
     }
-    
+
     // Check if all node have been inserted
     if (i < nnodes) {
         node_destroy(n);
         return ERROR;
     }
-    
+
     // read connections line by line and insert it
     while (fgets(buff, MAX_LINE, fin) ) {
         if (sscanf(buff, "%d %d", &id1, &id2) == FALSE ) if (graph_insertEdge(g, id1, id2) == ERROR) break;
     }
-    
+
     // check end of file
     if (feof(fin)) flag = OK;
-    
+
     // clean up, free resources
     node_destroy (n);
     return flag;
-    
+
 }
