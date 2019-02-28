@@ -15,6 +15,7 @@ struct _Node{
 
 Node *node_ini(){
     Node *pn = NULL;
+    node_destroy(pn);
     if (!(pn = (Node *)malloc(sizeof(Node)))){
         fprintf(stderr,"Node cannot be initialized");
         return NULL;
@@ -32,7 +33,7 @@ int node_getId(const Node *n){
 }
 
 char *node_getName(const Node *n){
-    if (n) return n->name;
+    if (n) return (n->name);
     else return NULL;
 }
 
