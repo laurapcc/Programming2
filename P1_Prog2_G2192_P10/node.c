@@ -15,7 +15,6 @@ struct _Node{
 
 Node *node_ini(){
     Node *pn = NULL;
-    node_destroy(pn);
     if (!(pn = (Node *)malloc(sizeof(Node)))){
         fprintf(stderr,"Node cannot be initialized");
         return NULL;
@@ -75,6 +74,7 @@ int node_cmp (const Node *n1, const Node *n2){
 Node *node_copy(const Node *src){
     if (!src) return NULL;
     Node *target = NULL;
+    node_destroy(target);
     if (!(target = (Node *)malloc(sizeof(Node)))) return NULL;
     target->id = src->id;
     strcpy(target->name,src->name);
