@@ -10,7 +10,7 @@
 #define MAX_LINE 256
 
 //extern int errno;
-enum {NO_FILE_POS_VALUE = 2 };
+enum {NO_FILE_POS_VALUE = 2};
 
 struct _Graph {
     Node *nodes[MAX_NODES];
@@ -280,7 +280,7 @@ int graph_print(FILE *pf, const Graph * g) {
 Status graph_readFromFile(FILE *fin, Graph * g){ // from appendix 5
     Node *n;
     char buff[MAX_LINE], name[MAX_LINE];
-    int i, nnodes = 0, id1 = 0, id2;
+    int i, nnodes = 0, id1, id2;
     Status flag = ERROR;
     // read number of nodes
     if (fgets (buff, MAX_LINE, fin) != NULL){
@@ -290,9 +290,12 @@ Status graph_readFromFile(FILE *fin, Graph * g){ // from appendix 5
     // init buffer_node
     n = node_ini();
     if (!n) return ERROR;
+
     // read nodes line by line
     for(i=0; i < nnodes; i++) {
-        if (fgets(buff, MAX_LINE, fin) != NULL) if (sscanf(buff, "%d %s", &id1, name) != FALSE) break;
+        if (fgets(buff, MAX_LINE, fin) != NULL){
+            if (sscanf(buff, "%d %s", &id1, name) != NO_FILE_POS_VALUE) break;
+        }
             // set node name and node id
         node_setName (n, name);
         node_setId (n, id1);
@@ -306,9 +309,10 @@ Status graph_readFromFile(FILE *fin, Graph * g){ // from appendix 5
         return ERROR;
     }
 
+
     // read connections line by line and insert it
     while (fgets(buff, MAX_LINE, fin) ) {
-        if (sscanf(buff, "%d %d", &id1, &id2) == FALSE ) if (graph_insertEdge(g, id1, id2) == ERROR) break;
+        if (sscanf(buff, "%d %d", &id1, &id2) == NO_FILE_POS_VALUE ) if (graph_insertEdge(g, id1, id2) == ERROR) break;
     }
 
     // check end of file
