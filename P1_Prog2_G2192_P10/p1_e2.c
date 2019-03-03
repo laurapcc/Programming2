@@ -47,6 +47,10 @@ int main() {
     fputs("\nGraph\n", stdout);
     graph_print(stdout, g);
 
+    node_destroy(n1);
+    node_destroy(n2);
+    mainCleanUp(EXIT_SUCCESS, g, stdout);
+
     return 0;
 }
 

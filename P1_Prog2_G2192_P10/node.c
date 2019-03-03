@@ -19,6 +19,9 @@ Node *node_ini(){
         fprintf(stderr,"Node cannot be initialized");
         return NULL;
     }
+	strcpy(pn->name,"");
+	pn->id = -1;
+	pn->nConnect = -1;
     return pn;
 }
 
@@ -32,15 +35,16 @@ int node_getId(const Node *n){
 }
 
 char *node_getName(const Node *n){
+    if (!n) return NULL;
     Node *nc;
     nc = node_copy(n);
-    if (!n || !nc) return NULL;
-    return nc->name;
+    if (!nc) return NULL;
+	return (nc->name);
 }
 
 int node_getConnect(const Node *n){
     if (n) return n->nConnect;
-    return -1;
+    else return -1;
 }
 
 Node *node_setId(Node *n, const int id){
@@ -76,7 +80,6 @@ int node_cmp (const Node *n1, const Node *n2){
 Node *node_copy(const Node *src){
     if (!src) return NULL;
     Node *target = NULL;
-    node_destroy(target);
     if (!(target = (Node *)malloc(sizeof(Node)))) return NULL;
     target->id = src->id;
     strcpy(target->name,src->name);

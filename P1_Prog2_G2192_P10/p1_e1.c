@@ -31,6 +31,7 @@ int main() {
     
     
     fprintf(stdout,"\n");
+	node_destroy(b);
     b = node_copy (a);
     node_print(stdout,a);
     node_print(stdout,b);
