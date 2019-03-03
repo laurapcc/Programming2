@@ -37,6 +37,7 @@ Remove the stack Input: the stack to be removed
 void stack_destroy(Stack *stc){
     while (stc->top != EMPTY_STACK){
         EleStack_destroy(stc->item[stc->top]);
+	stc->item[stc->top] = NULL;
         stc->top --;
     }
     free(stc);
@@ -113,7 +114,7 @@ Check if the stack is full. Input: stack. Exit: TRUE if it is full or FALSE if i
 ------------------------------------------------------------------*/
 Bool stack_isFull(const Stack *stc){
     //Error control
-    if (!stc) return FALSE;
+    if (!stc) return TRUE;
 
     if (stc->top == MAXSTACK - 1) return TRUE;
     return FALSE;
@@ -144,31 +145,34 @@ int stack_print(FILE* pf, const Stack* stc){
 ---------------------------------------------------------------------*/
 
 double meanElementStack(Stack *s){
-  //Error control
-  if (!s) return -1;
 
-  EleStack *ele;
-  double sum = 0;
-  int counter = 0;
+  int counter = 0, sum = 0;
+  double mean = 0;
 
   Stack *aux_s;
   aux_s = stack_ini();
-  if (!aux_s) return -1;
+
+  EleStack *ele;
+  ele = EleStack_ini();
+  if (!s || !aux_s || !ele) return -1;
+  free(ele);
 
   while (s->top > EMPTY_STACK){
     ele = stack_pop(s);
-    if (!stack_push(aux_s,ele)) return -1;
-    sum += *((double *)EleStack_get_int(ele));
+    if (stack_push(aux_s,ele) == ERROR || !ele) return -1;
+    sum += *((int *)EleStack_get_int(ele));
     counter ++;
     EleStack_destroy(ele);
   }
 
   while (aux_s->top > EMPTY_STACK){
     ele = stack_pop(aux_s);
-    if (!stack_push(s,ele)) return -1;
+    if (stack_push(s,ele) == ERROR || !ele) return -1;
     EleStack_destroy(ele);
   }
 
-  return (sum/counter);
+  stack_destroy(aux_s);
+  mean = (double)sum / (double)counter;
+  return mean;
 
 }

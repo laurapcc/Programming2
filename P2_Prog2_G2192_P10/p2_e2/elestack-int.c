@@ -39,13 +39,13 @@ Status EleStack_set_int(EleStack *ele, void *p){
     //Error control
     if (!ele || !p) return ERROR;
 
-    if (ele->e != NULL) free(ele->e);
-
-    //void *copy_p;
-    //copy_p = p;
-    ele->e = (int *)p;
-    if (!ele->e) return ERROR;
-
+	int *i = NULL;
+	
+	if (!(i = (int *)malloc(sizeof(int)))) return ERROR;
+	*i = (*(int *)p);
+	
+	free (ele->e);
+	ele->e = i;
     return OK;
 }
 
@@ -68,10 +68,17 @@ copied EleStack or NULL in case of error.
 EleStack *EleStack_copy(const EleStack *ele){
   if (!ele) return NULL;
   EleStack *target = NULL;
-  if (!(target = (EleStack *)malloc(sizeof(EleStack)))) return NULL;
-  *(target->e) = *(ele->e);
-  return target;
+  target = EleStack_ini();
+  
+  int *i;
+  i = (int *)malloc(sizeof(int));
 
+  if (!target || !i) return NULL;
+
+  *i = *(ele->e);
+  target->e = i;
+
+  return target;
 }
 
 /**------------------------------------------------------------------
