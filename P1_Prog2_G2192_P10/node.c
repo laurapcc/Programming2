@@ -32,13 +32,15 @@ int node_getId(const Node *n){
 }
 
 char *node_getName(const Node *n){
-    if (n) return (n->name);
-    else return NULL;
+    Node *nc;
+    nc = node_copy(n);
+    if (!n || !nc) return NULL;
+    return nc->name;
 }
 
 int node_getConnect(const Node *n){
     if (n) return n->nConnect;
-    else return -1;
+    return -1;
 }
 
 Node *node_setId(Node *n, const int id){
