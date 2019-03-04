@@ -26,7 +26,7 @@ void node_destroy(Node *n);
 int node_getId(const Node *n);
 
 /* Returns a pointer to the name of a given node, or NULL in case of error */
-char* node_getName(const Node *n);
+const char* node_getName(const Node *n);
 
 /* Returns the number of connections of a given node, or -1 in case of error */
 int node_getConnect(const Node *n);
