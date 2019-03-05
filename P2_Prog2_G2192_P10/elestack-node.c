@@ -39,11 +39,9 @@ Status EleStack_setInfo(EleStack *ele, void *p){
     //Error control
     if (!ele || !p) return ERROR;
 
-    if (ele->info != NULL) node_destroy(ele->info);
+    if (ele->info) node_destroy(ele->info);
 
-    void *copy_p;
-    copy_p = p;
-    ele->info = (Node *)copy_p;
+    ele->info = (Node *)p;
     if (!ele->info) return ERROR;
 
     return OK;
@@ -54,14 +52,12 @@ Returns the EleStack content. Entry: The EleStack. Output: The content of EleSta
 an error.
 ------------------------------------------------------------------*/
 
-// he cambiado void por node
+
 
 void *EleStack_getInfo(EleStack *ele){
     if (!ele) return NULL;
-    Node *n;
-    n = ele->info;
 
-    return (void *)n;
+    return (void *)ele->info;
 
 }
 
@@ -72,7 +68,9 @@ copied EleStack or NULL in case of error.
 EleStack *EleStack_copy(const EleStack *ele){
   if (!ele) return NULL;
   EleStack *target = NULL;
-  if (!(target = (EleStack *)malloc(sizeof(EleStack)))) return NULL;
+  target = EleStack_ini();
+  if (!target) return NULL;
+
   target->info = ele->info;
   return target;
 

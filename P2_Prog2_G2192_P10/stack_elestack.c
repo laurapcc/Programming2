@@ -37,6 +37,7 @@ Remove the stack Input: the stack to be removed
 void stack_destroy(Stack *stc){
     while (stc->top != EMPTY_STACK){
         EleStack_destroy(stc->item[stc->top]);
+		stc->item[stc->top] = NULL;
         stc->top --;
     }
     free(stc);
@@ -61,8 +62,8 @@ Status stack_push(Stack *stc, const EleStack *el_stc){
     //copy of el_stc
     EleStack *el_stc_copy = EleStack_copy(el_stc);
     if (!el_stc_copy){
-   	fprintf(stderr,"No copy");
-	return ERROR;
+   		fprintf(stderr,"No copy");
+		return ERROR;
     }
 
     stc->top++;
@@ -113,7 +114,7 @@ Check if the stack is full. Input: stack. Exit: TRUE if it is full or FALSE if i
 ------------------------------------------------------------------*/
 Bool stack_isFull(const Stack *stc){
     //Error control
-    if (!stc) return FALSE;
+    if (!stc) return TRUE;
 
     if (stc->top == MAXSTACK - 1) return TRUE;
     return FALSE;

@@ -19,54 +19,47 @@ Node *node_ini(){
         fprintf(stderr,"Node cannot be initialized");
         return NULL;
     }
+	strcpy(pn->name,"");
+	pn->id = -1;
+	pn->nConnect = -1;
     return pn;
 }
 
 void node_destroy(Node *n){
-    free(n);
+	if (n) free(n);
 }
 
 int node_getId(const Node *n){
     if (n) return n->id;
-    else return -1;
+    return -1;
 }
 
-char *node_getName(const Node *n){
-    if (!n) return NULL;
-
-    Node *n2 = NULL;
-    n2 = node_copy(n);
-    if (n2) return n2->name;
-    else return NULL;
+const char *node_getName(const Node *n){
+	if (n) return (n->name);
+	return NULL;
 }
 
 int node_getConnect(const Node *n){
     if (n) return n->nConnect;
-    else return -1;
+    return -1;
 }
 
 Node *node_setId(Node *n, const int id){
     if (!n) return NULL;
-    else{
-        n->id = id;
-        return n;
-    }
+    n->id = id;
+    return n;
 }
 
 Node *node_setName(Node *n, const char *name){
     if (!n) return NULL;
-    else{
-        strcpy(n->name,name);
-        return n;
-    }
+    strcpy(n->name,name);
+    return n;
 }
 
 Node *node_setConnect(Node *n, const int cn){
     if (!n) return NULL;
-    else{
-        n->nConnect = cn;
-        return n;
-    }
+    n->nConnect = cn;
+    return n;
 }
 
 int node_cmp (const Node *n1, const Node *n2){
@@ -76,12 +69,18 @@ int node_cmp (const Node *n1, const Node *n2){
 }
 
 Node *node_copy(const Node *src){
-    if (!src) return NULL;
     Node *target = NULL;
-    if (!(target = (Node *)malloc(sizeof(Node)))) return NULL;
+    target = node_ini();
+	if (!src || !target){
+		fprintf(stderr,"%s\n",strerror(errno));
+		node_destroy(target);
+		return NULL;
+	}
+
     target->id = src->id;
     strcpy(target->name,src->name);
     target->nConnect = src->nConnect;
+
     return target;
 }
 

@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include "stack_elestack.h"
 
-//int cleanup(int ret_value, Node *pn, EleStack *ele, Stack *s);
+int cleanup(int ret_value, Node *pn, EleStack *ele, Stack *s);
 
 int main() {
   Stack *s = NULL;
@@ -19,7 +19,7 @@ int main() {
   n_1 = node_ini();
   if (!n_1){
 	stack_destroy(s);
-	return EXIT_FAILURE;
+	exit (EXIT_FAILURE);
   }
   n_1 = node_setName(n_1,"first");
   n_1 = node_setId(n_1,111);
@@ -28,32 +28,40 @@ int main() {
   ele_1 = EleStack_ini();
   if (!ele_1){
 	stack_destroy(s);
-        return EXIT_FAILURE;	
+	node_destroy(n_1);
+    exit(EXIT_FAILURE);	
   }
 
-  EleStack_setInfo(ele_1, (Node*)n_1);
-  stack_push(s, ele_1);
+  if (EleStack_setInfo(ele_1, (Node*)n_1) == ERROR) cleanup(EXIT_FAILURE, n_1, ele_1, s);
+
+  if (stack_push(s, ele_1) == ERROR) cleanup(EXIT_FAILURE, n_1, ele_1, s);
  
  
   //node 2
   Node *n_2 = NULL;
   n_2 = node_ini();
-  if (!n_2){
-	stack_destroy(s);
-	return EXIT_FAILURE;
-  }
+  if (!n_2) cleanup(EXIT_FAILURE, n_1, ele_1, s);
+
   n_2 = node_setName(n_2,"second");
   n_2 = node_setId(n_2,222);
 
   EleStack *ele_2 = NULL;
   ele_2 = EleStack_ini();
   if (!ele_2){
-	stack_destroy(s);
-        return EXIT_FAILURE;	
+	node_destroy(n_2);
+	cleanup(EXIT_FAILURE, n_1, ele_1, s);
   }
 
-  EleStack_setInfo(ele_2, (Node*)n_2);
-  stack_push(s, ele_2);
+  if (EleStack_setInfo(ele_2, (Node*)n_2) == ERROR){
+	node_destroy(n_2);
+	EleStack_destroy(ele_2);
+	cleanup(EXIT_FAILURE, n_1, ele_1, s);
+  }
+  if (stack_push(s, ele_2) == ERROR){
+	node_destroy(n_2);
+	EleStack_destroy(ele_2);
+	cleanup(EXIT_FAILURE, n_1, ele_1, s);
+  }
 
  
   fprintf(stdout,"Print the contents of the stack:\n");
@@ -62,7 +70,7 @@ int main() {
 
   fprintf(stdout,"\nEmptying stack. Elements extracted:\n");
 
-  while ((s->top)> EMPTY_STACK){
+  while ((s->top) > EMPTY_STACK){
     EleStack_print(stdout, s->item[s->top]);
     stack_pop(s);
   }
@@ -71,24 +79,19 @@ int main() {
   fprintf(stdout,"printed characters:%i",stack_print(stdout, s));
   fprintf(stdout, "\n");
 
-  /**
-  node_destroy(n_1);
+  
   node_destroy(n_2);
-  EleStack_destroy(ele_1);
   EleStack_destroy(ele_2);
-  stack_destroy(s);
-  **/
-
-  return (EXIT_SUCCESS);
+  cleanup(EXIT_SUCCESS, n_1, ele_1, s);
 }
 
-/**
+
 int cleanup(int ret_value, Node *pn, EleStack *ele, Stack *s){
-  node_destroy(pn);
-  elestack_destroy(ele);
-  stack_destroy(s);
+  	node_destroy(pn);
+  	EleStack_destroy(ele);
+  	stack_destroy(s);
 
-  exit(ret_value);
+  	exit(ret_value);
 }
-**/
+
 
