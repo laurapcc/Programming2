@@ -9,7 +9,7 @@ OBJECTSP1E3 = p1_e3.o graph.o node.o
 ########################################################
 
 all: $(EJS) clean
-
+	
 p1_e1: $(OBJECTSP1E1)
 	$(CC) $(CFLAGS) -o p1_e1 $(OBJECTSP1E1)
 
@@ -35,7 +35,7 @@ graph.o: graph.c graph.h node.h
 	$(CC) $(CFLAGS) -c graph.c
 
 clear:
-	rm -rf *.o 
+	rm -rf *.o
 
 clean:
 	rm -rf *.o $(EJS)
@@ -44,7 +44,7 @@ run:
 	@echo ">>>>>>Running p1_e1"
 	./p1_e1
 	@echo ">>>>>>Running p1_e2"
-	./p1_e2 
+	./p1_e2
 	@echo ">>>>>>Running p1_e3"
 	./p1_e3 g2_s.txt
 
@@ -52,6 +52,6 @@ runv:
 	@echo ">>>>>>Running p1_e1 with valgrind"
 	valgrind --leak-check=full ./p1_e1
 	@echo ">>>>>>Running p1_e2 with valgrind"
-	valgrind --leak-check=full --track-origins=yes ./p1_e2 
-	@echo ">>>>>>Running p1_e2 with valgrind
+	valgrind --leak-check=full --track-origins=yes ./p1_e2
+	@echo ">>>>>>Running p1_e2 with valgrind"
 	valgrind --leak-check=full ./p1_e3 g2_s.txt
