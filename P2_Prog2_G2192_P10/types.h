@@ -3,7 +3,6 @@
  * Author: Paula Samper, Laura de Paz
  */
 
-//this is a comment
 #ifndef TYPES_H
 #define TYPES_H
 
