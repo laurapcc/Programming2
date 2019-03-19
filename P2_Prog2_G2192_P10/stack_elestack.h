@@ -54,4 +54,11 @@ Input: stack and file where to print it. Output: Returns the number of written c
 int stack_print(FILE*, const Stack*);
 
 
+/**--------------------------------------------------------------------
+                    PRIVATE FUNCTIONS
+---------------------------------------------------------------------*/
+
+double meanElementStack(Stack *s);
+
+
 #endif /* STACK_ELESTACK_H */

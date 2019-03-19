@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
   if (!ele) cleanUp(EXIT_FAILURE,ele,s);
 
   for (i = 0; i <= lenght_s; i++){
-      if (!EleStack_set_int(ele,(void *)(&i))) cleanUp(EXIT_FAILURE,ele,s);
+      if (!EleStack_setInfo(ele,(void *)(&i))) cleanUp(EXIT_FAILURE,ele,s);
       if(!stack_push(s,ele)) cleanUp(EXIT_FAILURE,ele,s);
   }
 

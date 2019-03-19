@@ -1,0 +1,14 @@
+p2_e3-node: p2_e3-node.o node.o stack_fp.o
+	gcc -o p2_e3-node p2_e3-node.o node.o stack_fp.o
+
+p2_e3-node.o: p2_e3-node.c node.h types.h stack_fp.h
+	gcc -g -c p2_e3-node.c
+
+node.o: node.c node.h types.h
+	gcc -g -c node.c
+
+stack_fp.o: stack_fp.c stack_fp.h node.h types.h
+	gcc -g -c stack_fp.c
+
+clean:
+	rm -f p2_e3-node *.o

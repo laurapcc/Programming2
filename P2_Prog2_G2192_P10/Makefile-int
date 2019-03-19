@@ -1,0 +1,11 @@
+p2_e3-int: p2_e3-int.o stack_fp.o
+	gcc -o p2_e3-int p2_e3-int.o stack_fp.o
+
+p2_e3-int.o: p2_e3-int.c types.h stack_fp.h
+	gcc -g -c p2_e3-int.c
+
+stack_fp.o: stack_fp.c stack_fp.h types.h
+	gcc -g -c stack_fp.c
+
+clean:
+	rm -f p2_e3-int *.o

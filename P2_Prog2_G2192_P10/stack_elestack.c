@@ -37,7 +37,7 @@ Remove the stack Input: the stack to be removed
 void stack_destroy(Stack *stc){
     while (stc->top != EMPTY_STACK){
         EleStack_destroy(stc->item[stc->top]);
-		stc->item[stc->top] = NULL;
+	stc->item[stc->top] = NULL;
         stc->top --;
     }
     free(stc);
@@ -62,8 +62,8 @@ Status stack_push(Stack *stc, const EleStack *el_stc){
     //copy of el_stc
     EleStack *el_stc_copy = EleStack_copy(el_stc);
     if (!el_stc_copy){
-   		fprintf(stderr,"No copy");
-		return ERROR;
+       	fprintf(stderr,"No copy");
+    	  return ERROR;
     }
 
     stc->top++;
@@ -136,4 +136,43 @@ int stack_print(FILE* pf, const Stack* stc){
 	total_char += num_char;
     }
     return total_char;
+}
+
+
+
+/**--------------------------------------------------------------------
+                    PRIVATE FUNCTIONS
+---------------------------------------------------------------------*/
+
+double meanElementStack(Stack *s){
+
+  int counter = 0, sum = 0;
+  double mean = 0;
+
+  Stack *aux_s;
+  aux_s = stack_ini();
+
+  EleStack *ele;
+  ele = EleStack_ini();
+  if (!s || !aux_s || !ele) return -1;
+  free(ele);
+
+  while (s->top > EMPTY_STACK){
+    ele = stack_pop(s);
+    if (stack_push(aux_s,ele) == ERROR || !ele) return -1;
+    sum += *((int *)EleStack_getInfo(ele));
+    counter ++;
+    EleStack_destroy(ele);
+  }
+
+  while (aux_s->top > EMPTY_STACK){
+    ele = stack_pop(aux_s);
+    if (stack_push(s,ele) == ERROR || !ele) return -1;
+    EleStack_destroy(ele);
+  }
+
+  stack_destroy(aux_s);
+  mean = (double)sum / (double)counter;
+  return mean;
+
 }

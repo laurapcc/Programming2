@@ -21,7 +21,7 @@ Node *node_ini(){
     }
 	strcpy(pn->name,"");
 	pn->id = -1;
-	pn->nConnect = -1;
+	pn->nConnect = 0;
     return pn;
 }
 

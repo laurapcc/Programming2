@@ -29,7 +29,7 @@ int main() {
   if (!ele_1){
 	stack_destroy(s);
 	node_destroy(n_1);
-    exit(EXIT_FAILURE);	
+  exit(EXIT_FAILURE);	
   }
 
   if (EleStack_setInfo(ele_1, (Node*)n_1) == ERROR) cleanup(EXIT_FAILURE, n_1, ele_1, s);
@@ -71,8 +71,11 @@ int main() {
   fprintf(stdout,"\nEmptying stack. Elements extracted:\n");
 
   while ((s->top) > EMPTY_STACK){
+    EleStack* temp = NULL;
+
     EleStack_print(stdout, s->item[s->top]);
-    stack_pop(s);
+    temp = stack_pop(s);
+    EleStack_destroy(temp);
   }
 
   fprintf(stdout,"Print the contents of the stack after emptying:\n");

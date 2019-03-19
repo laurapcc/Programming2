@@ -39,11 +39,13 @@ Status EleStack_setInfo(EleStack *ele, void *p){
     //Error control
     if (!ele || !p) return ERROR;
 
-    if (ele->info) node_destroy(ele->info);
+    //if (ele->info) node_destroy(ele->info);
 
-    ele->info = (Node *)p;
-    if (!ele->info) return ERROR;
-
+    Node* p_prima = (Node *)p;
+    if (ele->info != NULL)
+        node_destroy(ele->info);
+    
+    ele->info = node_copy(p_prima);
     return OK;
 }
 
@@ -71,7 +73,7 @@ EleStack *EleStack_copy(const EleStack *ele){
   target = EleStack_ini();
   if (!target) return NULL;
 
-  target->info = ele->info;
+  target->info = node_copy(ele->info);
   return target;
 
 }
