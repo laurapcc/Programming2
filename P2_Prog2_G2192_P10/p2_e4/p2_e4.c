@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "stack_fp.h"
+#include "graph.h"
 
 int cleanup(int ex_value, Node *n1, Node *n2, Stack *s);
 
@@ -36,7 +36,7 @@ int main() {
   stack_push(s, (void *)n_1);
   stack_push(s, (void *)n_2);
 
- 
+
   fprintf(stdout,"Print the contents of the stack:\n");
 
   fprintf(stdout,"printed characters: %d",stack_print(stdout, s));
@@ -57,7 +57,7 @@ int main() {
   fprintf(stdout,"printed characters:%i",stack_print(stdout, s));
   fprintf(stdout, "\n");
 
- 
+
   cleanup(EXIT_SUCCESS, n_1, n_2, s);
 }
 
@@ -65,7 +65,5 @@ int cleanup(int ex_value, Node *n1, Node *n2, Stack *s){
 	node_destroy(n1);
 	node_destroy(n2);
 	stack_destroy(s);
-	exit(ex_value);	
+	exit(ex_value);
 }
-
-

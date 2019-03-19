@@ -16,6 +16,8 @@ int *graph_getConectionsIndex(const Graph * g, int index);
 
 Bool graph_findDeepSearch (Graph *g, Node *v, Node *to);
 
+void graph_printPath (FILE *pf, Graph *g, int idNode);
+
 //------------------primtive functions-----------------
 
 /* Initializes a graph, reserving memory and returns the graph address

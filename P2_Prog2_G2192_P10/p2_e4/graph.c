@@ -69,19 +69,19 @@ Node *graph_findDeepSearch (Graph *g, Node *v, Node *to){
     while (stack_isEmpty(s) == FALSE){
       u = (Node *)stack_pop(s);
       if (node_getLabel(u) == WHITE){
-        node_setLabel(u,BLACK);
+        u = node_setLabel(u,BLACK);
         graph_setNode(g,u);
         con_ids = graph_getConnectionsFrom(g,node_getId(u));
         for (i = 0; i < graph_getNumberOfConnectionsFrom(g,node_getId(u)); i++){
           w = graph_getNode(g,con_ids[i]);
           if(node_cmp(node_getId(w),node_getId(to)) == TRUE){
-            node_setAntecesorId(w,node_getId(u));
+            w = node_setAntecesorId(w,node_getId(u));
             graph_setNode(g,w);
             break;
           }
 
           if (node_getLabel(w) == WHITE){
-            node_setAntecesorId(w,node_getId(u));
+            w = node_setAntecesorId(w,node_getId(u));
             graph_setNode(g,w);
             stack_push(s,(void *)w);
           }
@@ -99,6 +99,18 @@ Node *graph_findDeepSearch (Graph *g, Node *v, Node *to){
     }
     stack_destroy(s);
     return w;
+}
+
+//Recursiva
+void graph_printPath (FILE *pf, Graph *g, int idNode){
+  Node *n = NULL, *na = NULL;
+  int antecessor, antecessor2;
+  if (!pf || !g) fprintf(stderr, "%s\n", strerror(errno));
+  n = graph_getNode(g,idNode);
+  antecessor = node_getAntecesorId(n);
+  na = graph_getNode(g,antecessor);
+  antecessor2 = node_getAntecesorId(na);
+  fprintf(pf, "%s\n", );
 }
 
 
