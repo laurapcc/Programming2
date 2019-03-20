@@ -101,16 +101,19 @@ Node *graph_findDeepSearch (Graph *g, Node *v, Node *to){
     return w;
 }
 
-//Recursiva
 void graph_printPath (FILE *pf, Graph *g, int idNode){
   Node *n = NULL, *na = NULL;
-  int antecessor, antecessor2;
+  int antecessor;
   if (!pf || !g) fprintf(stderr, "%s\n", strerror(errno));
   n = graph_getNode(g,idNode);
   antecessor = node_getAntecesorId(n);
   na = graph_getNode(g,antecessor);
-  antecessor2 = node_getAntecesorId(na);
-  fprintf(pf, "%s\n", );
+  if (antecessor != -1){
+    fprintf(pf, "%d\n",node_getId(n));
+    graph_printPath(pf,g,antecessor);
+  }
+  node_destroy(n);
+  node_destroy(na);
 }
 
 
