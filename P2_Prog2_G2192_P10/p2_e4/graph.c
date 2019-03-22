@@ -147,10 +147,12 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
 
            if(node_cmp(w,to) == TRUE){
            //if(node_cmp(node_getId(w),node_getId(to)) == TRUE){ // si = nodo final, set antecesor y fin (adapt)
-
-            w = node_setAntecesorId(w,node_getId(u));
-            graph_setNode(g,w);
-            break;
+              w = node_setAntecesorId(w,node_getId(u));
+              graph_setNode(g,w);
+              node_destroy(v);
+              node_destroy(to);
+              stack_destroy(s);
+              return w;
           }
 
           if (node_getLabel(w) == WHITE){
@@ -170,34 +172,29 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
         u = NULL;
       }
     }
-
-
-    //adapt
     node_destroy(v);
     node_destroy(to);
-
-
     stack_destroy(s);
-    return w;
+    return NULL;
 }
 
 
 void graph_printPath (FILE *pf, Graph *g, int idNode){
-  Node *n = NULL, *na = NULL;
+  Node *n = NULL;
   int antecessor;
   if (!pf || !g || idNode == -1){
-    fprintf(stderr, "%s\n", strerror(errno));
     return;
   }
   n = graph_getNode(g,idNode);
   antecessor = node_getAntecesorId(n);
-  na = graph_getNode(g,antecessor);
-  if (antecessor != -1){
-    fprintf(pf, "%d\n",node_getId(n));
-    graph_printPath(pf,g,antecessor);
+  if (!n) {
+    fprintf(stderr, "%s\n", strerror(errno));
+    return;
   }
+  node_print(pf,n);
+  graph_printPath(pf,g,antecessor);
+
   node_destroy(n);
-  node_destroy(na);
 }
 
 
@@ -283,8 +280,7 @@ Node *graph_getNode(const Graph *g, int nId){
 	int index;
 	index = find_node_index(g, nId);
     if (!g || index == -1) return NULL;
-
-    return node_copy(g->nodes[index]);
+  return node_copy(g->nodes[index]);
 }
 
 /* Actualize the graph node with the same id */
@@ -300,11 +296,6 @@ Status graph_setNode(Graph *g, const Node * n){
   if (!aux) return  ERROR;
 
   node_destroy(g->nodes[index]);
-  node_setAntecesorId(aux,node_getAntecesorId(n));
-  node_setId(aux,node_getId(n));
-  node_setName(aux, node_getName(n));
-  node_setConnect(aux, node_getConnect(n));
-  node_setLabel(aux, node_getLabel(n));
   g->nodes[index] = aux;
 
   return OK;

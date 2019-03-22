@@ -62,8 +62,8 @@ int main(int argc, char **argv) {
     node_print(stdout, out);
 
     //print path
-    //fprintf(stdout,"Here is the path between the nodes:\n");
-    //graph_printPath (stdout, g, node_getId(out));
+    fprintf(stdout,"Here is the path between the nodes:\n");
+    graph_printPath (stdout, g, node_getId(out));
   }
 
   //Success

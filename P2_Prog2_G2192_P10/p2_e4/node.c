@@ -109,6 +109,7 @@ Node *node_copy(const Node *src){
     strcpy(target->name,src->name);
     target->etq = src->etq;
     target->nConnect = src->nConnect;
+    target->antecessor_id = src->antecessor_id;
 
     return target;
 }
