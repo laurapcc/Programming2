@@ -56,6 +56,7 @@ int *graph_getConectionsIndex(const Graph * g, int index) {
     }
     return array;
 }
+
  /*
 Node *graph_findDeepSearch (Graph *g, Node *v, Node *to){
     Stack *s = NULL;

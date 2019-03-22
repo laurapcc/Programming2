@@ -45,12 +45,14 @@ int main(int argc, char **argv) {
    }
    in = graph_getNode(g, IdIn);
    out = graph_getNode(g, IdOut);
+   if (!in  || !out){
+     cleanup(EXIT_FAILURE, g, out, in, pf);
+   }
 
 
   //print the graph
    graph_print(stdout, g);
   // check if there is a path from in to out
-
   if(!graph_findDeepSearch(g,node_getId(in), node_getId(out))){
     // if not print "no...."
     fprintf(stdout,"There´s no path between the nodes.\n");
