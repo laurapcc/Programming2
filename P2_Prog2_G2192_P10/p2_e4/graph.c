@@ -10,6 +10,9 @@
 #define MAX_LINE 256
 
 //extern int errno;
+
+
+
 enum {NO_FILE_POS_VALUE = 2};
 
 struct _Graph {
@@ -53,7 +56,7 @@ int *graph_getConectionsIndex(const Graph * g, int index) {
     }
     return array;
 }
-
+ /*
 Node *graph_findDeepSearch (Graph *g, Node *v, Node *to){
     Stack *s = NULL;
     s = stack_ini((void *)node_destroy,(void *)node_copy, (void *)node_print);
@@ -100,6 +103,90 @@ Node *graph_findDeepSearch (Graph *g, Node *v, Node *to){
     stack_destroy(s);
     return w;
 }
+*/
+
+
+
+Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
+//Node *graph_findDeepSearch (Graph *g, Node *v, Node *to){ ( adapt)
+
+  // crea e inicializa el stack
+    Stack *s = NULL;
+    s = stack_ini((void *)node_destroy,(void *)node_copy, (void *)node_print);
+  // crea dos nodos
+    Node *u = NULL, *w = NULL;
+
+// creo v ini(adapt)
+  Node *v = graph_getNode(g, from_id);
+  Node *to = graph_getNode(g, to_id);
+
+
+  // inicializa int
+    int ind_u,i,*con_ids;
+  // control de errores
+    if (!s || !g || !v || !to){
+      fprintf(stderr, "%s\n", strerror(errno));
+      return NULL;
+    }
+
+  // metes v (inicial) en el stack
+    stack_push(s,(void *)v);
+
+    while (stack_isEmpty(s) == FALSE){ // ¿Cuándo guardas todo el path en el stack?
+      // u es el nodo que vas sacando, lo cambias a negro, guardas cambios
+      u = (Node *)stack_pop(s);
+      if (node_getLabel(u) == WHITE){
+        u = node_setLabel(u,BLACK);
+        graph_setNode(g,u);
+
+        con_ids = graph_getConnectionsFrom(g,node_getId(u)); // num de conexiones del nodo
+
+        for (i = 0; i < graph_getNumberOfConnectionsFrom(g,node_getId(u)); i++){
+          w = graph_getNode(g,con_ids[i]); // copia de los nodos conectados
+
+          if(node_cmp(w,to) == TRUE){
+          //if(node_cmp(node_getId(w),node_getId(to)) == TRUE){ // si = nodo final, set antecesor y fin (adapt)
+
+            w = node_setAntecesorId(w,node_getId(u));
+            graph_setNode(g,w);
+            break;
+          }
+
+          if (node_getLabel(w) == WHITE){
+            w = node_setAntecesorId(w,node_getId(u)); // set antecesor
+            graph_setNode(g,w);
+            stack_push(s,(void *)w); // meter en el stack
+          }
+          node_destroy(w);
+          w = NULL;
+        }
+        free(con_ids);
+        con_ids = NULL;
+      }
+
+      if (node_getLabel(u) != WHITE){
+        node_destroy(u);
+        u = NULL;
+      }
+    }
+
+
+    //adapt
+    node_destroy(v);
+    node_destroy(to);
+
+
+    stack_destroy(s);
+    return w;
+}
+
+
+
+
+
+
+
+
 
 void graph_printPath (FILE *pf, Graph *g, int idNode){
   Node *n = NULL, *na = NULL;

@@ -8,62 +8,82 @@
 #include <stdlib.h>
 #include "graph.h"
 
-int cleanup(int ex_value, Node *n1, Node *n2, Stack *s);
+int cleanup(int ret_value, Graph *gc, Node *out, Node *in, FILE *pf);
 
-int main() {
-  Stack *s = NULL;
-  s = stack_ini((void *)node_destroy,(void *)node_copy, (void *)node_print);
+int main(int argc, char **argv) {
+//declara variables
+  FILE *pf = NULL;
+  Node *out = NULL;
+  Node *in = NULL;
+  Graph *g = NULL;
+  int IdIn, IdOut;
 
-  //node 1
-  Node *n_1 = NULL;
-  n_1 = node_ini();
-  if (!n_1){
-	stack_destroy(s);
-	exit (EXIT_FAILURE);
-  }
-  n_1 = node_setName(n_1,"first");
-  n_1 = node_setId(n_1,111);
+// check that there are 4 input elements , if not failure
+  if (argc != 4) exit(EXIT_FAILURE);
 
-  //node 2
-  Node *n_2 = NULL;
-  n_2 = node_ini();
-  if (!n_2) cleanup(EXIT_FAILURE, n_1, n_2, s);
-
-  n_2 = node_setName(n_2,"second");
-  n_2 = node_setId(n_2,222);
+  // read the input elements
+  out = node_ini();
+  in = node_ini();
+  g = graph_ini();
+  IdIn = atoi(argv[2]);
+  IdOut = atoi(argv[3]);
 
 
-  stack_push(s, (void *)n_1);
-  stack_push(s, (void *)n_2);
-
-
-  fprintf(stdout,"Print the contents of the stack:\n");
-
-  fprintf(stdout,"printed characters: %d",stack_print(stdout, s));
-
-  fprintf(stdout,"\nEmptying stack. Elements extracted:\n");
-
-  Node *temp = NULL;
-
-
-  while (stack_isEmpty(s) == FALSE){
-    temp = (Node *)stack_pop(s);
-    node_print(stdout, temp);
-	node_destroy(temp);
+  if (!g || !out || !in){
+    cleanup(EXIT_FAILURE, g, out, in, pf);
   }
 
+  //open file
+  pf = fopen(argv[1], "r");
+  if (!pf){
+     cleanup(EXIT_FAILURE, g, out, in, pf);
+   }
 
-  fprintf(stdout,"Print the contents of the stack after emptying:\n");
-  fprintf(stdout,"printed characters:%i",stack_print(stdout, s));
-  fprintf(stdout, "\n");
+  //read graph from file
+   if (graph_readFromFile(pf, g) == ERROR){
+     cleanup(EXIT_FAILURE, g, out, in, pf);
+   }
+   in = graph_getNode(g, IdIn);
+   out = graph_getNode(g, IdOut);
 
 
-  cleanup(EXIT_SUCCESS, n_1, n_2, s);
+  //print the graph
+   graph_print(stdout, g);
+
+  // check if there is a path from in to out
+
+if(!graph_findDeepSearch(g,node_getId(in), node_getId(out))){
+    // if not print "no...."
+      fprintf(stdout,"There´s no path between the nodes.\n");
+//if yes:
+} else {
+    //print "yes...."
+      fprintf(stdout,"It exists a path between the nodes:\n");
+          // get in node from graph
+
+          // print node in
+          node_print(stdout, in);
+          // print node out
+          node_print(stdout, out);
+
+        // print " here is the path..."
+        fprintf(stdout,"Here is the path between the nodes:\n");
+
+         // print the path
+         graph_printPath (stdout, g, node_getId(in));
+  }
+
+  // call mainCleanUp and success
+
+  cleanup(EXIT_SUCCESS, g, out, in, pf);
 }
 
-int cleanup(int ex_value, Node *n1, Node *n2, Stack *s){
-	node_destroy(n1);
-	node_destroy(n2);
-	stack_destroy(s);
-	exit(ex_value);
+
+int cleanup(int ret_value, Graph *gc, Node *out, Node *in, FILE *pf){
+  node_destroy(out);
+	node_destroy(in);
+	graph_destroy(gc);
+  //cierro el archivo
+  fclose(pf);
+  exit(ret_value);
 }

@@ -49,9 +49,9 @@ const char *node_getName(const Node *n){
 	return NULL;
 }
 
-const Label *node_getLabel(const Node *n){
+Label node_getLabel(const Node *n){
 	if (n) return (n->etq);
-	return NULL;
+	return WHITE;
 }
 
 int node_getConnect(const Node *n){
@@ -77,9 +77,9 @@ Node *node_setName(Node *n, const char *name){
     return n;
 }
 
-Node *node_setLabel(Node *n, const Label *label){
+Node *node_setLabel(Node *n, Label label){
     if (!n) return NULL;
-    strcpy(n->etq,label);
+    n->etq = label;
     return n;
 }
 
@@ -107,7 +107,7 @@ Node *node_copy(const Node *src){
 
     target->id = src->id;
     strcpy(target->name,src->name);
-    strcpy(target->label,src->label);
+    target->etq = src->etq;
     target->nConnect = src->nConnect;
 
     return target;

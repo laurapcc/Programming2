@@ -35,7 +35,7 @@ int node_getAntecesorId(const Node*n);
 /* Returns a pointer to the name of a given node, or NULL in case of error */
 const char* node_getName(const Node *n);
 
-const Label *node_getLabel(const Node *n);
+Label node_getLabel(const Node *n);
 
 /* Returns the number of connections of a given node, or -1 in case of error */
 int node_getConnect(const Node *n);
@@ -48,7 +48,7 @@ Node* node_setAntecesorId(Node *n, int id);
 /* Modifies the name of a given node, returns NULL in case of error */
 Node *node_setName(Node * n, const char *name);
 
-Node *node_setLabel(Node *n, const char *label);
+Node *node_setLabel(Node *n, Label label);
 /* Modifies the number of connections of a given node, returns NULL in case of
  error */
 Node *node_setConnect(Node *n, const int cn);

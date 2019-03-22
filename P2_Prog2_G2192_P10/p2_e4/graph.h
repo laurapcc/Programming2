@@ -14,7 +14,9 @@ int find_node_index(const Graph * g, int nId1);
 
 int *graph_getConectionsIndex(const Graph * g, int index);
 
-Bool graph_findDeepSearch (Graph *g, Node *v, Node *to);
+//Node *graph_findDeepSearch (Graph *g, Node *v, Node *to);
+
+Node *graph_findDeepSearch (Graph *g, int from_id, int to_id);
 
 void graph_printPath (FILE *pf, Graph *g, int idNode);
 
