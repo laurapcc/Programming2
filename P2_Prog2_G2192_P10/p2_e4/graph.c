@@ -111,26 +111,26 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
 //Node *graph_findDeepSearch (Graph *g, Node *v, Node *to){ ( adapt)
 
   // crea e inicializa el stack
-    Stack *s = NULL;
-    s = stack_ini((void *)node_destroy,(void *)node_copy, (void *)node_print);
+  Stack *s = NULL;
+  s = stack_ini((void *)node_destroy,(void *)node_copy, (void *)node_print);
   // crea dos nodos
-    Node *u = NULL, *w = NULL;
+  Node *u = NULL, *w = NULL;
 
-// creo v ini(adapt)
+  // creo v ini(adapt)
   Node *v = graph_getNode(g, from_id);
   Node *to = graph_getNode(g, to_id);
 
 
   // inicializa int
-    int ind_u,i,*con_ids;
+  int ind_u, i, *con_ids;
   // control de errores
-    if (!s || !g || !v || !to){
-      fprintf(stderr, "%s\n", strerror(errno));
-      return NULL;
-    }
+  if (!s || !g || !v || !to){
+    fprintf(stderr, "%s\n", strerror(errno));
+    return NULL;
+  }
 
   // metes v (inicial) en el stack
-    stack_push(s,(void *)v);
+  stack_push(s,(void *)v);
 
     while (stack_isEmpty(s) == FALSE){ // ¿Cuándo guardas todo el path en el stack?
       // u es el nodo que vas sacando, lo cambias a negro, guardas cambios
@@ -184,7 +184,10 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
 void graph_printPath (FILE *pf, Graph *g, int idNode){
   Node *n = NULL, *na = NULL;
   int antecessor;
-  if (!pf || !g) fprintf(stderr, "%s\n", strerror(errno));
+  if (!pf || !g || idNode == -1){
+    fprintf(stderr, "%s\n", strerror(errno));
+    return;
+  }
   n = graph_getNode(g,idNode);
   antecessor = node_getAntecesorId(n);
   na = graph_getNode(g,antecessor);

@@ -49,32 +49,24 @@ int main(int argc, char **argv) {
 
   //print the graph
    graph_print(stdout, g);
-
   // check if there is a path from in to out
 
-if(!graph_findDeepSearch(g,node_getId(in), node_getId(out))){
+  if(!graph_findDeepSearch(g,node_getId(in), node_getId(out))){
     // if not print "no...."
-      fprintf(stdout,"There´s no path between the nodes.\n");
-//if yes:
-} else {
-    //print "yes...."
-      fprintf(stdout,"It exists a path between the nodes:\n");
-          // get in node from graph
-
-          // print node in
-          node_print(stdout, in);
-          // print node out
-          node_print(stdout, out);
-
-        // print " here is the path..."
-        fprintf(stdout,"Here is the path between the nodes:\n");
-
-         // print the path
-         graph_printPath (stdout, g, node_getId(out));
+    fprintf(stdout,"There´s no path between the nodes.\n");
   }
 
-  // call mainCleanUp and success
+  else { //if yes:
+    fprintf(stdout,"It exists a path between the nodes:\n");
+    node_print(stdout, in);
+    node_print(stdout, out);
 
+    //print path
+    //fprintf(stdout,"Here is the path between the nodes:\n");
+    //graph_printPath (stdout, g, node_getId(out));
+  }
+
+  //Success
   cleanup(EXIT_SUCCESS, g, out, in, pf);
 }
 
