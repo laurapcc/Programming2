@@ -181,13 +181,6 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
 }
 
 
-
-
-
-
-
-
-
 void graph_printPath (FILE *pf, Graph *g, int idNode){
   Node *n = NULL, *na = NULL;
   int antecessor;

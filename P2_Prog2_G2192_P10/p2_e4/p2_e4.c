@@ -70,7 +70,7 @@ if(!graph_findDeepSearch(g,node_getId(in), node_getId(out))){
         fprintf(stdout,"Here is the path between the nodes:\n");
 
          // print the path
-         graph_printPath (stdout, g, node_getId(in));
+         graph_printPath (stdout, g, node_getId(out));
   }
 
   // call mainCleanUp and success
