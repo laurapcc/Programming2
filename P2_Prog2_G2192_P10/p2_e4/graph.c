@@ -143,10 +143,10 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
         con_ids = graph_getConnectionsFrom(g,node_getId(u)); // num de conexiones del nodo
 
         for (i = 0; i < graph_getNumberOfConnectionsFrom(g,node_getId(u)); i++){
-          w = graph_getNode(g,con_ids[i]); // copia de los nodos conectados
+           w = graph_getNode(g,con_ids[i]); // copia de los nodos conectados
 
-          if(node_cmp(w,to) == TRUE){
-          //if(node_cmp(node_getId(w),node_getId(to)) == TRUE){ // si = nodo final, set antecesor y fin (adapt)
+           if(node_cmp(w,to) == TRUE){
+           //if(node_cmp(node_getId(w),node_getId(to)) == TRUE){ // si = nodo final, set antecesor y fin (adapt)
 
             w = node_setAntecesorId(w,node_getId(u));
             graph_setNode(g,w);
@@ -289,18 +289,25 @@ Node *graph_getNode(const Graph *g, int nId){
 
 /* Actualize the graph node with the same id */
 Status graph_setNode(Graph *g, const Node * n){
-	int index;
+	int index, ant;
+  //Label l;
 	index = find_node_index(g, node_getId(n));
-    if (!g || !n || index < 0) return ERROR;
+  //ant = node_getAntecesorId(n);
+  if (!g || !n || index < 0) return ERROR;
 
-    Node *aux;
+  Node *aux;
 	aux = node_copy(n);
-    if (!aux) return  ERROR;
+  if (!aux) return  ERROR;
 
-    node_destroy(g->nodes[index]);
-    g->nodes[index] = aux;
+  node_destroy(g->nodes[index]);
+  node_setAntecesorId(aux,node_getAntecesorId(n));
+  node_setId(aux,node_getId(n));
+  node_setName(aux, node_getName(n));
+  node_setConnect(aux, node_getConnect(n));
+  node_setLabel(aux, node_getLabel(n));
+  g->nodes[index] = aux;
 
-    return OK;
+  return OK;
 
 }
 
