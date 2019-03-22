@@ -22,14 +22,12 @@ int main(int argc, char **argv) {
   if (argc != 4) exit(EXIT_FAILURE);
 
   // read the input elements
-  out = node_ini();
-  in = node_ini();
   g = graph_ini();
   IdIn = atoi(argv[2]);
   IdOut = atoi(argv[3]);
 
 
-  if (!g || !out || !in){
+  if (!g){
     cleanup(EXIT_FAILURE, g, out, in, pf);
   }
 
