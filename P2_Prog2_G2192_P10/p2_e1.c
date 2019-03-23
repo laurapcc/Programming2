@@ -86,6 +86,7 @@ int main() {
   node_destroy((void *)n_2);
   EleStack_destroy(ele_2);
   cleanup(EXIT_SUCCESS, n_1, ele_1, s);
+  return 0;
 }
 
 

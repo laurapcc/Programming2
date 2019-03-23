@@ -60,6 +60,7 @@ int main() {
 
 
   cleanup(EXIT_SUCCESS, n_1, n_2, s);
+  return 0;
 }
 
 int cleanup(int ex_value, Node *n1, Node *n2, Stack *s){

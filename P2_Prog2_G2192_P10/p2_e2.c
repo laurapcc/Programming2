@@ -46,4 +46,5 @@ int main(int argc, char *argv[]) {
 
 
   cleanUp(EXIT_SUCCESS,ele,s);
+  return 0;
 }
