@@ -1,6 +1,6 @@
 ########################################################
 CC=gcc
-CFLAGS= -g -Wall -ansi -pendantic
+CFLAGS= -g -Wall -ansi -pedantic
 EJS = p1_e1 p1_e2 p1_e3
 ########################################################
 OBJECTSP1E1 = p1_e1.o node.o

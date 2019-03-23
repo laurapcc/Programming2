@@ -1,6 +1,6 @@
 ########################################################
 CC=gcc
-CFLAGS= -g -Wall -ansi -pendantic
+CFLAGS= -g -Wall -ansi -pedantic
 EJS = p2_e1 p2_e2 p2_e3-node p2_e3-int
 ########################################################
 OBJECTSP1E1 = p2_e1.o node.o elestack-node.o stack_elestack.o
