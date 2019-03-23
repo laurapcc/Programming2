@@ -1,6 +1,6 @@
 ########################################################
 CC=gcc
-CFLAGS= -g -Wall
+CFLAGS= -g -Wall -ansi -pendantic
 EJS = p1_e1 p1_e2 p1_e3
 ########################################################
 OBJECTSP1E1 = p1_e1.o node.o
@@ -9,7 +9,7 @@ OBJECTSP1E3 = p1_e3.o graph.o node.o
 ########################################################
 
 all: $(EJS) clean
-	
+
 p1_e1: $(OBJECTSP1E1)
 	$(CC) $(CFLAGS) -o p1_e1 $(OBJECTSP1E1)
 

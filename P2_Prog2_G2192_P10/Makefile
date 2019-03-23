@@ -1,6 +1,6 @@
 ########################################################
 CC=gcc
-CFLAGS= -g -Wall
+CFLAGS= -g -Wall -ansi -pendantic
 EJS = p2_e1 p2_e2 p2_e3-node p2_e3-int
 ########################################################
 OBJECTSP1E1 = p2_e1.o node.o elestack-node.o stack_elestack.o
@@ -48,7 +48,7 @@ stack_fp.o: stack_fp.c node.h
 	$(CC) $(CFLAGS) -c stack_fp.c
 
 clear:
-	rm -rf *.o 
+	rm -rf *.o
 
 clean:
 	rm -rf *.o $(EJS)
