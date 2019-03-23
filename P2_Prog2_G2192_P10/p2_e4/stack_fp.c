@@ -39,7 +39,7 @@ Stack *stack_ini (P_stack_ele_destroy fd, P_stack_ele_copy fc, P_stack_ele_print
     s->pf_destroy = fd;
     s->pf_print = fp;
 
-    // assign the pointers of the elements
+    //assign the pointers of the elements
     for (i=0; i< MAXSTACK; i++)
     s->item[i] = NULL;
 
@@ -49,8 +49,7 @@ Stack *stack_ini (P_stack_ele_destroy fd, P_stack_ele_copy fc, P_stack_ele_print
 void stack_destroy(Stack* stc) {
     if (stc){
 		while (stc->top != EMPTY_STACK) {
-    		stc->pf_destroy( stc->item[stc->top]); // Call to the function whose pointer was stored as a stack field
-    		// that is, using the pointer to the function
+    		stc->pf_destroy( stc->item[stc->top]);
     		stc->top --;
     	}
 	}
@@ -95,7 +94,7 @@ void * stack_pop(Stack *stc){
         fprintf(stderr,"Error in stack_pop");
         return NULL;
     }
-	
+
     if (stack_isEmpty(stc)){
         fprintf(stderr,"Stack empty");
         return NULL;
@@ -192,4 +191,3 @@ double meanStack(Stack *s){
   mean = (double)sum / (double)counter;
   return mean;
 }
-

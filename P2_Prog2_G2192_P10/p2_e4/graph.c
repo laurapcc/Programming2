@@ -31,7 +31,7 @@ int find_node_index(const Graph * g, int nId1) {
     for (i = 0; i < g->num_nodes; i++) {
         if (node_getId(g->nodes[i]) == nId1) return i;
     }
-    // ID not find
+    // ID not found
     return -1;
 }
 

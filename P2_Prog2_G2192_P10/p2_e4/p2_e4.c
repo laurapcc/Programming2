@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
 
 
   //print the graph
-   graph_print(stdout, g);
+  graph_print(stdout, g);
   // check if there is a path from in to out
   if(!graph_findDeepSearch(g,node_getId(in), node_getId(out))){
     // if not print "no...."
