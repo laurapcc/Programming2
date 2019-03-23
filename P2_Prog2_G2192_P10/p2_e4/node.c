@@ -99,11 +99,11 @@ int node_cmp (const Node *n1, const Node *n2){
 Node *node_copy(const Node *src){
     Node *target = NULL;
     target = node_ini();
-	if (!src || !target){
-		fprintf(stderr,"%s\n",strerror(errno));
-		node_destroy(target);
-		return NULL;
-	}
+	  if (!src || !target){
+		     fprintf(stderr,"%s\n",strerror(errno));
+		     node_destroy(target);
+		     return NULL;
+	  }
 
     target->id = src->id;
     strcpy(target->name,src->name);

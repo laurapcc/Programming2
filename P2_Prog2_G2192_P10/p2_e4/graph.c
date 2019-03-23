@@ -110,52 +110,47 @@ Node *graph_findDeepSearch (Graph *g, Node *v, Node *to){
 
 Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
 //Node *graph_findDeepSearch (Graph *g, Node *v, Node *to){ ( adapt)
-
-  // crea e inicializa el stack
+  //Initialize veriables
+  Bool found = FALSE;
   Stack *s = NULL;
-  s = stack_ini((void *)node_destroy,(void *)node_copy, (void *)node_print);
-  // crea dos nodos
-  Node *u = NULL, *w = NULL;
+  Node *u = NULL;
+  Node *w = NULL;
+  Node *v = NULL;
+  int id_u, i, *con_ids;
 
-  // creo v ini(adapt)
-  Node *v = graph_getNode(g, from_id);
-  Node *to = graph_getNode(g, to_id);
-
-
-  // inicializa int
-  int ind_u, i, *con_ids;
-  // control de errores
-  if (!s || !g || !v || !to){
+  //Error control
+  if (!g){
     fprintf(stderr, "%s\n", strerror(errno));
     return NULL;
   }
 
-  // metes v (inicial) en el stack
+  s = stack_ini((void *)node_destroy,(void *)node_copy, (void *)node_print);
+  v = graph_getNode(g, from_id);
+
+  if (!s || !v) return NULL;
+
   stack_push(s,(void *)v);
 
-    while (stack_isEmpty(s) == FALSE){ // ¿Cuándo guardas todo el path en el stack?
-      // u es el nodo que vas sacando, lo cambias a negro, guardas cambios
+  while (stack_isEmpty(s) == FALSE){
       u = (Node *)stack_pop(s);
       if (node_getLabel(u) == WHITE){
+        id_u = node_getId(u);
         u = node_setLabel(u,BLACK);
         graph_setNode(g,u);
 
-        con_ids = graph_getConnectionsFrom(g,node_getId(u)); // num de conexiones del nodo
+        con_ids = graph_getConnectionsFrom(g,node_getId(u)); // ids de conexiones del nodo
 
-        for (i = 0; i < graph_getNumberOfConnectionsFrom(g,node_getId(u)); i++){
-           w = graph_getNode(g,con_ids[i]); // copia de los nodos conectados
+        //for (i = 0; i < graph_getNumberOfConnectionsFrom(g,node_getId(u)); i++)
+        for (i = 0; i < node_getConnect(u); i++){
+           w = graph_getNode(g,con_ids[i]);
 
-           if(node_cmp(w,to) == TRUE){
-           //if(node_cmp(node_getId(w),node_getId(to)) == TRUE){ // si = nodo final, set antecesor y fin (adapt)
+           if(node_getId(w) == to_id){
               w = node_setAntecesorId(w,node_getId(u));
               graph_setNode(g,w);
-              node_destroy(v);
-              node_destroy(to);
-              stack_destroy(s);
-              return w;
+              found = TRUE;
           }
 
-          if (node_getLabel(w) == WHITE){
+          elsif (node_getLabel(w) == WHITE){
             w = node_setAntecesorId(w,node_getId(u)); // set antecesor
             graph_setNode(g,w);
             stack_push(s,(void *)w); // meter en el stack
@@ -166,35 +161,24 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
         free(con_ids);
         con_ids = NULL;
       }
-
-      if (node_getLabel(u) != WHITE){
-        node_destroy(u);
-        u = NULL;
+      node_destroy(u);
       }
     }
     node_destroy(v);
-    node_destroy(to);
     stack_destroy(s);
-    return NULL;
+    return w;
 }
 
 
 void graph_printPath (FILE *pf, Graph *g, int idNode){
-  Node *n = NULL;
-  int antecessor;
+  int index, ant;
   if (!pf || !g || idNode == -1){
     return;
   }
-  n = graph_getNode(g,idNode);
-  antecessor = node_getAntecesorId(n);
-  if (!n) {
-    fprintf(stderr, "%s\n", strerror(errno));
-    return;
-  }
+  index = find_node_index(g,id)
+  ant = node_getAntecesorId(g->nodes[index]);
   node_print(pf,n);
   graph_printPath(pf,g,antecessor);
-
-  node_destroy(n);
 }
 
 
