@@ -169,11 +169,14 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
 
 
 void graph_printPath (FILE *pf, Graph *g, int idNode){
+  Node *n;
   int index, ant;
   if (!pf || !g || idNode == -1){
+    fprintf(stderr, "%s\n", strerror(errno));
     return;
   }
-  index = find_node_index(g,id)
+  n = graph_getNode (g,idNode);
+  index = find_node_index(g,idNode);
   ant = node_getAntecesorId(g->nodes[index]);
   node_print(pf,n);
   graph_printPath(pf,g,antecessor);
