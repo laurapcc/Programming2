@@ -14,6 +14,9 @@
 
 extern int errno;
 
+typedef enum {
+    WHITE, BLACK
+} Label;
 typedef struct _Node Node;
 
 /* Initialize a node, reserving memory and returning the initialized node if
@@ -27,8 +30,12 @@ void node_destroy(void *n);
 /* Returns the id of a given node, or -1 in case of error */
 int node_getId(const Node *n);
 
+int node_getAntecesorId(const Node*n);
+
 /* Returns a pointer to the name of a given node, or NULL in case of error */
 const char* node_getName(const Node *n);
+
+Label node_getLabel(const Node *n);
 
 /* Returns the number of connections of a given node, or -1 in case of error */
 int node_getConnect(const Node *n);
@@ -36,9 +43,12 @@ int node_getConnect(const Node *n);
 /* Modifies the id of a given node, returns NULL in case of error */
 Node *node_setId(Node *n, const int id);
 
+Node* node_setAntecesorId(Node *n, int id);
+
 /* Modifies the name of a given node, returns NULL in case of error */
 Node *node_setName(Node * n, const char *name);
 
+Node *node_setLabel(Node *n, Label label);
 /* Modifies the number of connections of a given node, returns NULL in case of
  error */
 Node *node_setConnect(Node *n, const int cn);

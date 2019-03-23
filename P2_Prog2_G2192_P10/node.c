@@ -9,8 +9,10 @@
 
 struct _Node{
     char name[NAMEL];
+    Label etq;
     int id;
     int nConnect;
+    int antecessor_id;
 };
 
 Node *node_ini(){
@@ -20,8 +22,10 @@ Node *node_ini(){
         return NULL;
     }
 	strcpy(pn->name,"");
+  pn->etq = WHITE;
 	pn->id = -1;
 	pn->nConnect = 0;
+  pn->antecessor_id = -1;
     return pn;
 }
 
@@ -35,9 +39,20 @@ int node_getId(const Node *n){
     return -1;
 }
 
+int node_getAntecesorId(const Node*n){
+  if (n) return n->antecessor_id;
+  return -1;
+}
+
+
 const char *node_getName(const Node *n){
 	if (n) return (n->name);
 	return NULL;
+}
+
+Label node_getLabel(const Node *n){
+	if (n) return (n->etq);
+	return WHITE;
 }
 
 int node_getConnect(const Node *n){
@@ -51,11 +66,24 @@ Node *node_setId(Node *n, const int id){
     return n;
 }
 
+Node* node_setAntecesorId(Node *n, int id){
+  if (!n) return NULL;
+  n->antecessor_id = id;
+  return n;
+}
+
 Node *node_setName(Node *n, const char *name){
     if (!n) return NULL;
     strcpy(n->name,name);
     return n;
 }
+
+Node *node_setLabel(Node *n, Label label){
+    if (!n) return NULL;
+    n->etq = label;
+    return n;
+}
+
 
 Node *node_setConnect(Node *n, const int cn){
     if (!n) return NULL;
@@ -74,22 +102,24 @@ void *node_copy(const void *src){
     src = (Node *)src;
     target = node_ini();
 	  if (!src || !target){
-		    fprintf(stderr,"%s\n",strerror(errno));
-		    node_destroy(target);
-		    return NULL;
+		     fprintf(stderr,"%s\n",strerror(errno));
+		     node_destroy(target);
+		     return NULL;
 	  }
 
     target->id = src->id;
     strcpy(target->name,src->name);
+    target->etq = src->etq;
     target->nConnect = src->nConnect;
+    target->antecessor_id = src->antecessor_id;
 
-    return target;
+    return (void *)target;
 }
 
 int node_print(FILE *pf, const void * n){
-    int num_char = 0;
     n = (Node *)n;
-    if (!pf || !n return -1;
+    int num_char = 0;
+    if (!pf || !n) return -1;
     num_char += fprintf (pf,"[%d, %s, %d]\n",n->id,n->name,n->nConnect);
     return num_char;
 }
