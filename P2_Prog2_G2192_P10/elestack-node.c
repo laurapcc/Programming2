@@ -27,7 +27,7 @@ EleStack * EleStack_ini(){
 Remove an EleStack. Entry: EleStack to destroy.
 ------------------------------------------------------------------*/
 void EleStack_destroy(EleStack *ele){
-    node_destroy(ele->info);
+    node_destroy((void *)ele->info);
     free(ele);
 }
 
@@ -43,7 +43,7 @@ Status EleStack_setInfo(EleStack *ele, void *p){
 
     Node* p_prima = (Node *)p;
     if (ele->info != NULL)
-        node_destroy(ele->info);
+        node_destroy((void *)ele->info);
 
     ele->info = (Node *)node_copy((void *)p_prima);
     return OK;

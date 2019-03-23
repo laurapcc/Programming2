@@ -25,7 +25,8 @@ Node *node_ini(){
     return pn;
 }
 
-void node_destroy(Node *n){
+void node_destroy(void *n){
+  n = (Node *)n;
 	if (n) free(n);
 }
 

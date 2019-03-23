@@ -22,7 +22,7 @@ typedef struct _Node Node;
 Node *node_ini();
 
 /* Free the dynamic memory reserved for a node */
-void node_destroy(Node *n);
+void node_destroy(void *n);
 
 /* Returns the id of a given node, or -1 in case of error */
 int node_getId(const Node *n);

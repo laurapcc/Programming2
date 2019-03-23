@@ -28,7 +28,7 @@ int main() {
   ele_1 = EleStack_ini();
   if (!ele_1){
 	stack_destroy(s);
-	node_destroy(n_1);
+	node_destroy((void *)n_1);
   exit(EXIT_FAILURE);
   }
 
@@ -48,17 +48,17 @@ int main() {
   EleStack *ele_2 = NULL;
   ele_2 = EleStack_ini();
   if (!ele_2){
-	node_destroy(n_2);
+	node_destroy((void *)n_2);
 	cleanup(EXIT_FAILURE, n_1, ele_1, s);
   }
 
   if (EleStack_setInfo(ele_2, (Node*)n_2) == ERROR){
-	node_destroy(n_2);
+	node_destroy(void *)(n_2);
 	EleStack_destroy(ele_2);
 	cleanup(EXIT_FAILURE, n_1, ele_1, s);
   }
   if (stack_push(s, ele_2) == ERROR){
-	node_destroy(n_2);
+	node_destroy((void *)n_2);
 	EleStack_destroy(ele_2);
 	cleanup(EXIT_FAILURE, n_1, ele_1, s);
   }
@@ -83,14 +83,14 @@ int main() {
   fprintf(stdout, "\n");
 
 
-  node_destroy(n_2);
+  node_destroy((void *)n_2);
   EleStack_destroy(ele_2);
   cleanup(EXIT_SUCCESS, n_1, ele_1, s);
 }
 
 
 int cleanup(int ret_value, Node *pn, EleStack *ele, Stack *s){
-  	node_destroy(pn);
+  	node_destroy((void *)pn);
   	EleStack_destroy(ele);
   	stack_destroy(s);
 

@@ -50,7 +50,7 @@ int main() {
   while (stack_isEmpty(s) == FALSE){
      temp = (Node *)stack_pop(s);
      node_print(stdout, (void *)temp);
-	   node_destroy(temp);
+	   node_destroy((void *)temp);
   }
 
 
@@ -63,8 +63,8 @@ int main() {
 }
 
 int cleanup(int ex_value, Node *n1, Node *n2, Stack *s){
-	node_destroy(n1);
-	node_destroy(n2);
+	node_destroy((void *)n1);
+	node_destroy((void *)n2);
 	stack_destroy(s);
 	exit(ex_value);
 }
