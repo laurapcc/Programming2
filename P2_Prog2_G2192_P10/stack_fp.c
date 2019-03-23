@@ -74,7 +74,7 @@ Status stack_push(Stack *stc, const void *ele){
     }
 
     //copy of el_stc
-    copy = (void *)stc->pf_copy(ele);
+    copy = stc->pf_copy(ele);
     if (!copy){
       fprintf(stderr,"No copy");
     return ERROR;
@@ -95,7 +95,7 @@ void * stack_pop(Stack *stc){
         fprintf(stderr,"Error in stack_pop");
         return NULL;
     }
-	
+
     if (stack_isEmpty(stc)){
         fprintf(stderr,"Stack empty");
         return NULL;
@@ -192,4 +192,3 @@ double meanStack(Stack *s){
   mean = (double)sum / (double)counter;
   return mean;
 }
-
