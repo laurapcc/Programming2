@@ -161,7 +161,6 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
         con_ids = NULL;
       }
       node_destroy(u);
-      }
     }
     node_destroy(v);
     stack_destroy(s);
