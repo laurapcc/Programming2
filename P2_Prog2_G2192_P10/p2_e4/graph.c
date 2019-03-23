@@ -111,7 +111,6 @@ Node *graph_findDeepSearch (Graph *g, Node *v, Node *to){
 Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
 //Node *graph_findDeepSearch (Graph *g, Node *v, Node *to){ ( adapt)
   //Initialize veriables
-  Bool found = FALSE;
   Stack *s = NULL;
   Node *u = NULL;
   Node *w = NULL;
@@ -147,10 +146,10 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
            if(node_getId(w) == to_id){
               w = node_setAntecesorId(w,node_getId(u));
               graph_setNode(g,w);
-              found = TRUE;
+              break;
           }
 
-          elsif (node_getLabel(w) == WHITE){
+          else if (node_getLabel(w) == WHITE){
             w = node_setAntecesorId(w,node_getId(u)); // set antecesor
             graph_setNode(g,w);
             stack_push(s,(void *)w); // meter en el stack
