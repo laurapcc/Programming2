@@ -51,13 +51,13 @@ int node_cmp (const Node *n1, const Node *n2);
 /* Reserves memory for a node where it copies the data from the node src.
  * Returns the address of the copied node if everything went well, or NULL
  otherwise */
-Node *node_copy(const Node *src);
+void *node_copy(const void *src);
 
 /* Prints in pf the data of a node with the format: [id, name, nConnect]
  * Returns the number of characters that have been written successfully.
  * Checks if there have been errors in the Output flow, in that case prints
  * an error message in stderror*/
-int node_print(FILE *pf, const Node *n);
+int node_print(FILE *pf, const void *n);
 
 
 #endif /* NODE_H_ */

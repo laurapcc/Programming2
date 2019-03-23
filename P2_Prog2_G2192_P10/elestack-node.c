@@ -44,8 +44,8 @@ Status EleStack_setInfo(EleStack *ele, void *p){
     Node* p_prima = (Node *)p;
     if (ele->info != NULL)
         node_destroy(ele->info);
-    
-    ele->info = node_copy(p_prima);
+
+    ele->info = (Node *)node_copy((void *)p_prima);
     return OK;
 }
 
@@ -73,7 +73,7 @@ EleStack *EleStack_copy(const EleStack *ele){
   target = EleStack_ini();
   if (!target) return NULL;
 
-  target->info = node_copy(ele->info);
+  target->info = (Node *)node_copy((void *)ele->info);
   return target;
 
 }
@@ -98,7 +98,7 @@ Output: Returns the number of written characters.
 int EleStack_print(FILE *pf, const EleStack *ele){
   if (!pf || !ele) return -1;
 
-  int result = node_print(pf, ele->info);
+  int result = node_print(pf, (void *)ele->info);
   return result;
 
 }

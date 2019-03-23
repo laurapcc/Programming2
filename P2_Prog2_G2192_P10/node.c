@@ -68,14 +68,15 @@ int node_cmp (const Node *n1, const Node *n2){
     else return 1;
 }
 
-Node *node_copy(const Node *src){
+void *node_copy(const void *src){
     Node *target = NULL;
+    src = (Node *)src;
     target = node_ini();
-	if (!src || !target){
-		fprintf(stderr,"%s\n",strerror(errno));
-		node_destroy(target);
-		return NULL;
-	}
+	  if (!src || !target){
+		    fprintf(stderr,"%s\n",strerror(errno));
+		    node_destroy(target);
+		    return NULL;
+	  }
 
     target->id = src->id;
     strcpy(target->name,src->name);
@@ -84,9 +85,10 @@ Node *node_copy(const Node *src){
     return target;
 }
 
-int node_print(FILE *pf, const Node * n){
+int node_print(FILE *pf, const void * n){
     int num_char = 0;
-    if (!pf || !n) return -1;
+    n = (Node *)n;
+    if (!pf || !n return -1;
     num_char += fprintf (pf,"[%d, %s, %d]\n",n->id,n->name,n->nConnect);
     return num_char;
 }

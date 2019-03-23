@@ -49,7 +49,7 @@ int main() {
 
   while (stack_isEmpty(s) == FALSE){
      temp = (Node *)stack_pop(s);
-     node_print(stdout, temp);
+     node_print(stdout, (void *)temp);
 	   node_destroy(temp);
   }
 
