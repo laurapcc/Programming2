@@ -19,12 +19,13 @@ Initialize the stack reserving memory. Output: NULL if there was an error or the
 ----------------------------------------------------*/
 Stack * stack_ini(){
     Stack *s = NULL;
+    int i;
     if (!(s = (Stack *)malloc(sizeof(Stack)))){
         fprintf(stderr,"Error initializing stack");
         return NULL;
     }
 
-    for (int i = 0; i < MAXSTACK; i++) s->item[i] = NULL;
+    for (i = 0; i < MAXSTACK; i++) s->item[i] = NULL;
 
     s->top = EMPTY_STACK;
 
@@ -37,7 +38,7 @@ Remove the stack Input: the stack to be removed
 void stack_destroy(Stack *stc){
     while (stc->top != EMPTY_STACK){
         EleStack_destroy(stc->item[stc->top]);
-	stc->item[stc->top] = NULL;
+	      stc->item[stc->top] = NULL;
         stc->top --;
     }
     free(stc);
@@ -48,6 +49,7 @@ Insert an EleStack in the stack. Input: an EleStack and the stack where to inser
 not insert it or the resulting stack if it succeeds
 ------------------------------------------------------------------*/
 Status stack_push(Stack *stc, const EleStack *el_stc){
+    EleStack *el_stc_copy = NULL;
     if (!stc || !el_stc){
         fprintf(stderr,"Error in stack_push");
         return ERROR;
@@ -60,7 +62,7 @@ Status stack_push(Stack *stc, const EleStack *el_stc){
     }
 
     //copy of el_stc
-    EleStack *el_stc_copy = EleStack_copy(el_stc);
+    el_stc_copy = EleStack_copy(el_stc);
     if (!el_stc_copy){
        	fprintf(stderr,"No copy");
     	  return ERROR;
@@ -77,13 +79,12 @@ Extract an EleStack in the stack. Input: the stack from which to extract it. Out
 or the extracted EleStack if it succeeds. Note that the stack will be modified
 ------------------------------------------------------------------*/
 EleStack * stack_pop(Stack *stc){
+    EleStack *el_s = NULL;
     //Error control
     if (!stc){
         fprintf(stderr,"Error in stack_pop");
         return NULL;
     }
-
-    EleStack *el_s;
 
     if (stack_isEmpty(stc)){
         fprintf(stderr,"Stack empty");
@@ -125,10 +126,9 @@ Print the entire stack, placing the EleStack on top at the beginning of printing
 Input: stack and file where to print it. Output: Returns the number of written characters.
 ------------------------------------------------------------------*/
 int stack_print(FILE* pf, const Stack* stc){
+    int i, num_char, total_char = 0;
     //Error control
     if (!pf || !stc) return -1;
-
-    int i, num_char, total_char = 0;
 
     for (i = stc->top; i > EMPTY_STACK; i--){
         num_char = EleStack_print(pf,stc->item[i]);
@@ -145,14 +145,12 @@ int stack_print(FILE* pf, const Stack* stc){
 ---------------------------------------------------------------------*/
 
 double meanElementStack(Stack *s){
-
   int counter = 0, sum = 0;
   double mean = 0;
 
-  Stack *aux_s;
+  Stack *aux_s = NULL;
+  EleStack *ele = NULL;
   aux_s = stack_ini();
-
-  EleStack *ele;
   ele = EleStack_ini();
   if (!s || !aux_s || !ele) return -1;
   free(ele);

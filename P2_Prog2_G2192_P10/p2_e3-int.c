@@ -16,13 +16,13 @@ int main(int argc, char *argv[]) {
 
   int i, lenght_s, ele;
   double mean;
+  Stack *s;
 
 
   if (argc != 2) return (EXIT_FAILURE);
   lenght_s = atoi(argv[1]);
 
-  Stack *s;
-  s = stack_ini(free,(void *)int_copy, (void *)int_print);
+  s = stack_ini(free,int_copy,int_print);
   if (!s) return (EXIT_FAILURE);
 
   for (i = 0; i <= lenght_s; i++){

@@ -12,10 +12,15 @@ int cleanup(int ret_value, Node *pn, EleStack *ele, Stack *s);
 
 int main() {
   Stack *s = NULL;
+  Node *n_1 = NULL;
+  EleStack *ele_1 = NULL;
+  Node *n_2 = NULL;
+  EleStack *ele_2 = NULL;
+  EleStack* temp = NULL;
+
   s = stack_ini();
 
   //node 1
-  Node *n_1 = NULL;
   n_1 = node_ini();
   if (!n_1){
 	stack_destroy(s);
@@ -24,7 +29,6 @@ int main() {
   n_1 = node_setName(n_1,"first");
   n_1 = node_setId(n_1,111);
 
-  EleStack *ele_1 = NULL;
   ele_1 = EleStack_ini();
   if (!ele_1){
 	stack_destroy(s);
@@ -38,14 +42,12 @@ int main() {
 
 
   //node 2
-  Node *n_2 = NULL;
   n_2 = node_ini();
   if (!n_2) cleanup(EXIT_FAILURE, n_1, ele_1, s);
 
   n_2 = node_setName(n_2,"second");
   n_2 = node_setId(n_2,222);
 
-  EleStack *ele_2 = NULL;
   ele_2 = EleStack_ini();
   if (!ele_2){
 	node_destroy((void *)n_2);
@@ -53,7 +55,7 @@ int main() {
   }
 
   if (EleStack_setInfo(ele_2, (Node*)n_2) == ERROR){
-	node_destroy(void *)(n_2);
+	node_destroy((void *)n_2);
 	EleStack_destroy(ele_2);
 	cleanup(EXIT_FAILURE, n_1, ele_1, s);
   }
@@ -71,8 +73,6 @@ int main() {
   fprintf(stdout,"\nEmptying stack. Elements extracted:\n");
 
   while ((s->top) > EMPTY_STACK){
-    EleStack* temp = NULL;
-
     EleStack_print(stdout, s->item[s->top]);
     temp = stack_pop(s);
     EleStack_destroy(temp);

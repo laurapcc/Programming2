@@ -15,19 +15,18 @@ int cleanUp (int ret_value, EleStack *ele, Stack *s){
 }
 
 int main(int argc, char *argv[]) {
-
   int i, lenght_s;
   double mean;
+  Stack *s;
+  EleStack *ele;
 
 
   if (argc != 2) return (EXIT_FAILURE);
   lenght_s = atoi(argv[1]);
 
-  Stack *s;
   s = stack_ini();
   if (!s) return (EXIT_FAILURE);
 
-  EleStack *ele;
   ele = EleStack_ini();
   if (!ele) cleanUp(EXIT_FAILURE,ele,s);
 
