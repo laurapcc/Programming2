@@ -179,7 +179,7 @@ void graph_printPath (FILE *pf, Graph *g, int idNode){
   index = find_node_index(g,idNode);
   ant = node_getAntecesorId(g->nodes[index]);
   node_print(pf,n);
-  graph_printPath(pf,g,antecessor);
+  graph_printPath(pf,g,ant);
 }
 
 
