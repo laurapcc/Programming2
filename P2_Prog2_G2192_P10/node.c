@@ -99,7 +99,7 @@ int node_cmp (const Node *n1, const Node *n2){
 
 void *node_copy(const void *src){
     Node *target = NULL;
-    src = (Node *)src;
+    /*src = (Node *)src;*/
     target = node_ini();
 	  if (!src || !target){
 		     fprintf(stderr,"%s\n",strerror(errno));
@@ -107,11 +107,11 @@ void *node_copy(const void *src){
 		     return NULL;
 	  }
 
-    target->id = src->id;
-    strcpy(target->name,src->name);
-    target->etq = src->etq;
-    target->nConnect = src->nConnect;
-    target->antecessor_id = src->antecessor_id;
+    target->id = (Node *)src->id;
+    strcpy(target->name,(Node *)src->name);
+    target->etq = (Node *)src->etq;
+    target->nConnect = (Node *)src->nConnect;
+    target->antecessor_id = (Node *)src->antecessor_id;
 
     return (void *)target;
 }
