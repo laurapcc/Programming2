@@ -99,7 +99,10 @@ int node_cmp (const Node *n1, const Node *n2){
 
 void *node_copy(const void *src){
     Node *target = NULL;
+<<<<<<< HEAD
     src = (Node *)src;
+=======
+>>>>>>> 650f1660fbc9a2d24fb52d60a1a3efa378f21a44
     target = node_ini();
 	  if (!src || !target){
 		     fprintf(stderr,"%s\n",strerror(errno));
