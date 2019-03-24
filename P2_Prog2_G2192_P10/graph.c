@@ -263,19 +263,19 @@ Node *graph_getNode(const Graph *g, int nId){
   Node *n = NULL;
 
   if (!g){
-    fprintf(stderr, "%s\n", strerror);
+    fprintf(stderr, "%s\n", strerror(errno));
     return NULL;
   }
 
   for (i = 0; i < g->num_nodes; i++){
     if (node_getId(g->nodes[i]) == nId){
-      n = node_copy(g->nodes[index]);
+      n = node_copy(g->nodes[i]);
       break;
     }
   }
 
   if (!n) {
-    fprintf(stderr, "%s\n", strerror);
+    fprintf(stderr, "%s\n", strerror(errno));
     return NULL;
   }
 
