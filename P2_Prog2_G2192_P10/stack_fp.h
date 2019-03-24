@@ -8,7 +8,7 @@
 typedef struct _Stack Stack;
 
 /* Types of function pointers supported by the stack */
-typedef void *(*P_stack_ele_destroy)(void*);
+typedef void (*P_stack_ele_destroy)(void*);
 typedef void* (*P_stack_ele_copy)(const void*);
 typedef int (*P_stack_ele_print)(FILE *, const void*);
 
