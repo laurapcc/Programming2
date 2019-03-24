@@ -73,8 +73,8 @@ Status stack_push(Stack *stc, const void *ele){
         return ERROR;
     }
 
-    /*copy of el_stc*/
-    copy = (void *)stc->pf_copy(ele);
+    //copy of el_stc
+    copy = stc->pf_copy(ele);
     if (!copy){
       fprintf(stderr,"No copy");
     return ERROR;
