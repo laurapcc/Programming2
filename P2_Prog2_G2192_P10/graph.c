@@ -112,7 +112,7 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
   Node *u = NULL;
   Node *w = NULL;
   Node *v = NULL;
-  int id_u, i, *con_ids;
+  int i, *con_ids = NULL;
 
   /*Error control*/
   if (!g){
@@ -130,7 +130,6 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
   while (stack_isEmpty(s) == FALSE){
       u = (Node *)stack_pop(s);
       if (node_getLabel(u) == WHITE){
-        id_u = node_getId(u);
         u = node_setLabel(u,BLACK);
         graph_setNode(g,u);
 
