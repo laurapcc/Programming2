@@ -36,10 +36,10 @@ Modify the data of an EleStack. Entry: The EleStack to be modified and the conte
 EleStack. Output: OK or ERROR
 ------------------------------------------------------------------*/
 Status EleStack_setInfo(EleStack *ele, void *p){
-    //Error control
+    /*Error control*/
     if (!ele || !p) return ERROR;
 
-    //if (ele->info) node_destroy(ele->info);
+    /*if (ele->info) node_destroy(ele->info);*/
 
     Node* p_prima = (Node *)p;
     if (ele->info != NULL)

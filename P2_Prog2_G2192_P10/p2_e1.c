@@ -20,7 +20,7 @@ int main() {
 
   s = stack_ini();
 
-  //node 1
+  /*node 1*/
   n_1 = node_ini();
   if (!n_1){
 	stack_destroy(s);
@@ -41,7 +41,7 @@ int main() {
   if (stack_push(s, ele_1) == ERROR) cleanup(EXIT_FAILURE, n_1, ele_1, s);
 
 
-  //node 2
+  /*node 2*/
   n_2 = node_ini();
   if (!n_2) cleanup(EXIT_FAILURE, n_1, ele_1, s);
 

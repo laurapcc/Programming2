@@ -5,8 +5,6 @@
 
 
 #include "stack_elestack.h"
-//#define MAXSTACK 1024
-//#define EMPTY_STACK -1
 
 struct Stack {
  int top;
@@ -55,13 +53,13 @@ Status stack_push(Stack *stc, const EleStack *el_stc){
         return ERROR;
     }
 
-    //stack full
+    /*stack full*/
     if (stack_isFull(stc)){
         fprintf(stderr,"Stack full");
         return ERROR;
     }
 
-    //copy of el_stc
+    /*copy of el_stc*/
     el_stc_copy = EleStack_copy(el_stc);
     if (!el_stc_copy){
        	fprintf(stderr,"No copy");
@@ -80,7 +78,7 @@ or the extracted EleStack if it succeeds. Note that the stack will be modified
 ------------------------------------------------------------------*/
 EleStack * stack_pop(Stack *stc){
     EleStack *el_s = NULL;
-    //Error control
+    /*Error control*/
     if (!stc){
         fprintf(stderr,"Error in stack_pop");
         return NULL;
@@ -103,7 +101,7 @@ EleStack * stack_pop(Stack *stc){
 Check if the stack is empty. Input: stack. Output: TRUE if it is empty or FALSE if it is not
 ------------------------------------------------------------------*/
 Bool stack_isEmpty(const Stack *stc){
-    //Error control
+    /*Error control*/
     if (!stc) return FALSE;
 
     if (stc->top == EMPTY_STACK) return TRUE;
@@ -114,7 +112,7 @@ Bool stack_isEmpty(const Stack *stc){
 Check if the stack is full. Input: stack. Exit: TRUE if it is full or FALSE if it is not
 ------------------------------------------------------------------*/
 Bool stack_isFull(const Stack *stc){
-    //Error control
+    /*Error control*/
     if (!stc) return TRUE;
 
     if (stc->top == MAXSTACK - 1) return TRUE;
@@ -127,7 +125,7 @@ Input: stack and file where to print it. Output: Returns the number of written c
 ------------------------------------------------------------------*/
 int stack_print(FILE* pf, const Stack* stc){
     int i, num_char, total_char = 0;
-    //Error control
+    /*Error control*/
     if (!pf || !stc) return -1;
 
     for (i = stc->top; i > EMPTY_STACK; i--){

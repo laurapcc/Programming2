@@ -36,14 +36,14 @@ Modify the data of an EleStack. Entry: The EleStack to be modified and the conte
 EleStack. Output: OK or ERROR
 ------------------------------------------------------------------*/
 Status EleStack_setInfo(EleStack *ele, void *p){
-    //Error control
+    /*Error control*/
     if (!ele || !p) return ERROR;
 
 	int *i = NULL;
-	
+
 	if (!(i = (int *)malloc(sizeof(int)))) return ERROR;
 	*i = (*(int *)p);
-	
+
 	free (ele->e);
 	ele->e = i;
     return OK;
@@ -69,7 +69,7 @@ EleStack *EleStack_copy(const EleStack *ele){
   if (!ele) return NULL;
   EleStack *target = NULL;
   target = EleStack_ini();
-  
+
   int *i;
   i = (int *)malloc(sizeof(int));
 

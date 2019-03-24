@@ -11,17 +11,17 @@
 int cleanup(int ret_value, Graph *gc, Node *out, Node *in, FILE *pf);
 
 int main(int argc, char **argv) {
-//declara variables
+/*declara variables*/
   FILE *pf = NULL;
   Node *out = NULL;
   Node *in = NULL;
   Graph *g = NULL;
   int IdIn, IdOut;
 
-// check that there are 4 input elements , if not failure
+/* check that there are 4 input elements , if not failure*/
   if (argc != 4) exit(EXIT_FAILURE);
 
-  // read the input elements
+  /* read the input elements*/
   g = graph_ini();
   IdIn = atoi(argv[2]);
   IdOut = atoi(argv[3]);
@@ -31,13 +31,13 @@ int main(int argc, char **argv) {
     cleanup(EXIT_FAILURE, g, out, in, pf);
   }
 
-  //open file
+  /*open file*/
   pf = fopen(argv[1], "r");
   if (!pf){
      cleanup(EXIT_FAILURE, g, out, in, pf);
    }
 
-  //read graph from file
+  /*read graph from file*/
    if (graph_readFromFile(pf, g) == ERROR){
      cleanup(EXIT_FAILURE, g, out, in, pf);
    }
@@ -48,25 +48,25 @@ int main(int argc, char **argv) {
    }
 
 
-  //print the graph
+  /*print the graph*/
   graph_print(stdout, g);
-  // check if there is a path from in to out
+  /* check if there is a path from in to out*/
   if(!graph_findDeepSearch(g,node_getId(in), node_getId(out))){
-    // if not print "no...."
+    /* if not print "no...."*/
     fprintf(stdout,"There´s no path between the nodes.\n");
   }
 
-  else { //if yes:
+  else { /*if yes:*/
     fprintf(stdout,"It exists a path between the nodes:\n");
     node_print(stdout, in);
     node_print(stdout, out);
 
-    //print path
+    /*print path*/
     fprintf(stdout,"Here is the path between the nodes:\n");
     graph_printPath (stdout, g, node_getId(out));
   }
 
-  //Success
+  /*Success*/
   cleanup(EXIT_SUCCESS, g, out, in, pf);
   return 0;
 }
@@ -76,7 +76,7 @@ int cleanup(int ret_value, Graph *gc, Node *out, Node *in, FILE *pf){
   node_destroy(out);
 	node_destroy(in);
 	graph_destroy(gc);
-  //cierro el archivo
+  /*cierro el archivo*/
   fclose(pf);
   exit(ret_value);
 }

@@ -23,7 +23,7 @@ Bool stack_isEmpty(const Stack *);
 Bool stack_isFull(const Stack *);
 int stack_print(FILE*, const Stack*);
 
-// Privata functions for int
+/* Privata functions for int*/
 void *int_copy(const void *);
 int int_print(FILE *, const void *);
 double meanStack(Stack *);

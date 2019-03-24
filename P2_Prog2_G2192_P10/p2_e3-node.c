@@ -16,10 +16,10 @@ int main() {
   Node *n_2 = NULL;
   Node *temp = NULL;
 
-  //s = stack_ini((void *)node_destroy,(void *)node_copy, (void *)node_print);
+  /*s = stack_ini((void *)node_destroy,(void *)node_copy, (void *)node_print);*/
   s = stack_ini(node_destroy,node_copy, node_print);
 
-  //node 1
+  /*node 1*/
   n_1 = node_ini();
   if (!n_1){
 	stack_destroy(s);
@@ -28,7 +28,7 @@ int main() {
   n_1 = node_setName(n_1,"first");
   n_1 = node_setId(n_1,111);
 
-  //node 2
+  /*node 2*/
   n_2 = node_ini();
   if (!n_2) cleanup(EXIT_FAILURE, n_1, n_2, s);
 

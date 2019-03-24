@@ -39,7 +39,7 @@ Stack *stack_ini (P_stack_ele_destroy fd, P_stack_ele_copy fc, P_stack_ele_print
     s->pf_destroy = fd;
     s->pf_print = fp;
 
-    // assign the pointers of the elements
+    /* assign the pointers of the elements*/
     for (i=0; i< MAXSTACK; i++)
     s->item[i] = NULL;
 
@@ -49,8 +49,8 @@ Stack *stack_ini (P_stack_ele_destroy fd, P_stack_ele_copy fc, P_stack_ele_print
 void stack_destroy(Stack* stc) {
     if (stc){
 		while (stc->top != EMPTY_STACK) {
-    		stc->pf_destroy( stc->item[stc->top]); // Call to the function whose pointer was stored as a stack field
-    		// that is, using the pointer to the function
+    		stc->pf_destroy( stc->item[stc->top]); /* Call to the function whose pointer was stored as a stack field
+    		*that is, using the pointer to the function*/
     		stc->top --;
     	}
 	}
@@ -67,13 +67,13 @@ Status stack_push(Stack *stc, const void *ele){
         return ERROR;
     }
 
-    //stack full
+    /*stack full*/
     if (stack_isFull(stc)){
         fprintf(stderr,"Stack full");
         return ERROR;
     }
 
-    //copy of el_stc
+    /*copy of el_stc*/
     copy = (void *)stc->pf_copy(ele);
     if (!copy){
       fprintf(stderr,"No copy");
@@ -90,12 +90,12 @@ Status stack_push(Stack *stc, const void *ele){
 
 void * stack_pop(Stack *stc){
 	void *el_s;
-    //Error control
+    /*Error control*/
     if (!stc){
         fprintf(stderr,"Error in stack_pop");
         return NULL;
     }
-	
+
     if (stack_isEmpty(stc)){
         fprintf(stderr,"Stack empty");
         return NULL;
@@ -111,7 +111,7 @@ void * stack_pop(Stack *stc){
 
 
 Bool stack_isEmpty(const Stack *stc){
-  //Error control
+  /*Error control*/
   if (!stc) return FALSE;
 
   if (stc->top == EMPTY_STACK) return TRUE;
@@ -120,7 +120,7 @@ Bool stack_isEmpty(const Stack *stc){
 
 
 Bool stack_isFull(const Stack *stc){
-    //Error control
+    /*Error control*/
     if (!stc) return TRUE;
 
     if (stc->top == MAXSTACK - 1) return TRUE;
@@ -130,7 +130,7 @@ Bool stack_isFull(const Stack *stc){
 
 int stack_print(FILE* pf, const Stack *stc){
 	int i, num_char, total_char = 0;
-    //Error control
+    /*Error control*/
     if (!pf || !stc) return -1;
 
     for (i = stc->top; i > EMPTY_STACK; i--){
@@ -144,7 +144,7 @@ int stack_print(FILE* pf, const Stack *stc){
 }
 
 
-//---------------PRIVATE FUNCTIONS FOR INT------------------
+/*---------------PRIVATE FUNCTIONS FOR INT------------------*/
 
 void *int_copy(const void *src){
 	int *a;
@@ -192,4 +192,3 @@ double meanStack(Stack *s){
   mean = (double)sum / (double)counter;
   return mean;
 }
-

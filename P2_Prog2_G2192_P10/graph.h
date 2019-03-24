@@ -8,19 +8,19 @@
 
 typedef struct _Graph Graph;
 
-//------------------private functions-----------------
+/*------------------private functions-----------------*/
 
 int find_node_index(const Graph * g, int nId1);
 
 int *graph_getConectionsIndex(const Graph * g, int index);
 
-//Node *graph_findDeepSearch (Graph *g, Node *v, Node *to);
+/*Node *graph_findDeepSearch (Graph *g, Node *v, Node *to);*/
 
 Node *graph_findDeepSearch (Graph *g, int from_id, int to_id);
 
 void graph_printPath (FILE *pf, Graph *g, int idNode);
 
-//------------------primtive functions-----------------
+/*------------------primtive functions-----------------*/
 
 /* Initializes a graph, reserving memory and returns the graph address
  * if it has done it correctly, otherwise it returns NULL and prints the string
@@ -80,7 +80,7 @@ int *graph_getConnectionsFrom(const Graph * g, const int fromId);
  * [3, c, 2]] 1 2 */
 int graph_print(FILE *pf, const Graph * g);
 
-// Read from the stream fin the graph information
+/* Read from the stream fin the graph information*/
 Status graph_readFromFile (FILE *fin, Graph *g);
 
 

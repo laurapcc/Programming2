@@ -9,10 +9,7 @@
 #define MAX_NODES 4096
 #define MAX_LINE 256
 
-//extern int errno;
-
-
-
+extern int errno;
 enum {NO_FILE_POS_VALUE = 2};
 
 struct _Graph {
@@ -23,7 +20,7 @@ struct _Graph {
 };
 
 
-//------------------private functions-----------------
+/*------------------private functions-----------------*/
 
 int find_node_index(const Graph * g, int nId1) {
     int i;
@@ -31,7 +28,7 @@ int find_node_index(const Graph * g, int nId1) {
     for (i = 0; i < g->num_nodes; i++) {
         if (node_getId(g->nodes[i]) == nId1) return i;
     }
-    // ID not found
+    /* ID not found*/
     return -1;
 }
 
@@ -39,15 +36,15 @@ int *graph_getConectionsIndex(const Graph * g, int index) {
     int *array = NULL, i, j = 0, size;
     if (!g) return NULL;
     if (index < 0 || index > g->num_nodes) return NULL;
-    // get memory for the array with the connected nodes index
+    /* get memory for the array with the connected nodes index*/
     size = node_getConnect(g->nodes[index]);
     array = (int *) malloc(sizeof (int) * size);
     if (!array) {
-        // print errorr message
+        /* print errorr message*/
         fprintf(stderr, "%s\n", strerror(errno));
         return NULL;
     }
-    // assign values to the array with the indexes of the connected nodes
+    /* assign values to the array with the indexes of the connected nodes*/
     for (i = 0; i < g->num_nodes; i++) {
         if (g->connections[index][i] == TRUE) {
             array[j] = i;
@@ -109,15 +106,15 @@ Node *graph_findDeepSearch (Graph *g, Node *v, Node *to){
 
 
 Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
-//Node *graph_findDeepSearch (Graph *g, Node *v, Node *to){ ( adapt)
-  //Initialize veriables
+/*Node *graph_findDeepSearch (Graph *g, Node *v, Node *to){ ( adapt)*/
+  /*Initialize veriables*/
   Stack *s = NULL;
   Node *u = NULL;
   Node *w = NULL;
   Node *v = NULL;
   int id_u, i, *con_ids;
 
-  //Error control
+  /*Error control*/
   if (!g){
     fprintf(stderr, "%s\n", strerror(errno));
     return NULL;
@@ -137,9 +134,9 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
         u = node_setLabel(u,BLACK);
         graph_setNode(g,u);
 
-        con_ids = graph_getConnectionsFrom(g,node_getId(u)); // ids de conexiones del nodo
+        con_ids = graph_getConnectionsFrom(g,node_getId(u)); /* ids de conexiones del nodo*/
 
-        //for (i = 0; i < graph_getNumberOfConnectionsFrom(g,node_getId(u)); i++)
+        /*for (i = 0; i < graph_getNumberOfConnectionsFrom(g,node_getId(u)); i++)*/
         for (i = 0; i < node_getConnect(u); i++){
            w = graph_getNode(g,con_ids[i]);
 
@@ -150,9 +147,9 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
           }
 
           else if (node_getLabel(w) == WHITE){
-            w = node_setAntecesorId(w,node_getId(u)); // set antecesor
+            w = node_setAntecesorId(w,node_getId(u)); /* set antecesor*/
             graph_setNode(g,w);
-            stack_push(s,(void *)w); // meter en el stack
+            stack_push(s,(void *)w); /* meter en el stack*/
           }
           node_destroy(w);
           w = NULL;
@@ -184,7 +181,7 @@ void graph_printPath (FILE *pf, Graph *g, int idNode){
 
 
 
-//------------------primtive functions-----------------
+/*------------------primtive functions-----------------*/
 
 Graph * graph_ini() {
     Graph *g = NULL;
@@ -219,7 +216,7 @@ Status graph_insertNode(Graph *g, const Node *n){
 
     Node *aux = NULL;
     int id = node_getId(n), i;
-    if (find_node_index(g,id) != -1) return ERROR; //There's already a node with that id in the graph g
+    if (find_node_index(g,id) != -1) return ERROR; /*There's already a node with that id in the graph g*/
 
     aux = node_copy(n);
     if(!aux) return ERROR;
@@ -271,9 +268,7 @@ Node *graph_getNode(const Graph *g, int nId){
 /* Actualize the graph node with the same id */
 Status graph_setNode(Graph *g, const Node * n){
 	int index, ant;
-  //Label l;
 	index = find_node_index(g, node_getId(n));
-  //ant = node_getAntecesorId(n);
   if (!g || !n || index < 0) return ERROR;
 
   Node *aux;
@@ -403,49 +398,49 @@ int graph_print(FILE *pf, const Graph * g) {
     return numcar;
 }
 
-// Read from the stream fin the graph information
-Status graph_readFromFile(FILE *fin, Graph * g){ // from appendix 5
+/* Read from the stream fin the graph information*/
+Status graph_readFromFile(FILE *fin, Graph * g){ /* from appendix 5*/
     Node *n;
     char buff[MAX_LINE], name[MAX_LINE];
     int i, nnodes = 0, id1, id2;
     Status flag = ERROR;
-    // read number of nodes
+    /* read number of nodes*/
     if (fgets (buff, MAX_LINE, fin) != NULL){
         if (sscanf(buff, "%d", &nnodes) != 1) return ERROR;
     }
 
-    // init buffer_node
+    /* init buffer_node*/
     n = node_ini();
     if (!n) return ERROR;
 
-    // read nodes line by line
+    /* read nodes line by line*/
     for(i=0; i < nnodes; i++) {
         if (fgets(buff, MAX_LINE, fin) != NULL){
             if (sscanf(buff, "%d %s", &id1, name) != NO_FILE_POS_VALUE) break;
         }
-            // set node name and node id
+            /* set node name and node id*/
         node_setName (n, name);
         node_setId (n, id1);
-            // insert node in the graph
+            /* insert node in the graph*/
         if (graph_insertNode (g, n) == ERROR) break;
     }
 
-    // Check if all node have been inserted
+    /* Check if all node have been inserted*/
     if (i < nnodes) {
         node_destroy(n);
         return ERROR;
     }
 
 
-    // read connections line by line and insert it
+    /* read connections line by line and insert it*/
     while (fgets(buff, MAX_LINE, fin) ) {
         if (sscanf(buff, "%d %d", &id1, &id2) == NO_FILE_POS_VALUE ) if (graph_insertEdge(g, id1, id2) == ERROR) break;
     }
 
-    // check end of file
+    /* check end of file*/
     if (feof(fin)) flag = OK;
 
-    // clean up, free resources
+    /* clean up, free resources*/
     node_destroy (n);
     return flag;
 
