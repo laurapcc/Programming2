@@ -3,29 +3,29 @@ CC=gcc
 CFLAGS= -g -Wall -ansi -pedantic
 EJS = p2_e1 p2_e2 p2_e3-node p2_e3-int p2_e4
 ########################################################
-OBJECTSP1E1 = p2_e1.o node.o elestack-node.o stack_elestack.o
-OBJECTSP1E2 = p2_e2.o stack_elestack.o elestack-int.o
-OBJECTSP1E3NODE = p2_e3-node.o stack_fp.o node.o
-OBJECTSP1E3INT = p2_e3-int.o stack_fp.o
-OBJECTSP1E4 = p2_e4.o graph.o stack_fp.o node.o
+OBJECTSP2E1 = p2_e1.o node.o elestack-node.o stack_elestack.o
+OBJECTSP2E2 = p2_e2.o stack_elestack.o elestack-int.o
+OBJECTSP2E3NODE = p2_e3-node.o stack_fp.o node.o
+OBJECTSP2E3INT = p2_e3-int.o stack_fp.o
+OBJECTSP2E4 = p2_e4.o graph.o stack_fp.o node.o
 ########################################################
 
 all: $(EJS) clean
 
-p2_e1: $(OBJECTSP1E1)
-	$(CC) $(CFLAGS) -o p2_e1 $(OBJECTSP1E1)
+p2_e1: $(OBJECTSP2E1)
+	$(CC) $(CFLAGS) -o p2_e1 $(OBJECTSP2E1)
 
-p2_e2: $(OBJECTSP1E2)
-	$(CC) $(CFLAGS) -o p2_e2 $(OBJECTSP1E2)
+p2_e2: $(OBJECTSP2E2)
+	$(CC) $(CFLAGS) -o p2_e2 $(OBJECTSP2E2)
 
-p2_e3-node: $(OBJECTSP1E3NODE)
-	$(CC) $(CFLAGS) -o p2_e3-node $(OBJECTSP1E3NODE)
+p2_e3-node: $(OBJECTSP2E3NODE)
+	$(CC) $(CFLAGS) -o p2_e3-node $(OBJECTSP2E3NODE)
 
-p2_e3-int: $(OBJECTSP1E3INT)
-	$(CC) $(CFLAGS) -o p2_e3-int $(OBJECTSP1E3INT)
+p2_e3-int: $(OBJECTSP2E3INT)
+	$(CC) $(CFLAGS) -o p2_e3-int $(OBJECTSP2E3INT)
 
-p2_e4: $(OBJECTSP1E4)
-	$(CC) $(CFLAGS) -o p2_e4 $(OBJECTSP1E4)
+p2_e4: $(OBJECTSP2E4)
+	$(CC) $(CFLAGS) -o p2_e4 $(OBJECTSP2E4)
 
 p2_e4.o: p2_e4.c graph.h stack_fp.h node.h types.h
 	$(CC) $(CFLAGS) -c p2_e4.c
