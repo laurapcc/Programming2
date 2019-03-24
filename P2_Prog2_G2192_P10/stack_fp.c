@@ -30,7 +30,7 @@ Stack *stack_ini (P_stack_ele_destroy fd, P_stack_ele_copy fc, P_stack_ele_print
 
     s = (Stack*) malloc(sizeof(Stack));
     if (!s) {
-    fprintf(stderr, "%s", strerror(errno));
+    fprintf(stderr, "%s\n", strerror(errno));
     return NULL;
     }
 
@@ -63,7 +63,7 @@ void stack_destroy(Stack* stc) {
 Status stack_push(Stack *stc, const void *ele){
 	void *copy;
     if (!stc || !ele){
-        fprintf(stderr,"Error in stack_push");
+        fprintf(stderr,"%s\n",strerror(errno));
         return ERROR;
     }
 
@@ -74,7 +74,7 @@ Status stack_push(Stack *stc, const void *ele){
     }
 
     /*copy of el_stc*/
-    copy = (void *)stc->pf_copy(ele);
+    copy = stc->pf_copy(ele);
     if (!copy){
       fprintf(stderr,"No copy");
     return ERROR;

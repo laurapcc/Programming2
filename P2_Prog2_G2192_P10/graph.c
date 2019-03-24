@@ -112,7 +112,8 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
   Node *u = NULL;
   Node *w = NULL;
   Node *v = NULL;
-  int i, *con_ids = NULL;
+  int i, con_u, *con_ids = NULL;
+  Bool found = FALSE;
 
   /*Error control*/
   if (!g){
@@ -126,22 +127,21 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
   if (!s || !v) return NULL;
 
   stack_push(s,(void *)v);
-
-  while (stack_isEmpty(s) == FALSE){
+  while (stack_isEmpty(s) == FALSE && found == FALSE){
       u = (Node *)stack_pop(s);
       if (node_getLabel(u) == WHITE){
         u = node_setLabel(u,BLACK);
         graph_setNode(g,u);
 
         con_ids = graph_getConnectionsFrom(g,node_getId(u)); /* ids de conexiones del nodo*/
-
-        /*for (i = 0; i < graph_getNumberOfConnectionsFrom(g,node_getId(u)); i++)*/
-        for (i = 0; i < node_getConnect(u); i++){
+        con_u = node_getConnect(u);
+        for (i = 0; i < con_u; i++){
            w = graph_getNode(g,con_ids[i]);
 
-           if(node_getId(w) == to_id){
+           if(con_ids[i] == to_id){
               w = node_setAntecesorId(w,node_getId(u));
               graph_setNode(g,w);
+              found = TRUE;
               break;
           }
 
@@ -168,7 +168,6 @@ void graph_printPath (FILE *pf, Graph *g, int idNode){
   Node *n;
   int index, ant;
   if (!pf || !g || idNode == -1){
-    fprintf(stderr, "%s\n", strerror(errno));
     return;
   }
   n = graph_getNode (g,idNode);
@@ -346,24 +345,51 @@ int graph_getNumberOfConnectionsFrom(const Graph * g, const int fromId){
 /* Returns the address of an array with the ids of all nodes in the graph.
  * Reserves memory for the array.*/
 int *graph_getConnectionsFrom(const Graph * g, const int fromId){
-    int *array = NULL;
-    int i, j;
-    if (!g) return NULL;
+    int *idNodes = NULL, *idConn = NULL;
+    Node *n = NULL;
+    int i, j = 0, nNodes;
 
-    array = (int *)malloc(g->num_nodes*sizeof(int));
-    if (!array){
-        fprintf(stderr,"Error\n");
-        return NULL;
+    if (!g){
+      fprintf(stderr, "%s\n", strerror(errno));
+      return NULL;
     }
 
-    for (i = 0, j = 0; i < g->num_nodes; i++){
-        if(g->connections[fromId][node_getId(g->nodes[i])] == 1){
-            array[j] = node_getId(g->nodes[i]);
-            j++;
+    for (i = 0; i < g->num_nodes; i++){
+        if(node_getId(g->nodes[i]) == fromId){
+            n = node_copy(g->nodes[i]);
+            break;
         }
-
     }
-    return array;
+
+    if (!n){
+      fprintf(stderr, "%s\n", strerror(errno));
+      return NULL;
+    }
+
+    nNodes = graph_getNumberOfNodes(g);
+    idNodes = graph_getNodesId(g);
+
+    if (nNodes == -1 || !idNodes){
+      fprintf(stderr, "%s\n", strerror(errno));
+      return NULL;
+    }
+
+    idConn = (int *)malloc(nNodes * sizeof(int));
+    if (!idConn){
+      fprintf(stderr, "%s\n", strerror(errno));
+      return NULL;
+    }
+
+    for (i = 0; i < nNodes; i++){
+      if (graph_areConnected(g, fromId, node_getId(g->nodes[i])) == TRUE){
+        idConn[j] = node_getId(g->nodes[i]);
+        j++;
+      }
+    }
+
+    node_destroy(n);
+    free(idNodes);
+    return idConn;
 
 
 }
