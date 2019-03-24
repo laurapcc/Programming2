@@ -1,5 +1,5 @@
 /*
- * File:   main.c
+ * File:   types.h
  * Author: Paula Samper, Laura de Paz
  */
 

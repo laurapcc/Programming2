@@ -1,5 +1,5 @@
 /*
- * File:   p2_e3.c
+ * File:   p2_e3-node.c
  * Author: Paula Samper and Laura de Paz
  *
  */
@@ -11,19 +11,20 @@
 int cleanup(int ex_value, Node *n1, Node *n2, Stack *s);
 
 int main() {
+  /*Variable decalaration*/
   Stack *s = NULL;
   Node *n_1 = NULL;
   Node *n_2 = NULL;
   Node *temp = NULL;
 
-  /*s = stack_ini((void *)node_destroy,(void *)node_copy, (void *)node_print);*/
   s = stack_ini(node_destroy,node_copy, node_print);
+
 
   /*node 1*/
   n_1 = node_ini();
   if (!n_1){
-	stack_destroy(s);
-	exit (EXIT_FAILURE);
+	   stack_destroy(s);
+	   exit (EXIT_FAILURE);
   }
   n_1 = node_setName(n_1,"first");
   n_1 = node_setId(n_1,111);
@@ -31,7 +32,6 @@ int main() {
   /*node 2*/
   n_2 = node_ini();
   if (!n_2) cleanup(EXIT_FAILURE, n_1, n_2, s);
-
   n_2 = node_setName(n_2,"second");
   n_2 = node_setId(n_2,222);
 
@@ -58,10 +58,10 @@ int main() {
   fprintf(stdout,"printed characters:%i",stack_print(stdout, s));
   fprintf(stdout, "\n");
 
-
+  /* success */
   cleanup(EXIT_SUCCESS, n_1, n_2, s);
-  return 0;
 }
+
 
 int cleanup(int ex_value, Node *n1, Node *n2, Stack *s){
 	node_destroy((void *)n1);

@@ -1,5 +1,5 @@
 /*
- * File:   elestack-node.c
+ * File:   elestack-int.c
  * Author: Paula Samper, Laura de Paz
  */
 

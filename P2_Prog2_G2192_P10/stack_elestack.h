@@ -58,6 +58,11 @@ int stack_print(FILE*, const Stack*);
                     PRIVATE FUNCTIONS
 ---------------------------------------------------------------------*/
 
+/**------------------------------------------------------------------
+Calculates the mean of all the elements in the stack
+Input: stack
+Exit: the mean or -1 if error 
+------------------------------------------------------------------*/
 double meanElementStack(Stack *s);
 
 

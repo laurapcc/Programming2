@@ -1,5 +1,5 @@
 /*
- * File:   p2_e3.c
+ * File:   p2_e4.c
  * Author: Paula Samper and Laura de Paz
  *
  */
@@ -11,14 +11,14 @@
 int cleanup(int ret_value, Graph *gc, Node *out, Node *in, FILE *pf);
 
 int main(int argc, char **argv) {
-/*declara variables*/
+  /*Variable declaration*/
   FILE *pf = NULL;
   Node *out = NULL;
   Node *in = NULL;
   Graph *g = NULL;
   int IdIn, IdOut;
 
-/* check that there are 4 input elements , if not failure*/
+  /* check that there are 4 input elements , if not failure*/
   if (argc != 4) exit(EXIT_FAILURE);
 
   /* read the input elements*/
@@ -27,25 +27,18 @@ int main(int argc, char **argv) {
   IdOut = atoi(argv[3]);
 
 
-  if (!g){
-    cleanup(EXIT_FAILURE, g, out, in, pf);
-  }
+  if (!g) cleanup(EXIT_FAILURE, g, out, in, pf);
 
   /*open file*/
   pf = fopen(argv[1], "r");
-  if (!pf){
-     cleanup(EXIT_FAILURE, g, out, in, pf);
-   }
+  if (!pf) cleanup(EXIT_FAILURE, g, out, in, pf);
+
 
   /*read graph from file*/
-   if (graph_readFromFile(pf, g) == ERROR){
-     cleanup(EXIT_FAILURE, g, out, in, pf);
-   }
-   in = graph_getNode(g, IdIn);
-   out = graph_getNode(g, IdOut);
-   if (!in  || !out){
-     cleanup(EXIT_FAILURE, g, out, in, pf);
-   }
+  if (graph_readFromFile(pf, g) == ERROR) cleanup(EXIT_FAILURE, g, out, in, pf);
+  in = graph_getNode(g, IdIn);
+  out = graph_getNode(g, IdOut);
+  if (!in  || !out) cleanup(EXIT_FAILURE, g, out, in, pf);
 
   /* check if there is a path from in to out*/
   if(!graph_findDeepSearch(g,node_getId(in), node_getId(out))){ /*If there's no path*/
@@ -64,7 +57,6 @@ int main(int argc, char **argv) {
 
   /*Success*/
   cleanup(EXIT_SUCCESS, g, out, in, pf);
-  return 0;
 }
 
 

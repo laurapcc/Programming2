@@ -165,7 +165,6 @@ int int_print(FILE *pf, const void *a){
 
 
 double meanStack(Stack *s){
-
   int counter = 0, sum = 0, *ele;
   double mean = 0;
 

@@ -1,5 +1,5 @@
 /*
- * File:   p2_e1.c
+ * File:   p2_e2.c
  * Author: Paula Samper and Laura de Paz
  *
  */
@@ -15,6 +15,7 @@ int cleanUp (int ret_value, EleStack *ele, Stack *s){
 }
 
 int main(int argc, char *argv[]) {
+  /*Variable declaration */
   int i, lenght_s;
   double mean;
   Stack *s;
@@ -35,8 +36,10 @@ int main(int argc, char *argv[]) {
       if(!stack_push(s,ele)) cleanUp(EXIT_FAILURE,ele,s);
   }
 
+
   fprintf(stdout, "Stack before the call to the function\n");
   if (stack_print(stdout,s) == -1) cleanUp(EXIT_FAILURE,ele,s);
+
   mean = meanElementStack(s);
   if (mean == -1) cleanUp(EXIT_FAILURE,ele,s);
   fprintf(stdout, "The average is %f\n",mean);
@@ -44,7 +47,6 @@ int main(int argc, char *argv[]) {
   fprintf(stdout, "Stack after the call to the function\n");
   if (stack_print(stdout,s) == -1) cleanUp(EXIT_FAILURE,ele,s);
 
-
+  /* success */
   cleanUp(EXIT_SUCCESS,ele,s);
-  return 0;
 }

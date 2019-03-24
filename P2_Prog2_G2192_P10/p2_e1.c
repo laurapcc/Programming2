@@ -11,6 +11,7 @@
 int cleanup(int ret_value, Node *pn, EleStack *ele, Stack *s);
 
 int main() {
+  /*Variable declaration*/
   Stack *s = NULL;
   Node *n_1 = NULL;
   EleStack *ele_1 = NULL;
@@ -19,6 +20,7 @@ int main() {
   EleStack* temp = NULL;
 
   s = stack_ini();
+
 
   /*node 1*/
   n_1 = node_ini();
@@ -37,7 +39,6 @@ int main() {
   }
 
   if (EleStack_setInfo(ele_1, (Node*)n_1) == ERROR) cleanup(EXIT_FAILURE, n_1, ele_1, s);
-
   if (stack_push(s, ele_1) == ERROR) cleanup(EXIT_FAILURE, n_1, ele_1, s);
 
 
@@ -82,12 +83,13 @@ int main() {
   fprintf(stdout,"printed characters:%i",stack_print(stdout, s));
   fprintf(stdout, "\n");
 
-
   node_destroy((void *)n_2);
   EleStack_destroy(ele_2);
+
+  /* success */
   cleanup(EXIT_SUCCESS, n_1, ele_1, s);
-  return 0;
 }
+
 
 
 int cleanup(int ret_value, Node *pn, EleStack *ele, Stack *s){

@@ -1,11 +1,11 @@
 /*
- * File:   main.c
+ * File:   node.c
  * Author: Paula Samper, Laura de Paz
  */
 
-
 #include "node.h"
 #define NAMEL 100
+extern int errno;
 
 struct _Node{
     char name[NAMEL];
@@ -18,7 +18,7 @@ struct _Node{
 Node *node_ini(){
     Node *pn = NULL;
     if (!(pn = (Node *)malloc(sizeof(Node)))){
-        fprintf(stderr,"Node cannot be initialized");
+        fprintf(stderr,"%s\n",strerror(errno));
         return NULL;
     }
 	strcpy(pn->name,"");
@@ -26,7 +26,7 @@ Node *node_ini(){
 	pn->id = -1;
 	pn->nConnect = 0;
   pn->antecessor_id = -1;
-    return pn;
+  return pn;
 }
 
 void node_destroy(void *n){
@@ -43,7 +43,6 @@ int node_getAntecesorId(const Node*n){
   if (n) return n->antecessor_id;
   return -1;
 }
-
 
 const char *node_getName(const Node *n){
 	if (n) return (n->name);
@@ -84,7 +83,6 @@ Node *node_setLabel(Node *n, Label label){
     return n;
 }
 
-
 Node *node_setConnect(Node *n, const int cn){
     if (!n) return NULL;
     n->nConnect = cn;
@@ -97,11 +95,11 @@ int node_cmp (const Node *n1, const Node *n2){
     else return 1;
 }
 
-
 void *node_copy(const void *src){
     Node *target = NULL;
     src = (Node *)src;
     target = node_ini();
+
 	  if (!src || !target){
 		     fprintf(stderr,"%s\n",strerror(errno));
 		     node_destroy(target);
@@ -118,10 +116,11 @@ void *node_copy(const void *src){
 }
 
 int node_print(FILE *pf, const void * n){
-    int num_char;
+    int num_char = 0;
     n = (Node *)n;
-    num_char = 0;
+
     if (!pf || !n) return -1;
+
     num_char += fprintf (pf,"[%d, %s, %d]\n",node_getId(n),node_getName(n),node_getConnect(n));
     return num_char;
 }

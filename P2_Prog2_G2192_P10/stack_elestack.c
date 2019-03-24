@@ -1,5 +1,5 @@
 /*
- * File:   stack_elestack.h
+ * File:   stack_elestack.c
  * Author: Paula Samper, Laura de Paz
  */
 
@@ -12,9 +12,7 @@ struct Stack {
 };
 
 
-/**------------------------------------------------------------------
-Initialize the stack reserving memory. Output: NULL if there was an error or the stack if it went well
-----------------------------------------------------*/
+
 Stack * stack_ini(){
     Stack *s = NULL;
     int i;
@@ -24,15 +22,12 @@ Stack * stack_ini(){
     }
 
     for (i = 0; i < MAXSTACK; i++) s->item[i] = NULL;
-
     s->top = EMPTY_STACK;
 
     return s;
 }
 
-/**------------------------------------------------------------------
-Remove the stack Input: the stack to be removed
-------------------------------------------------------------------*/
+
 void stack_destroy(Stack *stc){
     while (stc->top != EMPTY_STACK){
         EleStack_destroy(stc->item[stc->top]);
@@ -42,10 +37,7 @@ void stack_destroy(Stack *stc){
     free(stc);
 }
 
-/**------------------------------------------------------------------
-Insert an EleStack in the stack. Input: an EleStack and the stack where to insert it. Output: NULL if you can
-not insert it or the resulting stack if it succeeds
-------------------------------------------------------------------*/
+
 Status stack_push(Stack *stc, const EleStack *el_stc){
     EleStack *el_stc_copy = NULL;
     if (!stc || !el_stc){
@@ -72,10 +64,7 @@ Status stack_push(Stack *stc, const EleStack *el_stc){
     return OK;
 }
 
-/**------------------------------------------------------------------
-Extract an EleStack in the stack. Input: the stack from which to extract it. Output: NULL if you can not extract it
-or the extracted EleStack if it succeeds. Note that the stack will be modified
-------------------------------------------------------------------*/
+
 EleStack * stack_pop(Stack *stc){
     EleStack *el_s = NULL;
     /*Error control*/
@@ -97,9 +86,7 @@ EleStack * stack_pop(Stack *stc){
 
 }
 
-/**------------------------------------------------------------------
-Check if the stack is empty. Input: stack. Output: TRUE if it is empty or FALSE if it is not
-------------------------------------------------------------------*/
+
 Bool stack_isEmpty(const Stack *stc){
     /*Error control*/
     if (!stc) return FALSE;
@@ -108,9 +95,7 @@ Bool stack_isEmpty(const Stack *stc){
     return FALSE;
 }
 
-/**------------------------------------------------------------------
-Check if the stack is full. Input: stack. Exit: TRUE if it is full or FALSE if it is not
-------------------------------------------------------------------*/
+
 Bool stack_isFull(const Stack *stc){
     /*Error control*/
     if (!stc) return TRUE;
@@ -119,10 +104,7 @@ Bool stack_isFull(const Stack *stc){
     return FALSE;
 }
 
-/**------------------------------------------------------------------
-Print the entire stack, placing the EleStack on top at the beginning of printing (and one EleStack per line).
-Input: stack and file where to print it. Output: Returns the number of written characters.
-------------------------------------------------------------------*/
+
 int stack_print(FILE* pf, const Stack* stc){
     int i, num_char, total_char = 0;
     /*Error control*/
@@ -130,9 +112,10 @@ int stack_print(FILE* pf, const Stack* stc){
 
     for (i = stc->top; i > EMPTY_STACK; i--){
         num_char = EleStack_print(pf,stc->item[i]);
-	if (num_char == -1) return -1;
-	total_char += num_char;
+	      if (num_char == -1) return -1;
+	      total_char += num_char;
     }
+
     return total_char;
 }
 

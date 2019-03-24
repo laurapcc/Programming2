@@ -10,15 +10,24 @@ typedef struct _Graph Graph;
 
 /*------------------private functions-----------------*/
 
+/* Returns the index of a node with a given id in the graph
+ * returns -1 if there is any error */
 int find_node_index(const Graph * g, int nId1);
 
+/* Return an array of all the indexes of the nodes connected to
+ * the node associated to the given index
+ * Returns NULL if there is any error */
 int *graph_getConectionsIndex(const Graph * g, int index);
 
-/*Node *graph_findDeepSearch (Graph *g, Node *v, Node *to);*/
-
+/* Return the destiny node if it finds a path between the initial node to
+ * to the final node or NULL if there is not a path */
 Node *graph_findDeepSearch (Graph *g, int from_id, int to_id);
 
+/* Prints all the nodes found in the depth first search function to go from
+ * the initial node to the final node */
 void graph_printPath (FILE *pf, Graph *g, int idNode);
+
+
 
 /*------------------primtive functions-----------------*/
 
