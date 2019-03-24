@@ -1,6 +1,5 @@
 #ifndef STACK_H
 #define STACK_H
-#include "types.h"
 #include "node.h"
 
 #define EMPTY_STACK -1
