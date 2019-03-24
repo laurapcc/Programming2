@@ -99,7 +99,7 @@ int node_cmp (const Node *n1, const Node *n2){
 
 void *node_copy(const void *src){
     Node *target = NULL;
-    /*src = (Node *)src;*/
+    src = (Node *)src;
     target = node_ini();
 	  if (!src || !target){
 		     fprintf(stderr,"%s\n",strerror(errno));
@@ -107,19 +107,19 @@ void *node_copy(const void *src){
 		     return NULL;
 	  }
 
-    target->id = src->id;
-    strcpy(target->name,src->name);
-    target->etq = src->etq;
-    target->nConnect = src->nConnect;
-    target->antecessor_id = src->antecessor_id;
+    target->id = node_getId(src->id);
+    strcpy(target->name,node_getName(src->name));
+    target->etq = node_getLabel(src->etq);
+    target->nConnect = node_getLabel(src->nConnect);
+    target->antecessor_id = node_getAntecesorId(src->antecessor_id);
 
     return (void *)target;
 }
 
 int node_print(FILE *pf, const void * n){
-    n = (Node *)n;
     int num_char = 0;
+    n = (Node *)n;
     if (!pf || !n) return -1;
-    num_char += fprintf (pf,"[%d, %s, %d]\n",n->id,n->name,n->nConnect);
+    num_char += fprintf (pf,"[%d, %s, %d]\n",node_getId(n->id),node_getName(n->name),node_getConnect(n->nConnect));
     return num_char;
 }
