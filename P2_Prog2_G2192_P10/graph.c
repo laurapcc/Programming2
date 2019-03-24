@@ -139,7 +139,7 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
            w = graph_getNode(g,con_ids[i]);
 
            if(con_ids[i] == to_id){
-              w = node_setAntecesorId(w,node_getId(u));
+              node_setAntecesorId(w,node_getId(u));
               graph_setNode(g,w);
               found = TRUE;
               break;
