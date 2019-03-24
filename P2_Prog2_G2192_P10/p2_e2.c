@@ -49,4 +49,5 @@ int main(int argc, char *argv[]) {
 
   /* success */
   cleanUp(EXIT_SUCCESS,ele,s);
+  return 0;
 }

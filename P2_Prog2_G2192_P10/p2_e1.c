@@ -88,6 +88,7 @@ int main() {
 
   /* success */
   cleanup(EXIT_SUCCESS, n_1, ele_1, s);
+  return 0;
 }
 
 

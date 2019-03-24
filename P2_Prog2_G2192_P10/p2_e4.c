@@ -57,6 +57,7 @@ int main(int argc, char **argv) {
 
   /*Success*/
   cleanup(EXIT_SUCCESS, g, out, in, pf);
+  return 0;
 }
 
 
