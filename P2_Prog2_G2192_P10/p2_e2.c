@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
   if (stack_print(stdout,s) == -1) cleanUp(EXIT_FAILURE,ele,s);
   mean = meanElementStack(s);
   if (mean == -1) cleanUp(EXIT_FAILURE,ele,s);
-  fprintf(stdout, "The average is %lf\n",mean);
+  fprintf(stdout, "The average is %f\n",mean);
 
   fprintf(stdout, "Stack after the call to the function\n");
   if (stack_print(stdout,s) == -1) cleanUp(EXIT_FAILURE,ele,s);

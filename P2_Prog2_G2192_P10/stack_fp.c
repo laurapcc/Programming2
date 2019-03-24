@@ -73,7 +73,7 @@ Status stack_push(Stack *stc, const void *ele){
         return ERROR;
     }
 
-    //copy of el_stc
+    /*copy of el_stc*/
     copy = (void *)stc->pf_copy(ele);
     if (!copy){
       fprintf(stderr,"No copy");
@@ -170,7 +170,7 @@ double meanStack(Stack *s){
   double mean = 0;
 
   Stack *aux_s;
-  aux_s = stack_ini(free,(void *)int_copy, (void *)int_print);
+  aux_s = stack_ini(free,int_copy, int_print);
 
   if (!s || !aux_s) return -1;
 

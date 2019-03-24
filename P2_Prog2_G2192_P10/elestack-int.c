@@ -36,10 +36,9 @@ Modify the data of an EleStack. Entry: The EleStack to be modified and the conte
 EleStack. Output: OK or ERROR
 ------------------------------------------------------------------*/
 Status EleStack_setInfo(EleStack *ele, void *p){
-    /*Error control*/
-    if (!ele || !p) return ERROR;
-
-	int *i = NULL;
+  int *i = NULL;
+  /*Error control*/
+  if (!ele || !p) return ERROR;
 
 	if (!(i = (int *)malloc(sizeof(int)))) return ERROR;
 	*i = (*(int *)p);
@@ -66,11 +65,11 @@ Copy one EleStack in another, reserving memory. Input: the EleStack to copy. Out
 copied EleStack or NULL in case of error.
 ------------------------------------------------------------------*/
 EleStack *EleStack_copy(const EleStack *ele){
-  if (!ele) return NULL;
   EleStack *target = NULL;
+  int *i = NULL;
+  if (!ele) return NULL;
   target = EleStack_ini();
 
-  int *i;
   i = (int *)malloc(sizeof(int));
 
   if (!target || !i) return NULL;
@@ -99,9 +98,10 @@ Print the EleStack in a file that is already open. Input: File in which it is pr
 Output: Returns the number of written characters.
 ------------------------------------------------------------------*/
 int EleStack_print(FILE *pf, const EleStack *ele){
+  int result;
   if (!pf || !ele) return -1;
 
-  int result = fprintf(pf, "[%d]\n", *(ele->e));
+  result = fprintf(pf, "[%d]\n", *(ele->e));
   return result;
 
 }

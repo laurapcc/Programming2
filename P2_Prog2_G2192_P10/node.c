@@ -97,29 +97,31 @@ int node_cmp (const Node *n1, const Node *n2){
     else return 1;
 }
 
+
 void *node_copy(const void *src){
     Node *target = NULL;
-    target = node_ini();
     src = (Node *)src;
+    target = node_ini();
 	  if (!src || !target){
 		     fprintf(stderr,"%s\n",strerror(errno));
 		     node_destroy(target);
 		     return NULL;
 	  }
 
-    target->id = node_getId(src->id);
-    strcpy(target->name,node_getName(src->name));
-    target->etq = node_getLabel(src->etq);
-    target->nConnect = node_getLabel(src->nConnect);
-    target->antecessor_id = node_getAntecesorId(src->antecessor_id);
+    target->id = node_getId(src);
+    strcpy(target->name,node_getName(src));
+    target->etq = node_getLabel(src);
+    target->nConnect = node_getConnect(src);
+    target->antecessor_id = node_getAntecesorId(src);
 
     return (void *)target;
 }
 
 int node_print(FILE *pf, const void * n){
-    int num_char = 0;
+    int num_char;
     n = (Node *)n;
+    num_char = 0;
     if (!pf || !n) return -1;
-    num_char += fprintf (pf,"[%d, %s, %d]\n",node_getId(n->id),node_getName(n->name),node_getConnect(n->nConnect));
+    num_char += fprintf (pf,"[%d, %s, %d]\n",node_getId(n),node_getName(n),node_getConnect(n));
     return num_char;
 }

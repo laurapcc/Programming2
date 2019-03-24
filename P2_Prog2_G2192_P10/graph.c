@@ -120,7 +120,7 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
     return NULL;
   }
 
-  s = stack_ini((void *)node_destroy,(void *)node_copy, (void *)node_print);
+  s = stack_ini(node_destroy,node_copy,node_print);
   v = graph_getNode(g, from_id);
 
   if (!s || !v) return NULL;
@@ -206,16 +206,18 @@ Graph * graph_ini() {
 
 
 void graph_destroy (Graph *g) {
-    for (int i = 0;i < MAX_NODES;i++) node_destroy(g->nodes[i]);
+    int i;
+    for (i = 0;i < MAX_NODES;i++) node_destroy(g->nodes[i]);
     free(g);
 }
 
 
 Status graph_insertNode(Graph *g, const Node *n){
+    Node *aux = NULL;
+    int id, i;
     if(!g || !n) return ERROR;
 
-    Node *aux = NULL;
-    int id = node_getId(n), i;
+    id = node_getId(n);
     if (find_node_index(g,id) != -1) return ERROR; /*There's already a node with that id in the graph g*/
 
     aux = node_copy(n);
@@ -239,8 +241,8 @@ Status graph_insertNode(Graph *g, const Node *n){
  * Updates the necessary graph’s attributes.
  * Returns OK or ERROR. */
 Status graph_insertEdge(Graph * g, const int nId1, const int nId2){
+    int from, to, conn;
     if(!g) return ERROR;
-    int from, to;
 
     from = find_node_index(g, nId1);
     to = find_node_index(g, nId2);
@@ -248,7 +250,7 @@ Status graph_insertEdge(Graph * g, const int nId1, const int nId2){
 
     g->connections[from][to] = TRUE;
 
-    int conn = node_getConnect(g->nodes[from]) + 1;
+    conn = node_getConnect(g->nodes[from]) + 1;
     node_setConnect(g->nodes[from], conn);
 
     g->num_edges++;
@@ -261,17 +263,17 @@ Status graph_insertEdge(Graph * g, const int nId1, const int nId2){
 Node *graph_getNode(const Graph *g, int nId){
 	int index;
 	index = find_node_index(g, nId);
-    if (!g || index == -1) return NULL;
+  if (!g || index == -1) return NULL;
   return node_copy(g->nodes[index]);
 }
 
 /* Actualize the graph node with the same id */
 Status graph_setNode(Graph *g, const Node * n){
-	int index, ant;
+	int index;
+  Node *aux;
 	index = find_node_index(g, node_getId(n));
   if (!g || !n || index < 0) return ERROR;
 
-  Node *aux;
 	aux = node_copy(n);
   if (!aux) return  ERROR;
 
@@ -285,16 +287,17 @@ Status graph_setNode(Graph *g, const Node * n){
 /* Returns the address of an array with the ids of all nodes in the graph.
  * Reserves memory for the array. */
 int *graph_getNodesId(const Graph *g){
+    int *array = NULL;
+    int i;
     if (!g) return NULL;
 
-    int *array;
     array = (int *)malloc(g->num_nodes*sizeof(int));
     if (!array){
         fprintf(stderr,"%s\n",strerror(errno));
         return NULL;
     }
 
-    for (int i = 0; i < g->num_nodes; i++){
+    for (i = 0; i < g->num_nodes; i++){
         array[i] = node_getId(g->nodes[i]);
     }
 
@@ -329,9 +332,9 @@ Bool graph_areConnected(const Graph * g, const int nId1, const int nId2){
 
 /* Returns the number of connections from the id node fromId */
 int graph_getNumberOfConnectionsFrom(const Graph * g, const int fromId){
+    int counter = 0, i;
     if (!g) return -1;
-    int counter = 0;
-    for(int i=0;  i<(g->num_nodes);i++){
+    for(i=0;  i<(g->num_nodes);i++){
         if (g->connections[fromId][i] == 1) counter ++;
         if (g->connections[i][fromId] == 1) counter ++;
     }
@@ -344,16 +347,17 @@ int graph_getNumberOfConnectionsFrom(const Graph * g, const int fromId){
 /* Returns the address of an array with the ids of all nodes in the graph.
  * Reserves memory for the array.*/
 int *graph_getConnectionsFrom(const Graph * g, const int fromId){
+    int *array = NULL;
+    int i, j;
     if (!g) return NULL;
 
-    int *array;
     array = (int *)malloc(g->num_nodes*sizeof(int));
     if (!array){
         fprintf(stderr,"Error\n");
         return NULL;
     }
 
-    for (int i = 0, j = 0; i < g->num_nodes; i++){
+    for (i = 0, j = 0; i < g->num_nodes; i++){
         if(g->connections[fromId][node_getId(g->nodes[i])] == 1){
             array[j] = node_getId(g->nodes[i]);
             j++;
@@ -393,8 +397,7 @@ int graph_print(FILE *pf, const Graph * g) {
         numcar--;
     }
 
-    if (numcar<0)
-        fprintf(stderr, "%s\n", strerror(errno));
+    if (numcar<0) fprintf(stderr, "%s\n", strerror(errno));
     return numcar;
 }
 
