@@ -139,7 +139,7 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
            w = graph_getNode(g,con_ids[i]);
 
            if(con_ids[i] == to_id){
-              node_setAntecesorId(w,node_getId(u));
+              w = node_setAntecesorId(w,node_getId(u));
               graph_setNode(g,w);
               found = TRUE;
               break;
@@ -259,10 +259,27 @@ Status graph_insertEdge(Graph * g, const int nId1, const int nId2){
 
 /* Returns a copy of the node of id "nId"*/
 Node *graph_getNode(const Graph *g, int nId){
-	int index;
-	index = find_node_index(g, nId);
-  if (!g || index == -1) return NULL;
-  return node_copy(g->nodes[index]);
+  int i;
+  Node *n = NULL;
+
+  if (!g){
+    fprintf(stderr, "%s\n", strerror);
+    return NULL;
+  }
+
+  for (i = 0; i < g->num_nodes; i++){
+    if (node_getId(g->nodes[i]) == nId){
+      n = node_copy(g->nodes[index]);
+      break;
+    }
+  }
+
+  if (!n) {
+    fprintf(stderr, "%s\n", strerror);
+    return NULL;
+  }
+
+  return n;
 }
 
 /* Actualize the graph node with the same id */
