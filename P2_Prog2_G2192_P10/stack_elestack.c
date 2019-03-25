@@ -17,7 +17,7 @@ Stack * stack_ini(){
     Stack *s = NULL;
     int i;
     if (!(s = (Stack *)malloc(sizeof(Stack)))){
-        fprintf(stderr,"Error initializing stack");
+        fprintf(stderr, "%s\n",strerror(errno));
         return NULL;
     }
 

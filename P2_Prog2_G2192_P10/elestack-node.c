@@ -14,44 +14,45 @@ EleStack * EleStack_ini(){
     EleStack *ele = NULL;
 
     if (!(ele = (EleStack *)malloc(sizeof(EleStack)))){
-        fprintf(stderr,"Error initializing Element of stack");
-        return NULL;
+      fprintf(stderr, "%s\n",strerror(errno));
+      return NULL;
     }
 
-    ele->info = NULL;
-    return ele;
+  ele->info = NULL;
+  return ele;
 }
 
 
 void EleStack_destroy(EleStack *ele){
-    node_destroy((void *)ele->info);
-    free(ele);
+  if (!ele) return;
+  node_destroy((void *)ele->info);
+  free(ele);
 }
 
 
 Status EleStack_setInfo(EleStack *ele, void *p){
-    Node* p_prima;
-    /*Error control*/
-    if (!ele || !p) return ERROR;
+  Node* p_prima;
+  /*Error control*/
+  if (!ele || !p) return ERROR;
 
-    p_prima = (Node *)p;
-    if (ele->info != NULL) node_destroy((void *)ele->info);
+  p_prima = (Node *)p;
+  if (ele->info != NULL) node_destroy((void *)ele->info);
 
-    ele->info = (Node *)node_copy((void *)p_prima);
-    return OK;
+  ele->info = (Node *)node_copy((void *)p_prima);
+  return OK;
 }
 
 
 void *EleStack_getInfo(EleStack *ele){
-    if (!ele) return NULL;
-    return (void *)ele->info;
+  if (!ele) return NULL;
+  return (void *)ele->info;
 
 }
 
 
 EleStack *EleStack_copy(const EleStack *ele){
   EleStack *target = NULL;
-  
+
   if (!ele) return NULL;
   target = EleStack_ini();
   if (!target) return NULL;

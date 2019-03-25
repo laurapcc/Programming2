@@ -30,8 +30,8 @@ Stack *stack_ini (P_stack_ele_destroy fd, P_stack_ele_copy fc, P_stack_ele_print
 
     s = (Stack*) malloc(sizeof(Stack));
     if (!s) {
-    fprintf(stderr, "%s\n", strerror(errno));
-    return NULL;
+      fprintf(stderr, "%s\n", strerror(errno));
+      return NULL;
     }
 
     s->top = -1;

@@ -32,25 +32,25 @@ int find_node_index(const Graph * g, int nId1) {
 }
 
 int *graph_getConectionsIndex(const Graph * g, int index) {
-    int *array = NULL, i, j = 0, size;
-    if (!g) return NULL;
-    if (index < 0 || index > g->num_nodes) return NULL;
-    /* get memory for the array with the connected nodes index*/
-    size = node_getConnect(g->nodes[index]);
-    array = (int *) malloc(sizeof (int) * size);
-    if (!array) {
-        /* print errorr message*/
-        fprintf(stderr, "%s\n", strerror(errno));
-        return NULL;
+  int *array = NULL, i, j = 0, size;
+  if (!g) return NULL;
+  if (index < 0 || index > g->num_nodes) return NULL;
+  /* get memory for the array with the connected nodes index*/
+  size = node_getConnect(g->nodes[index]);
+  array = (int *) malloc(sizeof (int) * size);
+  if (!array) {
+    /* print errorr message*/
+    fprintf(stderr, "%s\n", strerror(errno));
+    return NULL;
+  }
+  /* assign values to the array with the indexes of the connected nodes*/
+  for (i = 0; i < g->num_nodes; i++) {
+    if (g->connections[index][i] == TRUE) {
+      array[j] = i;
+      j++;
     }
-    /* assign values to the array with the indexes of the connected nodes*/
-    for (i = 0; i < g->num_nodes; i++) {
-        if (g->connections[index][i] == TRUE) {
-            array[j] = i;
-            j++;
-        }
-    }
-    return array;
+  }
+  return array;
 }
 
 
@@ -64,10 +64,7 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
   Bool found = FALSE;
 
   /*Error control*/
-  if (!g){
-    fprintf(stderr, "%s\n", strerror(errno));
-    return NULL;
-  }
+  if (!g) return NULL;
 
   s = stack_ini(node_destroy,node_copy,node_print);
   v = graph_getNode(g, from_id);
@@ -76,44 +73,44 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
 
   stack_push(s,(void *)v);
   while (stack_isEmpty(s) == FALSE && found == FALSE){
-      u = (Node *)stack_pop(s);
+    u = (Node *)stack_pop(s);
 
-      if (node_getLabel(u) == WHITE){
-        u = node_setLabel(u,BLACK);
-        graph_setNode(g,u);
-        con_ids = graph_getConnectionsFrom(g,node_getId(u)); /* ids de conexiones del nodo*/
-        con_u = node_getConnect(u);
+    if (node_getLabel(u) == WHITE){
+      u = node_setLabel(u,BLACK);
+      graph_setNode(g,u);
+      con_ids = graph_getConnectionsFrom(g,node_getId(u)); /* ids de conexiones del nodo*/
+      con_u = node_getConnect(u);
 
-        for (i = 0; i < con_u; i++){
-           w = graph_getNode(g,con_ids[i]);
+      for (i = 0; i < con_u; i++){
+         w = graph_getNode(g,con_ids[i]);
 
-           if(con_ids[i] == to_id){
-              w = node_setAntecesorId(w,node_getId(u));
-              graph_setNode(g,w);
-              found = TRUE;
-              break;
-          }
-
-          else if (node_getLabel(w) == WHITE){
-            w = node_setAntecesorId(w,node_getId(u)); /* set antecesor*/
-            graph_setNode(g,w);
-            stack_push(s,(void *)w);
-          }
-
-          node_destroy(w);
-          w = NULL;
+        if(con_ids[i] == to_id){
+          w = node_setAntecesorId(w,node_getId(u));
+          graph_setNode(g,w);
+          found = TRUE;
+          break;
         }
 
-        free(con_ids);
-        con_ids = NULL;
+        else if (node_getLabel(w) == WHITE){
+          w = node_setAntecesorId(w,node_getId(u)); /* set antecesor*/
+          graph_setNode(g,w);
+          stack_push(s,(void *)w);
+        }
+
+        node_destroy(w);
+        w = NULL;
       }
 
-      node_destroy(u);
+      free(con_ids);
+      con_ids = NULL;
     }
 
-    node_destroy(v);
-    stack_destroy(s);
-    return w;
+    node_destroy(u);
+  }
+
+  node_destroy(v);
+  stack_destroy(s);
+  return w;
 }
 
 
@@ -137,58 +134,58 @@ void graph_printPath (FILE *pf, Graph *g, int idNode){
 /*------------------primtive functions-----------------*/
 
 Graph * graph_ini() {
-    Graph *g = NULL;
+  Graph *g = NULL;
 	int i,j;
     if (!(g = (Graph *)malloc(sizeof (Graph)))) {
-        fprintf(stderr, "Graph cannot be initialized");
-        return NULL;
-    }
+      fprintf(stderr, "%s\n",strerror(errno));
+      return NULL;
+  }
 
-    g->num_edges = 0;
-    g->num_nodes = 0;
+  g->num_edges = 0;
+  g->num_nodes = 0;
 
-    for(i = 0;i < MAX_NODES; i++){
-        g->nodes[i] = NULL;
-		    for (j = 0;j < MAX_NODES; j++){
-			     g->connections[i][j] = FALSE;
-		    }
-    }
+  for(i = 0;i < MAX_NODES; i++){
+    g->nodes[i] = NULL;
+    for (j = 0;j < MAX_NODES; j++){
+	    g->connections[i][j] = FALSE;
+	  }
+  }
 
-    return g;
+  return g;
 }
 
 
 void graph_destroy (Graph *g) {
-    int i;
-    for (i = 0;i < MAX_NODES;i++){
-      node_destroy(g->nodes[i]);
-    }
-    free(g);
+  int i;
+  for (i = 0;i < MAX_NODES;i++){
+    node_destroy(g->nodes[i]);
+  }
+  free(g);
 }
 
 
 Status graph_insertNode(Graph *g, const Node *n){
-    Node *aux = NULL;
-    int id, i;
-    if(!g || !n) return ERROR;
+  Node *aux = NULL;
+  int id, i;
+  if(!g || !n) return ERROR;
 
-    id = node_getId(n);
-    if (find_node_index(g,id) != -1) return ERROR; /*There's already a node with that id in the graph g*/
+  id = node_getId(n);
+  if (find_node_index(g,id) != -1) return ERROR; /*There's already a node with that id in the graph g*/
 
-    aux = node_copy(n);
-    if(!aux) return ERROR;
+  aux = node_copy(n);
+  if(!aux) return ERROR;
 
-    node_setConnect(aux,0);
+  node_setConnect(aux,0);
 
-    g->nodes[g->num_nodes] = aux;
-    g->num_nodes ++;
+  g->nodes[g->num_nodes] = aux;
+  g->num_nodes ++;
 
-    for (i = 0;i < g->num_nodes;i++){
-        g->connections[i][g->num_nodes] = FALSE;
-        g->connections[g->num_nodes][i] = FALSE;
-    }
+  for (i = 0;i < g->num_nodes;i++){
+    g->connections[i][g->num_nodes] = FALSE;
+    g->connections[g->num_nodes][i] = FALSE;
+  }
 
-    return OK;
+  return OK;
 
 }
 

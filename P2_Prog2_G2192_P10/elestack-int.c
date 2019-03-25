@@ -13,7 +13,7 @@ struct _EleStack {
 EleStack * EleStack_ini(){
     EleStack *ele = NULL;
     if (!(ele = (EleStack *)malloc(sizeof(EleStack)))){
-        fprintf(stderr,"Error initializing Element of stack");
+        fprintf(stderr,"%s\n",strerror(errno));
         return NULL;
     }
 
@@ -23,8 +23,9 @@ EleStack * EleStack_ini(){
 
 
 void EleStack_destroy(EleStack *ele){
-    free(ele->e);
-    free(ele);
+  if (!ele) return;
+  free(ele->e);
+  free(ele);
 }
 
 
@@ -33,19 +34,22 @@ Status EleStack_setInfo(EleStack *ele, void *p){
   /*Error control*/
   if (!ele || !p) return ERROR;
 
-	if (!(i = (int *)malloc(sizeof(int)))) return ERROR;
+	if (!(i = (int *)malloc(sizeof(int)))){
+    fprintf(stderr, "%s\n",strerror(errno));
+    return ERROR;
+  }
 	*i = (*(int *)p);
 
 	free (ele->e);
 	ele->e = i;
-    return OK;
+  return OK;
 }
 
 
 void *EleStack_getInfo(EleStack *ele){
-    if (!ele) return NULL;
+  if (!ele) return NULL;
 
-    return (void *)ele->e;
+  return (void *)ele->e;
 
 }
 
@@ -58,7 +62,10 @@ EleStack *EleStack_copy(const EleStack *ele){
 
   i = (int *)malloc(sizeof(int));
 
-  if (!target || !i) return NULL;
+  if (!target || !i){
+    fprintf(stderr, "%s\n",strerror(errno));
+    return NULL;
+  }
 
   *i = *(ele->e);
   target->e = i;
