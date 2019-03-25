@@ -4,8 +4,6 @@
  *
  */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "graph.h"
 
 int cleanup(int ret_value, Graph *gc, Node *out, Node *in, FILE *pf);

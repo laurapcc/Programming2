@@ -1,5 +1,5 @@
 /*
- * File:   grpaph.c
+ * File:   graph.c
  * Author: Paula Samper, Laura de Paz
  */
 
