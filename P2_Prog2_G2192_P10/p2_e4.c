@@ -15,6 +15,7 @@ int main(int argc, char **argv) {
   FILE *pf = NULL;
   Node *out = NULL;
   Node *in = NULL;
+  Node *result = NULL;
   Graph *g = NULL;
   int IdIn, IdOut;
 
@@ -41,7 +42,8 @@ int main(int argc, char **argv) {
   if (!in  || !out) cleanup(EXIT_FAILURE, g, out, in, pf);
 
   /* check if there is a path from in to out*/
-  if(!graph_findDeepSearch(g,node_getId(in), node_getId(out))){ /*If there's no path*/
+  result = graph_findDeepSearch(g,node_getId(in), node_getId(out));
+  if(!result){ /*If there's no path*/
     fprintf(stdout,"There´s no path between the nodes.\n");
   }
 
@@ -56,6 +58,7 @@ int main(int argc, char **argv) {
   }
 
   /*Success*/
+  node_destroy(result);
   cleanup(EXIT_SUCCESS, g, out, in, pf);
   return 0;
 }
