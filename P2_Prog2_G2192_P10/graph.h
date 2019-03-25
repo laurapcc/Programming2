@@ -1,5 +1,9 @@
 #ifndef GRAPH_H
 #define GRAPH_H
+
+#include <errno.h>
+#include "node.h"
+#include "types.h"
 #include "stack_fp.h"
 
 typedef struct _Graph Graph;

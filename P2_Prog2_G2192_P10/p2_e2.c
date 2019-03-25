@@ -4,6 +4,8 @@
  *
  */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "stack_elestack.h"
 
 int cleanUp (int ret_value, EleStack *ele, Stack *s){

@@ -55,7 +55,7 @@ int *graph_getConectionsIndex(const Graph * g, int index) {
 
 
 Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
-  /*Initialize veriables*/
+  /*Initialize variables*/
   Stack *s = NULL;
   Node *u = NULL;
   Node *w = NULL;
@@ -128,6 +128,8 @@ void graph_printPath (FILE *pf, Graph *g, int idNode){
   ant = node_getAntecesorId(g->nodes[index]);
   node_print(pf,n);
   graph_printPath(pf,g,ant);
+  node_destroy(n);
+  
 }
 
 

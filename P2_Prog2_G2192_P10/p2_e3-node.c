@@ -4,6 +4,8 @@
  *
  */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "stack_fp.h"
 
 int cleanup(int ex_value, Node *n1, Node *n2, Stack *s);

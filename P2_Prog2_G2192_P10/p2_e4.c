@@ -4,6 +4,8 @@
  *
  */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "graph.h"
 
 int cleanup(int ret_value, Graph *gc, Node *out, Node *in, FILE *pf);
@@ -61,8 +63,8 @@ int main(int argc, char **argv) {
 
 int cleanup(int ret_value, Graph *gc, Node *out, Node *in, FILE *pf){
   node_destroy(out);
-	node_destroy(in);
-	graph_destroy(gc);
+  node_destroy(in);
+  graph_destroy(gc);
   /*cierro el archivo*/
   fclose(pf);
   exit(ret_value);
