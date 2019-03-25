@@ -1,3 +1,8 @@
+/*
+ * File:   stack_fp.h
+ * Author: Paula Samper, Laura de Paz
+ */
+
 #ifndef STACK_H
 #define STACK_H
 #include "types.h"

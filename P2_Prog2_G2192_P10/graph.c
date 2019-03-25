@@ -1,5 +1,5 @@
 /*
- * File:   grpah.c
+ * File:   grpaph.c
  * Author: Paula Samper, Laura de Paz
  */
 
@@ -129,7 +129,7 @@ void graph_printPath (FILE *pf, Graph *g, int idNode){
   node_print(pf,n);
   graph_printPath(pf,g,ant);
   node_destroy(n);
-  
+
 }
 
 

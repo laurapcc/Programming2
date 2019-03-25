@@ -1,3 +1,8 @@
+/*
+ * File:   graph.h
+ * Author: Paula Samper, Laura de Paz
+ */
+
 #ifndef GRAPH_H
 #define GRAPH_H
 
