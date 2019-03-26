@@ -72,7 +72,7 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
   if (!q || !v) return NULL;
 
   queue_insert(q, (void *)v);
-  while (queue_isEmpty(s) == FALSE && found == FALSE){
+  while (queue_isEmpty(q) == FALSE && found == FALSE){
     u = (Node *)queue_extract(q);
 
     if (node_getLabel(u) == WHITE){
@@ -109,7 +109,7 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
   }
 
   node_destroy(v);
-  queue_destroy(s);
+  queue_destroy(q);
   return w;
 }
 
