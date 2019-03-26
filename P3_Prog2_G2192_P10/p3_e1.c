@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
   int IdIn, IdOut;
 
   /* check that there are 4 input elements , if not failure*/
-  if (argc != 4) exit(EXIT_FAILURE);
+  if (argc != 4) return (EXIT_FAILURE);
 
   /* read the input elements*/
   g = graph_ini();
