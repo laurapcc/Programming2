@@ -69,7 +69,7 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
   q = queue_ini(node_destroy,node_copy,node_print);
   v = graph_getNode(g, from_id);
 
-  if (!s || !v) return NULL;
+  if (!q || !v) return NULL;
 
   queue_insert(q, (void *)v);
   while (queue_isEmpty(s) == FALSE && found == FALSE){
