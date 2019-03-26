@@ -56,7 +56,7 @@ int *graph_getConectionsIndex(const Graph * g, int index) {
 
 Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
   /*Initialize variables*/
-  Stack *s = NULL;
+  Queue *q = NULL;
   Node *u = NULL;
   Node *w = NULL;
   Node *v = NULL;
@@ -66,14 +66,14 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
   /*Error control*/
   if (!g) return NULL;
 
-  s = stack_ini(node_destroy,node_copy,node_print);
+  q = queue_ini(node_destroy,node_copy,node_print);
   v = graph_getNode(g, from_id);
 
   if (!s || !v) return NULL;
 
-  stack_push(s,(void *)v);
-  while (stack_isEmpty(s) == FALSE && found == FALSE){
-    u = (Node *)stack_pop(s);
+  queue_insert(q, (void *)v);
+  while (queue_isEmpty(s) == FALSE && found == FALSE){
+    u = (Node *)queue_extract(q);
 
     if (node_getLabel(u) == WHITE){
       u = node_setLabel(u,BLACK);
@@ -94,7 +94,7 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
         else if (node_getLabel(w) == WHITE){
           w = node_setAntecesorId(w,node_getId(u)); /* set antecesor*/
           graph_setNode(g,w);
-          stack_push(s,(void *)w);
+          queue_insert(q,(void *)w);
         }
 
         node_destroy(w);
@@ -109,7 +109,7 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
   }
 
   node_destroy(v);
-  stack_destroy(s);
+  queue_destroy(s);
   return w;
 }
 
@@ -126,7 +126,6 @@ void graph_printPath (FILE *pf, Graph *g, int idNode){
   node_print(pf,n);
   graph_printPath(pf,g,ant);
   node_destroy(n);
-
 }
 
 
