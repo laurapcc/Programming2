@@ -6,7 +6,7 @@
 
 #include "graph.h"
 
-int cleanup(Graph *gc, Node *out, Node *in, FILE *pf);
+void cleanup(Graph *gc, Node *out, Node *in, FILE *pf);
 
 int main(int argc, char **argv) {
   /*Variable declaration*/
@@ -75,7 +75,7 @@ int main(int argc, char **argv) {
 }
 
 
-int cleanup(Graph *gc, Node *out, Node *in, FILE *pf){
+void cleanup(Graph *gc, Node *out, Node *in, FILE *pf){
   node_destroy(out);
   node_destroy(in);
   graph_destroy(gc);
