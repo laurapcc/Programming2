@@ -27,167 +27,309 @@ struct _List {
 };
 
 
-List* list_ini (destroy_element_function_type f1, copy_element_function_type f2, print_element_function_type f3, cmp_element_function_type f4){
 
-// adaptada
+NodeList* nodelist_ini(){
 
-  List *l = NULL;
+    NodeList *pn;
 
-  l = (List *)malloc(sizeof(List));
-    if (l == NULL) {
-      return NULL;
-    }
+    if ((pn = (NodeList*) malloc(sizeof(NodeList))) ==NULL) return NULL;
 
-   l->last = NULL;
+    pn->info = pn->next = NULL;
 
-   l->destroy_element_function = f1;
-   l->copy_element_function = f2;
-   l->print_element_function = f3;
-
-  return l;
+    return pn;
 
 }
 
 
-void list_destroy (List* list){ // adaptada
+void nodelist_free(NodeList *pn, destroy_element_function_type f){
+
+    if (pn != NULL){
+
+        if (pn->info != NULL)
+            f(pn->info);
+
+        free(pn);
+    }
+}
+
+
+
+List* list_ini (destroy_element_function_type f1, copy_element_function_type f2, print_element_function_type f3, cmp_element_function_type f4){
+
+  List *l = NULL;
+
+  l = (List *)malloc(sizeof(List));
+  if (l == NULL) {
+    fprintf(stderr, "Error initializing list: %s\n", strerror(errno));
+    return NULL;
+  }
+
+  l->last = NULL;
+
+  l->destroy_element_function = f1;
+  l->copy_element_function = f2;
+  l->print_element_function = f3;
+  l->cmp_element_function = f4;
+
+  return l;
+}
+
+
+void list_destroy (List* list){
 
   if (list == NULL) {
     return;
   }
 
   while (list_isEmpty(list) == FALSE) {
-      l->destroy_element_function (list_extractFirst(list));
+    list->destroy_element_function (list_extractFirst(list));
   }
 
   free(list);
-
 }
 
 
-List* list_insertFirst (List* list, const void *pelem){ //sin adaptar
-  Node *pn = NULL;
-    if (pl == NULL || e == NULL) return ERR;
-    pn = node_new();
-    if (pn == NULL) return ERR;
-    pn->info = element_copy(e);
-    if (pn->info == NULL) {
-      node_free(pn);
-    return ERR; }
-    if (cl_isEmpty() == TRUE) {
-      pn->next = pn;
-      pl->last = pn;
-    } else {
-      pn->next = pl->last->next;
-      pl->last->next = pn;
-    }
-    return OK;
+List* list_insertFirst (List* list, const void *pelem){
+  NodeList *pn = NULL;
+
+  if (list == NULL || pelem == NULL){
+    return NULL;
+  }
+
+  pn = nodelist_ini();
+  if (pn == NULL) return NULL;
+
+  pn->info = list->copy_element_function(pelem);
+
+  if (pn->info == NULL) {
+    nodelist_free(pn,list->destroy_element_function);
+    return NULL;
+  }
+
+  if (list_isEmpty (list) == TRUE) {
+    pn->next = pn;
+    list->last = pn;
+  } else {
+    pn->next = list->last->next;
+    list->last->next = pn;
+  }
+
+  return list;
 }
 
 
-List* list_insertLast (List* list, const void *pelem){ //sin adaptar
-  Node *pn = NULL, *qn = NULL;
-    if (pl == NULL || e == NULL) return ERR;
-    pn = node_new();
-    if (pn == NULL) return ERR;
-    pn->info = element_copy(e);
-    if (pn->info == NULL) {
-      node_free(pn);
-      return ERR;
-    }
-    if (cl_isEmpty(pl) == TRUE) {
-      pn->next = pn;
-      pl->last = pn
-    } else {
-      pn->next = pl->last->next;
-      pl->last->next = pn;
-      pl->last = pn;
-    }
-    return OK;
+List* list_insertLast (List* list, const void *pelem){
+  NodeList *pn = NULL;
+
+  if (list == NULL || pelem == NULL){
+    return NULL;
+  }
+
+  pn = nodelist_ini();
+  if (pn == NULL) return NULL;
+
+  pn->info = list->copy_element_function(pelem);
+  if (pn->info == NULL) {
+      nodelist_free(pn, list->destroy_element_function);
+      return NULL;
+  }
+
+  if (list_isEmpty(list) == TRUE) {
+    pn->next = pn;
+    list->last = pn;
+  } else {
+    pn->next = list->last->next;
+    list->last->next = pn;
+    list->last = pn;
+  }
+
+  return list;
 
 }
 
 
 List* list_insertInOrder (List *list, const void *pelem){
+  NodeList *pn = NULL, *aux = NULL;
 
-}
+  if (list == NULL || pelem == NULL){
+    return NULL;
+  }
 
+  pn = list->copy_element_function(pelem);
+  if (pn == NULL) return NULL;
 
-void * list_extractFirst (List* list){ //sin adaptar
-  Node *pn = NULL;
-    Element *pe = NULL;
-    if (pl == NULL || cl_isEmpty(pl) == TRUE) {
-      return NULL;
-}
-    pn = pl->last->next;
-    pe = pn->info;
-    pn->info = NULL;
+  if (list_isEmpty(list) == TRUE){
+    pn->next = pn;
+    list->last = pn;
+  }
 
-    if (pl->last->next == pl->last) {
-      pl->last = NULL;
-      node_free(pn);
-    } else {
-      pl->last->next = pn->next;
-      node_free(pn);
-}
-return pe;
+  else {
+    aux = list->last->next;
 
-}
+    if (list->cmp_element_function(pelem, aux->info) > 0){
+      nodelist_free(aux,list->destroy_element_function);
 
-
-void * list_extractLast (List* list){ //sin adaptar
-  Node *pn = NULL;
-    Element *pe = NULL;
-    if (pl == NULL || cl_isEmpty(pl) == TRUE) {
-      return NULL;
-}
-    if (pl->last->next == pl->last) {
-      pe = pl->last->info;
-      pl->last->info = NULL;
-      node_free(pl->last);
-      pl->last = NULL;
-      return pe;
-    }
-pn = pl->last;
-    while (pn->next != pl->last) {
-      pn = pn->next;
-    }
-    pe = pl->last->info;
-    pl->last->info = NULL;
-    pn->next = pl->last->next;
-    node_free(pl->last);
-    pl->last = pn;
-    return pe;
-
-}
-
-
-
-Bool list_isEmpty (const List* list){ // adaptada
-
-    if (list == NULL) {
-      return TRUE;
+      return list_insertFirst (list, pelem);
     }
 
-    if (list->last == NULL) {
-      return TRUE;
-    }
+    else {
+      while (list->last != aux && list->cmp_element_function(aux->next->info, pelem) > 0){
+        aux = aux->next;
+      }
 
-    return FALSE;
+      if (list->last == aux){
+        list->last = pn;
+      }
+
+    pn->next = aux->next;
+    aux->next = pn;
+
+    }
+  }
+
+return list;
 
 }
 
+
+void * list_extractFirst (List* list){
+  NodeList *nl = NULL, *aux = NULL;
+
+  if (list == NULL || list_isEmpty(list) == TRUE) {
+    return NULL;
+  }
+
+  nl = list->last->next;
+  list->last->next->info = NULL;
+
+  if (list->last->next == list->last) {
+    nodelist_free(list->last,list->destroy_element_function);
+    list->last = NULL;
+  }
+
+  else {
+    aux = list->last->next;
+    list->last->next = aux->next;
+    nodelist_free(aux,list->destroy_element_function);
+  }
+
+  return (void *)nl->info;
+
+}
+
+
+void * list_extractLast (List* list){
+  NodeList *aux = NULL;
+  void *ele = NULL;
+
+  if (list == NULL || list_isEmpty(list) == TRUE) {
+    return NULL;
+  }
+
+  ele = (void *)list->last->info;
+  list->last->info = NULL;
+
+  if (list->last->next == list->last) {
+    nodelist_free(list->last,list->destroy_element_function);
+    list->last = NULL;
+  }
+
+  aux = list->last;
+  while (aux->next != list->last) {
+    aux = aux->next;
+  }
+
+  aux->next = list->last->next;
+  nodelist_free(aux,list->destroy_element_function);
+  list->last = aux;
+
+  return ele;
+
+}
+
+
+Bool list_isEmpty (const List* list){
+
+  if (list == NULL) {
+    return TRUE;
+  }
+
+  if (list->last == NULL) {
+    return TRUE;
+  }
+
+  return FALSE;
+
+}
 
 
 const void* list_get (const List* list, int index){
+  NodeList *nl = NULL;
+  int count = 0;
 
+  if (list == NULL){
+    return NULL;
+  }
+
+  nl = list->last;
+
+  do{
+    count++;
+    nl = nl->next;
+  } while (nl != list->last && count != index);
+
+  if (count == index){
+    return (void *)nl->info;
+  }
+
+  else{
+    return NULL;
+  }
 }
 
 
 int list_size (const List* list){
+  NodeList *nl = NULL;
+  int count = 0;
 
+  if (list == NULL){
+    return -1;
+  }
+
+  nl = list->last;
+
+  do{
+    count++;
+    nl = nl->next;
+  } while(nl != list->last);
+
+  return count;
 }
 
 
 int list_print (FILE *fd, const List* list){
+
+  NodeList *pl = NULL;
+  int count = 0;
+
+  if (!fd || !list){
+    fprintf(stderr, "Error printing list: %s\n", strerror(errno));
+    return -1;
+  }
+
+  if (list_isEmpty(list)){
+    return -1;
+  }
+
+  count += fprintf(stdout,"%d\n",list_size(list));
+
+  pl = list->last;
+
+  do{
+    pl = pl->next;
+    count += list->print_element_function(fd, pl);
+  } while (pl != list->last);
+
+  return count;
 
 }

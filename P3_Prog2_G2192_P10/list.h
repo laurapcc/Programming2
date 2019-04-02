@@ -14,7 +14,7 @@ typedef struct _List List;
 /* Tipos de los punteros a función soportados por la lista. Nota: podrían estar en elem_functions.h e incluirlo aquí */
 typedef void (*destroy_element_function_type)(void*);
 typedef void (*(*copy_element_function_type)(const void*));
-typedef int (*print_element _function_type)(FILE *, const void*);
+typedef int (*print_element_function_type)(FILE *, const void*);
 typedef int (*cmp_element_function_type)(const void*, const void*);
 
 /*El último tipo de funciones, cmp, serán aquellas que sirvan para comparar dos elementos, devolviendo
