@@ -32,13 +32,11 @@ graph.o: graph.c graph.h queue.h node.h types.h
 queue.o: queue.c queue.h node.h types.h
 	$(CC) $(CFLAGS) -c queue.c
 
-
 clear:
 	rm -rf *.o
 
 clean:
 	rm -rf *.o $(EJS)
-
 
 run:
 	@echo ">>>>>>Running p3_testqueue"

@@ -15,6 +15,7 @@ struct _Queue {
   int front;
   int rear;
 
+
   destroy_element_function_type destroy_element_function;
   copy_element_function_type copy_element_function;
   print_element_function_type print_element_function;
@@ -26,6 +27,7 @@ Queue* queue_ini(destroy_element_function_type f1, copy_element_function_type f2
 
   Queue *q = NULL;
   int i;
+
   q = (Queue *)malloc(sizeof(Queue));
 
   if (q == NULL) {
