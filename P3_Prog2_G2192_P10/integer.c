@@ -52,7 +52,7 @@ void * int_ini (){
     fprintf(stderr, "Error initializing integer: %s\n", strerror(errno));
     return NULL;
   }
-  return new;
+  return (void *)new;
 }
 
 

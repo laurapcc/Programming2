@@ -171,19 +171,20 @@ List* list_insertInOrder (List *list, const void *pelem){
   else {
     aux = list->last->next;
 
-    if (list->cmp_element_function(pelem, aux->info) > 0){
+    if (list->cmp_element_function(pn, aux->info) > 0){ /* if pn < aux->info */
       nodelist_free(aux,list->destroy_element_function);
 
-      return list_insertFirst (list, pelem);
+      return list_insertFirst (list, (void *)pn);
     }
 
     else {
-      while (list->last != aux && list->cmp_element_function(aux->next->info, pelem) > 0){
+      while (list->last != aux && list->cmp_element_function(aux->next->info, pn) > 0){ /* if aux->next->info < pn */
         aux = aux->next;
       }
 
       if (list->last == aux){
-        list->last = pn;
+        list = list_insertLast (list, (void *)pn);
+        /*list->last = pn;*/
       }
 
     pn->next = aux->next;

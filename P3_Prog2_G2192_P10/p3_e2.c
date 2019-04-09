@@ -12,36 +12,42 @@ int mainCleanUp (int ret_value, List *pl1, List *pl2, int *pe);
 
 int main(int argc, char **argv){
   List *l1 = NULL, *l2 = NULL;
-  int *num;
+  int num, *pe = NULL, i;
 
   if (argc != 2) return (EXIT_FAILURE);
 
-  num = (int *)int_ini();
-  *num = atoi(argv[1]);
+  num = atoi(argv[1]);
+  pe = int_ini();
 
   l1 = list_ini(int_destroy,int_copy,int_print,int_cmp);
   l2 = list_ini(int_destroy,int_copy,int_print,int_cmp);
 
-  if (!l1 || !l2 || num) {
-    mainCleanUp (EXIT_FAILURE, l1, l2, num);
+  if (!l1 || !l2 || !num) {
+    mainCleanUp (EXIT_FAILURE, l1, l2, pe);
   }
 
-  while (*num >= 1){
-    if (*num % 2 == 0){
-      list_insertFirst(l1,(void *)num);
-      list_insertInOrder(l2,(void *)num);
+
+  for(i = num; i >= 1; i--){
+    (*pe) = i;
+    printf("%d\n", i);
+    if (i % 2 == 0){
+      list_insertFirst(l1,(void *)pe);
+      printf("aa\n");
+      list_insertInOrder(l2,(void *)pe);
+      printf("faillll\n");
     }
     else{
-      list_insertLast(l1,(void *)num);
-      list_insertInOrder(l2,(void *)num);
+      list_insertLast(l1,(void *)pe);
+      printf("bb\n");
+      list_insertInOrder(l2,(void *)pe);
+      printf("faillll\n");
     }
-    (*num) --;
   }
 
   list_print (stdout, l1);
   list_print (stdout, l2);
 
-  mainCleanUp (EXIT_SUCCESS, l1, l2, num);
+  mainCleanUp (EXIT_SUCCESS, l1, l2, pe);
   return 0;
 
 }
