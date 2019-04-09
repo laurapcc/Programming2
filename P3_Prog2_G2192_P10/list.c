@@ -26,7 +26,9 @@ struct _List {
 
 };
 
-
+/*#######################################################################
+                        PRIVATE FUNCTIONS
+#######################################################################*/
 
 NodeList* nodelist_ini(){
 
@@ -53,6 +55,9 @@ void nodelist_free(NodeList *pn, destroy_element_function_type f){
 }
 
 
+/*#######################################################################
+                      PRIMITIVE FUNCTIONS
+#######################################################################*/
 
 List* list_ini (destroy_element_function_type f1, copy_element_function_type f2, print_element_function_type f3, cmp_element_function_type f4){
 
