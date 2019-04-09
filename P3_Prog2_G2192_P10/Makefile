@@ -5,7 +5,7 @@ EJS = p3_testqueue p3_e1 p3_e2
 ########################################################
 OBJECTSP3TEST = p3_testqueue.o node.o queue.o
 OBJECTSP3E1 = p3_e1.o node.o queue.o graph.o
-OB2ECTSP3E1 = p3_e2.o list.o integer.o
+OBJECTSP3E2 = p3_e2.o list.o integer.o
 ########################################################
 
 all: $(EJS) clean
@@ -20,7 +20,7 @@ p3_e2: $(OBJECTSP3E2)
 	$(CC) $(CFLAGS) -o p3_e2 $(OBJECTSP3E2)
 
 
-p3_e2: p3_e2.c list.h integer.h
+p3_e2.o: p3_e2.c list.h integer.h types.h
 	$(CC) $(CFLAGS) -c p3_e2.c
 
 p3_testqueue.o: p3_testqueue.c queue.h node.h types.h
@@ -42,7 +42,7 @@ graph.o: graph.c graph.h queue.h node.h types.h
 queue.o: queue.c queue.h node.h types.h
 	$(CC) $(CFLAGS) -c queue.c
 
-list.o: list.c list.h types.h
+list.o: list.c list.h integer.h types.h
 	$(CC) $(CFLAGS) -c list.c
 
 

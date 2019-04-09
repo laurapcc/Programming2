@@ -6,38 +6,6 @@
 #include "list.h"
 #include "integer.h"
 
-/*
-
-create clean function: int mainCleanUp (int ret_value, List *pl1, List *pl2, int *pe)
-
-main (check errors when needed and return failure when needed):
-
-//declare variables
-
-// check that there are 2 input elements , if not failure
-
-// read the input element
-
-//initialize 2 lists
-
-//initialize an integer
-
-// for all numbers from input to 1
-
-   //Set in the interger the number
-
-
-  //check odd or even:
-
-       //   In the first list, if the number is even it will insert it at the beginning and if it is odd at the end.
-
-       //  In the second list, inserts the number in order (always keep the list sorted).
-
-// Prints both lists.
-
-//Free resources used
-
-*/
 
 int mainCleanUp (int ret_value, List *pl1, List *pl2, int *pe);
 
