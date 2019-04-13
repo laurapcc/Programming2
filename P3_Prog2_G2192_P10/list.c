@@ -32,26 +32,25 @@ struct _List {
 
 NodeList* nodelist_ini(){
 
-    NodeList *pn;
+  NodeList *pn;
 
-    if ((pn = (NodeList*) malloc(sizeof(NodeList))) ==NULL) return NULL;
+  if ((pn = (NodeList*) malloc(sizeof(NodeList))) ==NULL) return NULL;
 
-    pn->info = pn->next = NULL;
+  pn->info = pn->next = NULL;
 
-    return pn;
+  return pn;
 
 }
 
 
 void nodelist_free(NodeList *pn, destroy_element_function_type f){
 
-    if (pn != NULL){
+  if (pn != NULL){
 
-        if (pn->info != NULL)
-            f(pn->info);
-
-        free(pn);
-    }
+  if (pn->info != NULL)
+    f(pn->info);
+    free(pn);
+  }
 }
 
 
@@ -114,6 +113,7 @@ List* list_insertFirst (List* list, const void *pelem){
   if (list_isEmpty (list) == TRUE) {
     pn->next = pn;
     list->last = pn;
+
   } else {
     pn->next = list->last->next;
     list->last->next = pn;
@@ -142,7 +142,9 @@ List* list_insertLast (List* list, const void *pelem){
   if (list_isEmpty(list) == TRUE) {
     pn->next = pn;
     list->last = pn;
-  } else {
+  }
+
+  else {
     pn->next = list->last->next;
     list->last->next = pn;
     list->last = pn;
@@ -171,26 +173,25 @@ List* list_insertInOrder (List *list, const void *pelem){
   else {
     aux = list->last->next;
 
-    if (list->cmp_element_function(pn, aux->info) > 0){ /* if pn < aux->info */
-      nodelist_free(aux,list->destroy_element_function);
+    if (list->cmp_element_function(pelem, aux->info) < 0){ /* if pelem < aux->info */
+      nodelist_free(pn,list->destroy_element_function);
 
-      return list_insertFirst (list, (void *)pn);
+      return list_insertFirst (list, pelem);
     }
 
-    else {
-      while (list->last != aux && list->cmp_element_function(aux->next->info, pn) > 0){ /* if aux->next->info < pn */
-        aux = aux->next;
-      }
+    while (list->last != aux && list->cmp_element_function(pelem,aux->next->info) > 0){ /* if pelem > aux->next->info */
+      aux = aux->next;
+    }
 
-      if (list->last == aux){
-        list = list_insertLast (list, (void *)pn);
-        /*list->last = pn;*/
-      }
+    if (list->last == aux){
+      list->last = pn;
+      /* list = list_insertLast (list, (void *)pn); */
+      /*list->last = pn;*/
+    }
 
     pn->next = aux->next;
     aux->next = pn;
 
-    }
   }
 
 return list;

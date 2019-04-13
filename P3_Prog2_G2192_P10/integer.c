@@ -31,17 +31,13 @@ int int_print(FILE *pf, const void *a){
 }
 
 /* e1 == e2 => 0
-   e1 < e2 => pos
-   e1 > e2 => neg*/
+   e1 > e2 => pos
+   e1 < e2 => neg*/
 int int_cmp(const void* e1, const void* e2){
-if (!e1 || !e2) return -2;
-  if ((*(int *)e1) == (*(int *)e2)){
-    return 0;
-  } else if ((*(int *)e1) > (*(int *)e2)){
-    return -1;
-  } else{
-    return 1;
-  }
+  int dif;
+  if (!e1 || !e2) return -1;
+  dif = (*((int *)e1)) - (*((int *)e2));
+  return dif;
 }
 
 
