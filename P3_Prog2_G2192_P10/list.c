@@ -93,7 +93,7 @@ void list_destroy (List* list){
   free(list);
 }
 
-
+/*
 List* list_insertFirst (List* list, const void *pelem){
   NodeList *pn = NULL;
 
@@ -179,6 +179,117 @@ List* list_insertInOrder (List *list, const void *pelem){
   else{
     aux = list->last->next;
 
+    if (list->cmp_element_function(pelem, aux->info) < 0){ // if pelem < aux->info
+      nodelist_free(pn,list->destroy_element_function);
+
+      return list_insertFirst (list, pelem);
+    }
+
+    while (list->last != aux && list->cmp_element_function(pelem,aux->next->info) > 0){  if pelem > aux->next->info
+      aux = aux->next;
+    }
+
+    if (list->last == aux){
+      list->last = pn;
+      // list = list_insertLast (list, (void *)pn);
+      //list->last = pn;
+    }
+
+    pn->next = aux->next;
+    aux->next = pn;
+
+  }
+
+return list;
+
+}
+*/
+
+Status list_insertFirst (List* list, const void *pelem){
+  NodeList *pn = NULL;
+
+  if (list == NULL || pelem == NULL){
+    return ERROR;
+  }
+
+  pn = nodelist_ini();
+  if (pn == NULL) return ERROR;
+
+  pn->info = list->copy_element_function(pelem);
+
+  if (pn->info == NULL) {
+    nodelist_free(pn,list->destroy_element_function);
+    return ERROR;
+  }
+
+  if (list_isEmpty (list) == TRUE) {
+    pn->next = pn;
+    list->last = pn;
+
+  } else {
+    pn->next = list->last->next;
+    list->last->next = pn;
+  }
+
+
+  return OK;
+}
+
+
+Status list_insertLast (List* list, const void *pelem){
+  NodeList *pn = NULL;
+
+  if (list == NULL || pelem == NULL){
+    return ERROR;
+  }
+
+  pn = nodelist_ini();
+  if (pn == NULL) return ERROR;
+
+  pn->info = list->copy_element_function(pelem);
+  if (pn->info == NULL) {
+    nodelist_free(pn, list->destroy_element_function);
+    return ERROR;
+  }
+
+  if (list_isEmpty(list) == TRUE) {
+    pn->next = pn;
+    list->last = pn;
+    return OK;
+  }
+
+
+  pn->next = list->last->next;
+  list->last->next = pn;
+  list->last = pn;
+
+
+  return OK;
+
+}
+
+
+Status list_insertInOrder (List *list, const void *pelem){
+  NodeList *pn = NULL, *aux = NULL;
+
+  if (list == NULL || pelem == NULL){
+    return ERROR;
+  }
+
+  pn = nodelist_ini();
+  if (pn == NULL) return ERROR;
+
+  pn->info = list->copy_element_function(pelem);
+  if (pn == NULL) return ERROR;
+
+  if (list_isEmpty(list) == TRUE){
+    pn->next = pn;
+    list->last = pn;
+  }
+
+  else{
+    aux = list->last->next;
+
     if (list->cmp_element_function(pelem, aux->info) < 0){ /* if pelem < aux->info */
       nodelist_free(pn,list->destroy_element_function);
 
@@ -200,9 +311,10 @@ List* list_insertInOrder (List *list, const void *pelem){
 
   }
 
-return list;
+return OK;
 
 }
+
 
 
 void * list_extractFirst (List* list){

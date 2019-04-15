@@ -32,17 +32,17 @@ int main(int argc, char **argv){
     int_setInfo(pe,i);
 
     if (i % 2 == 0){
-      if (list_insertFirst(l1, pe) == NULL){
+      if (list_insertFirst(l1, pe) == ERROR){
         fprintf(stdout, "Error inserting first in list 1\n");
         mainCleanUp (EXIT_FAILURE, l1, l2, pe);
        }
     } else {
-      if (list_insertLast(l1,pe) == NULL){
+      if (list_insertLast(l1,pe) == ERROR){
         fprintf(stdout, "Error inserting last in list 1\n");
         mainCleanUp (EXIT_FAILURE, l1, l2, pe);
       }
     }
-    if (list_insertInOrder(l2,pe) == NULL){
+    if (list_insertInOrder(l2,pe) == ERROR){
       fprintf(stdout, "Error inserting in order in list 2\n");
       mainCleanUp (EXIT_FAILURE, l1, l2, pe);
     }

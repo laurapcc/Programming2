@@ -27,13 +27,13 @@ List* list_ini (destroy_element_function_type f1, copy_element_function_type f2,
 void list_destroy (List* list);
 
 /* Inserta al principio de la lista realizando una copia de la información recibida. */
-List* list_insertFirst (List* list, const void *pelem);
+Status list_insertFirst (List* list, const void *pelem);
 
 /* Inserta al final de la lista realizando una copia de la información recibida. */
-List* list_insertLast (List* list, const void *pelem);
+Status list_insertLast (List* list, const void *pelem);
 
 /* Inserta en orden en la lista realizando una copia del elemento. */
-List* list_insertInOrder (List *list, const void *pelem);
+Status list_insertInOrder (List *list, const void *pelem);
 
 /* Extrae del principio de la lista, devolviendo directamente el puntero al campo info del nodo extraído, nodo que finalmente es liberado.
 OJO: tras guardar la dirección del campo info que se va a devolver y antes de liberar el nodo, pone el campo info del nodo a NULL,
