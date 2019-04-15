@@ -1,19 +1,22 @@
 /*
- * File:   queue.c
+ * File:   queuel.c
  * Author: Paula Samper, Laura de Paz
  */
 
+ #include <stdio.h>
+ #include <stdlib.h>
  #include <string.h>
  #include <errno.h>
- #include "queue.h"
+ #include "queuel.h"
+ #include "list.h"
 
 #define MAX_QUEUE 100
 
 extern int errno;
 struct _Queue {
-  void* items [MAX_QUEUE];
-  int front;
-  int rear;
+
+  List *list;
+
 
   destroy_element_function_type destroy_element_function;
   copy_element_function_type copy_element_function;
@@ -25,7 +28,6 @@ struct _Queue {
 Queue* queue_ini(destroy_element_function_type f1, copy_element_function_type f2, print_element_function_type f3){
 
   Queue *q = NULL;
-  int i;
   q = (Queue *)malloc(sizeof(Queue));
 
   if (q == NULL) {
@@ -33,33 +35,27 @@ Queue* queue_ini(destroy_element_function_type f1, copy_element_function_type f2
     return NULL;
   }
 
-  for (i=0; i<MAX_QUEUE; i++) {
-    q->items[i] = NULL;
+  q->list = list_ini(f1, f2, f3, NULL);
+
+  if (!q->list) {
+    free(q);
+    return NULL;
   }
 
   q->destroy_element_function = f1;
   q->copy_element_function = f2;
   q->print_element_function = f3;
 
-  q->front = 0;
-  q->rear = 0;
-
   return q;
 }
 
 
  void queue_destroy(Queue *q){
-  int i;
 
-  if (q != NULL) {
-    i = q->front;
-    while (i != q->rear) {
-      q->destroy_element_function(q->items[i]);
-      q->items[i] = NULL;
-      i = (i+1)% MAX_QUEUE;
-    }
+  if (q == NULL) return;
+  list_destroy(q->list);
   free(q);
-  }
+
 }
 
 
@@ -69,21 +65,14 @@ Bool queue_isEmpty(const Queue *q){
     return TRUE;
   }
 
-  if (q->front == q->rear) {
-    return TRUE;
-  }
+  return list_isEmpty (q->list);
 
-  return FALSE;
 }
 
 
- Bool queue_isFull(const Queue* q){
+Bool queue_isFull(const Queue* q){
 
   if (q == NULL) {
-    return TRUE;
-  }
-
-  if (q->front == (q->rear+1)% MAX_QUEUE) {
     return TRUE;
   }
 
@@ -93,70 +82,41 @@ Bool queue_isEmpty(const Queue *q){
 
 Queue* queue_insert(Queue *q, const void* e){
 
-  void *aux = NULL;
+  if (!q || !e) return NULL;
 
-  if (q == NULL || e == NULL || queue_isFull(q) == TRUE) {
+  if (!list_insertLast(q->list, e)){
     return NULL;
+  } else {
+    return q;
   }
-
-  aux = q->copy_element_function(e);
-
-  if (aux == NULL) {
-    return NULL;
-  }
-
-  q->items[q->rear] = aux;
-  q->rear = (q->rear+1)% MAX_QUEUE;
-
-  return q;
 
 }
 
 
- void * queue_extract(Queue *q){
+void * queue_extract(Queue *q){
 
-  void *e = NULL;
-
-  if (q == NULL || queue_isEmpty(q) == TRUE) {
+  if (queue_isEmpty(q) || !q) {
     return NULL;
+  } else {
+    return list_extractFirst(q->list);
   }
-
-  e = (void *)q->items[q->front];
-  q->items[q->front] = NULL;
-  q->front = (q->front+1)% MAX_QUEUE;
-
-  return e;
-
 }
 
 
- int queue_size(const Queue *q){
+int queue_size(const Queue *q){
 
   if (q == NULL) {
     return -1;
+  } else {
+    return list_size (q->list);
   }
-
-  return (q->rear - q->front + MAX_QUEUE) % MAX_QUEUE;
 
 }
 
 
 int queue_print(FILE *pf, const Queue *q){
 
-  int i, num_char, total_char = 0;
-  /*Error control*/
-  if (!pf || !q) return -1;
-  if (queue_isEmpty(q) == TRUE){
-    fprintf(pf, "Queue empty\n");
-    return -1;
-  }
+  if (!q || !pf) return -1;
+  return list_print(pf, q->list);
 
-  fprintf(pf, "Queue with %d elements:\n", queue_size(q));
-  for (i = 0; i < queue_size(q); i++){
-    num_char = q->print_element_function(pf, (q->items[(q->front + i) % MAX_QUEUE]));
-    if (num_char == -1) return -1;
-    total_char += num_char;
-  }
-
-  return total_char;
 }

@@ -6,7 +6,7 @@ EJS = p3_testqueue p3_e1 p3_e2 p3_testqueuel
 OBJECTSP3TEST = p3_testqueue.o node.o queue.o
 OBJECTSP3E1 = p3_e1.o node.o queue.o graph.o
 OBJECTSP3E2 = p3_e2.o list.o integer.o
-OBJECTSP3TESTL = p3_testqueuel queuel.o list.o node.o
+OBJECTSP3TESTL = p3_testqueuel.o queuel.o list.o node.o
 ########################################################
 
 all: $(EJS) clean

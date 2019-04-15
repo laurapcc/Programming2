@@ -1,5 +1,5 @@
 /*
- * File:   queue.h
+ * File:   queuel.h
  * Author: Paula Samper, Laura de Paz
  */
 
@@ -59,4 +59,4 @@ Prints all the queue, returning the number of written characters.
 int queue_print(FILE *pf, const Queue *q);
 
 
-#endif /* TYPES_H */
+#endif /* QUEUEL_H */

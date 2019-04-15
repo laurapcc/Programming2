@@ -1,6 +1,6 @@
 /*
- * File:   p3_testqueue.c
- * Author:  PROG2 Teachers
+ * File:   p3_testqueuel.c
+ * Author:  Laura de Paz and Paula Samper
  */
 
 #include "queue.h"
