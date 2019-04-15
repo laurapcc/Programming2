@@ -333,13 +333,13 @@ int list_print (FILE *fd, const List* list){
     return -1;
   }
 
-  count += fprintf(stdout,"%d\n",list_size(list));
+  count += fprintf(fd,"List with %d elements:\n",list_size(list));
 
   pl = list->last;
 
   do{
     pl = pl->next;
-    count += list->print_element_function(fd, pl);
+    count += list->print_element_function(fd, pl->info);
   } while (pl != list->last);
 
   return count;
