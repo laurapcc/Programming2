@@ -120,6 +120,8 @@ List* list_insertFirst (List* list, const void *pelem){
     list->last->next = pn;
   }
 
+  nodelist_free(pn,list->destroy_element_function);
+
   return list;
 }
 
@@ -147,10 +149,11 @@ List* list_insertLast (List* list, const void *pelem){
   }
 
 
-    pn->next = list->last->next;
-    list->last->next = pn;
-    list->last = pn;
+  pn->next = list->last->next;
+  list->last->next = pn;
+  list->last = pn;
 
+  nodelist_free(pn,list->destroy_element_function);
 
   return list;
 
@@ -198,6 +201,7 @@ List* list_insertInOrder (List *list, const void *pelem){
     aux->next = pn;
 
   }
+  nodelist_free(pn,list->destroy_element_function);
 
 return list;
 
