@@ -45,13 +45,13 @@ node.o: node.c node.h types.h
 graph.o: graph.c graph.h queue.h node.h types.h
 	$(CC) $(CFLAGS) -c graph.c
 
-queue.o: queue.c queue.h node.h types.h
+queue.o: queue.c queue.h types.h
 	$(CC) $(CFLAGS) -c queue.c
 
 list.o: list.c list.h integer.h types.h
 	$(CC) $(CFLAGS) -c list.c
 
-queuel.o: queuel.c queue.h list.h node.h types.h
+queuel.o: queuel.c queuel.h list.h types.h
 	$(CC) $(CFLAGS) -c queuel.c
 
 

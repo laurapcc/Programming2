@@ -3,8 +3,6 @@
  * Author: Paula Samper, Laura de Paz
  */
 
- #include <stdio.h>
- #include <stdlib.h>
  #include <string.h>
  #include <errno.h>
  #include "queuel.h"
@@ -50,7 +48,7 @@ Queue* queue_ini(destroy_element_function_type f1, copy_element_function_type f2
 }
 
 
- void queue_destroy(Queue *q){
+void queue_destroy(Queue *q){
 
   if (q == NULL) return;
   list_destroy(q->list);
@@ -82,24 +80,24 @@ Bool queue_isFull(const Queue* q){
 
 Queue* queue_insert(Queue *q, const void* e){
 
-  if (!q || !e) return NULL;
-
-  if (!list_insertLast(q->list, e)){
+  if (!q || !e){
     return NULL;
-  } else {
-    return q;
   }
 
+  if (list_insertLast(q->list, e) == ERROR){
+    return NULL;
+  }
+
+  return q;
 }
 
 
 void * queue_extract(Queue *q){
-
   if (queue_isEmpty(q) || !q) {
     return NULL;
-  } else {
-    return list_extractFirst(q->list);
   }
+
+  return list_extractFirst(q->list);;
 }
 
 
@@ -117,6 +115,10 @@ int queue_size(const Queue *q){
 int queue_print(FILE *pf, const Queue *q){
 
   if (!q || !pf) return -1;
+  if (queue_isEmpty(q) == TRUE){
+    fprintf(pf, "Queue empty\n");
+    return -1;
+  }
   return list_print(pf, q->list);
 
 }
