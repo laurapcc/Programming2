@@ -230,8 +230,6 @@ Status list_insertFirst (List* list, const void *pelem){
     pn->next = list->last->next;
     list->last->next = pn;
   }
-
-
   return OK;
 }
 
