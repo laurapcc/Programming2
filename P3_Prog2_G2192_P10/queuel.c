@@ -97,7 +97,7 @@ void * queue_extract(Queue *q){
     return NULL;
   }
 
-  return list_extractFirst(q->list);;
+  return list_extractFirst(q->list);
 }
 
 

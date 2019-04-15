@@ -323,7 +323,7 @@ void * list_extractFirst (List* list){
     return NULL;
   }
 
-  aux = list->last->next->info;
+  ele = list->last->next->info;
   list->last->next->info = NULL;
 
   if (list->last->next == list->last) {
