@@ -34,9 +34,13 @@ NodeList* nodelist_ini(){
 
   NodeList *pn;
 
-  if ((pn = (NodeList*) malloc(sizeof(NodeList))) ==NULL) return NULL;
+  if ((pn = (NodeList*) malloc(sizeof(NodeList))) == NULL){
+    fprintf(stderr, "Error initializing nodelist: %s\n", strerror(errno));
+    return NULL;
+  }
 
-  pn->info = pn->next = NULL;
+  pn->info = NULL;
+  pn->next = NULL;
 
   return pn;
 
@@ -91,6 +95,7 @@ void list_destroy (List* list){
   }
 
   free(list);
+  list = NULL;
 }
 
 /*
@@ -278,7 +283,10 @@ Status list_insertInOrder (List *list, const void *pelem){
   if (pn == NULL) return ERROR;
 
   pn->info = list->copy_element_function(pelem);
-  if (pn == NULL) return ERROR;
+  if (pn == NULL){
+    nodelist_free(pn, list->destroy_element_function);
+    return ERROR;
+  }
 
   if (list_isEmpty(list) == TRUE){
     pn->next = pn;
@@ -299,9 +307,10 @@ Status list_insertInOrder (List *list, const void *pelem){
     }
 
     if (list->last == aux){
-      list->last = pn;
-      /* list = list_insertLast (list, (void *)pn); */
+      nodelist_free(pn, list->destroy_element_function);
+      list_insertLast(list,pelem);
       /*list->last = pn;*/
+      /* list = list_insertLast (list, (void *)pn); */
     }
 
     pn->next = aux->next;
