@@ -8,15 +8,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "types.h"
+#include "list.h"
 
 
 typedef struct _Queue Queue;
-
-/* Types of function pointers supported by the queue.
-Note: they could be in elem_functions.h and include it here */
-typedef void (*destroy_element_function_type)(void*);
-typedef void (*(*copy_element_function_type)(const void*));
-typedef int (*print_element_function_type)(FILE *, const void*);
 
 /**------------------------------------------------------------------
 Initializes the queue: reserves memory for it and initializes all its elements to NULL.
