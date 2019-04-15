@@ -146,11 +146,11 @@ List* list_insertLast (List* list, const void *pelem){
     return list;
   }
 
-  
+
     pn->next = list->last->next;
     list->last->next = pn;
     list->last = pn;
-  
+
 
   return list;
 
@@ -164,18 +164,18 @@ List* list_insertInOrder (List *list, const void *pelem){
     return NULL;
   }
 
-/*aqui ponia pn->info en vez de pn*/ 
+  pn = nodelist_ini();
+  if (pn == NULL) return NULL;
 
-  pn = list->copy_element_function(pelem);
+  pn->info = list->copy_element_function(pelem);
   if (pn == NULL) return NULL;
 
   if (list_isEmpty(list) == TRUE){
     pn->next = pn;
     list->last = pn;
-    return list;
   }
 
-/*aqui me he quedado revisando*/ 
+  else{
     aux = list->last->next;
 
     if (list->cmp_element_function(pelem, aux->info) < 0){ /* if pelem < aux->info */
@@ -197,7 +197,7 @@ List* list_insertInOrder (List *list, const void *pelem){
     pn->next = aux->next;
     aux->next = pn;
 
-  
+  }
 
 return list;
 

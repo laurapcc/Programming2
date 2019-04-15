@@ -19,7 +19,6 @@ int main(int argc, char **argv){
   if (argc != 2) return (EXIT_FAILURE);
 
   num = atoi(argv[1]);
-  /*pe = int_ini();*/
 
   l1 = list_ini(int_destroy,int_copy,int_print,int_cmp);
   l2 = list_ini(int_destroy,int_copy,int_print,int_cmp);
@@ -29,14 +28,8 @@ int main(int argc, char **argv){
     mainCleanUp (EXIT_FAILURE, l1, l2, pe);
   }
 
-  
-
-
-  for(i = num; i >= 0; i--){
+  for(i = num; i >= 1; i--){
     int_setInfo(pe,i);
-
-/*aqui no ponia el print*/ 
-    printf("%d\n", i);
 
     if (i % 2 == 0){
       if (list_insertFirst(l1, pe) == NULL){
@@ -53,7 +46,6 @@ int main(int argc, char **argv){
       fprintf(stdout, "Error inserting in order in list 2\n");
       mainCleanUp (EXIT_FAILURE, l1, l2, pe);
     }
-
   }
 
   list_print (stdout, l1);

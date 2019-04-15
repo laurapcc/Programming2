@@ -9,25 +9,10 @@ extern int errno;
 
 
 void int_destroy(void* e){
-  if (e)
-  free((int*)e);
-  e = NULL;
-}
-
-void * int_ini (){
-  int *new = NULL;
-  new = (int*)malloc(sizeof(int));
-  if (!new){
-    fprintf(stderr, "Error initializing integer: %s\n", strerror(errno));
-    return NULL;
+  if (e){
+    free((int*)e);
   }
-  return new;
-}
-
-void * int_setInfo (void *e, int v){
-  if (!e) return NULL;
-  (*(int *)e) = v;
-  return e;
+  e = NULL;
 }
 
 
@@ -53,5 +38,19 @@ int int_cmp(const void* e1, const void* e2){
   return (*((int *)e1)) - (*((int *)e2));
 }
 
+void * int_ini (){
+  int *new = NULL;
+  new = (int*)malloc(sizeof(int));
+  if (!new){
+    fprintf(stderr, "Error initializing integer: %s\n", strerror(errno));
+    return NULL;
+  }
+  return new;
+}
 
 
+void * int_setInfo (void *e, int v){
+  if (!e) return NULL;
+  (*(int *)e) = v;
+  return e;
+}
