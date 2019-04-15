@@ -58,7 +58,7 @@ NodeList* nodelist_ini (){
 void nodelist_free(NodeList* pn, destroy_element_function_type f){
   if (pn != NULL){
     if (pn->info != NULL){
-      f(pn->info);
+      free(pn->info);
       free(pn);
     }
   }
