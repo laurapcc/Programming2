@@ -137,8 +137,8 @@ List* list_insertLast (List* list, const void *pelem){
 
   pn->info = list->copy_element_function(pelem);
   if (pn->info == NULL) {
-      nodelist_free(pn, list->destroy_element_function);
-      return NULL;
+    nodelist_free(pn, list->destroy_element_function);
+    return NULL;
   }
 
   if (list_isEmpty(list) == TRUE) {
@@ -206,13 +206,14 @@ return list;
 
 
 void * list_extractFirst (List* list){
-  NodeList *nl = NULL, *aux = NULL;
+  NodeList *aux = NULL;
+  void *ele = NULL;
 
   if (list == NULL || list_isEmpty(list) == TRUE) {
     return NULL;
   }
 
-  nl = list->last->next;
+  aux = list->last->next->info;
   list->last->next->info = NULL;
 
   if (list->last->next == list->last) {
@@ -226,7 +227,7 @@ void * list_extractFirst (List* list){
     nodelist_free(aux,list->destroy_element_function);
   }
 
-  return (void *)nl->info;
+  return ele;
 
 }
 
@@ -239,7 +240,7 @@ void * list_extractLast (List* list){
     return NULL;
   }
 
-  ele = (void *)list->last->info;
+  ele = list->last->info;
   list->last->info = NULL;
 
   if (list->last->next == list->last) {
@@ -253,7 +254,7 @@ void * list_extractLast (List* list){
   }
 
   aux->next = list->last->next;
-  nodelist_free(aux,list->destroy_element_function);
+  nodelist_free(list->last,list->destroy_element_function);
   list->last = aux;
 
   return ele;
@@ -280,7 +281,7 @@ const void* list_get (const List* list, int index){
   NodeList *nl = NULL;
   int count = 0;
 
-  if (list == NULL){
+  if (list == NULL || list_isEmpty(list) == TRUE || index > list_size(list)){
     return NULL;
   }
 
@@ -292,12 +293,10 @@ const void* list_get (const List* list, int index){
   } while (nl != list->last && count != index);
 
   if (count == index){
-    return (void *)nl->info;
+    return nl->info;
   }
 
-  else{
-    return NULL;
-  }
+  else return NULL;
 }
 
 

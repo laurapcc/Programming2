@@ -30,6 +30,7 @@ int int_print(FILE *pf, const void *a){
 	return fprintf(pf,"[%d]\n", *((int *)a));
 }
 
+
 /* e1 == e2 => 0
    e1 > e2 => pos
    e1 < e2 => neg*/
@@ -37,6 +38,7 @@ int int_cmp(const void* e1, const void* e2){
   if (!e1 || !e2) return -1;
   return (*((int *)e1)) - (*((int *)e2));
 }
+
 
 void * int_ini (){
   int *new = NULL;
