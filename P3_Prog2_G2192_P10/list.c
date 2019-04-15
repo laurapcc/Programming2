@@ -80,13 +80,14 @@ List* list_ini (destroy_element_function_type f1, copy_element_function_type f2,
 
 
 void list_destroy (List* list){
-
+  void *ext;
   if (list == NULL) {
     return;
   }
 
   while (list_isEmpty(list) == FALSE) {
-    list->destroy_element_function (list_extractFirst(list));
+    ext = list_extractFirst(list);
+    list->destroy_element_function (ext);
   }
 
   free(list);
@@ -142,13 +143,14 @@ List* list_insertLast (List* list, const void *pelem){
   if (list_isEmpty(list) == TRUE) {
     pn->next = pn;
     list->last = pn;
+    return list;
   }
 
-  else {
+  
     pn->next = list->last->next;
     list->last->next = pn;
     list->last = pn;
-  }
+  
 
   return list;
 
@@ -162,15 +164,18 @@ List* list_insertInOrder (List *list, const void *pelem){
     return NULL;
   }
 
+/*aqui ponia pn->info en vez de pn*/ 
+
   pn = list->copy_element_function(pelem);
   if (pn == NULL) return NULL;
 
   if (list_isEmpty(list) == TRUE){
     pn->next = pn;
     list->last = pn;
+    return list;
   }
 
-  else {
+/*aqui me he quedado revisando*/ 
     aux = list->last->next;
 
     if (list->cmp_element_function(pelem, aux->info) < 0){ /* if pelem < aux->info */
@@ -192,7 +197,7 @@ List* list_insertInOrder (List *list, const void *pelem){
     pn->next = aux->next;
     aux->next = pn;
 
-  }
+  
 
 return list;
 
