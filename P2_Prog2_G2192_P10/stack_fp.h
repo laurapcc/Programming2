@@ -44,18 +44,4 @@ Input: stack and file where to print it. Output: Returns the number of written c
 int stack_print(FILE*, const Stack*);
 
 
-/* ------------Private functions for int-------------------*/
-
-/* Reserves memory for an int where it copies the data from the int src.
- * Returns the address of the copied node if everything went well, or NULL otherwise */
-void *int_copy(const void *);
-
-/* Print the integer int the file stated in the argument
- * Returns number of characters printed or -1 if there is any error*/
-int int_print(FILE *, const void *);
-
-/* Returns the mean of all the elements in the stack or -1 if there is any error */
-double meanStack(Stack *);
-
-
 #endif /* STACK_H */

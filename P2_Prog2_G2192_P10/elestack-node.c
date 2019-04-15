@@ -57,7 +57,8 @@ EleStack *EleStack_copy(const EleStack *ele){
   target = EleStack_ini();
   if (!target) return NULL;
 
-  target->info = (Node *)node_copy((void *)ele->info);
+  EleStack_setInfo(target,(void *)ele->info);
+
   return target;
 
 }

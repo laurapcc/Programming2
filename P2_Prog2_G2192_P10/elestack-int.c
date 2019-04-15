@@ -38,7 +38,7 @@ Status EleStack_setInfo(EleStack *ele, void *p){
     fprintf(stderr, "%s\n",strerror(errno));
     return ERROR;
   }
-	*i = (*(int *)p);
+	*i = *(int *)p;
 
 	free (ele->e);
 	ele->e = i;
@@ -56,19 +56,10 @@ void *EleStack_getInfo(EleStack *ele){
 
 EleStack *EleStack_copy(const EleStack *ele){
   EleStack *target = NULL;
-  int *i = NULL;
   if (!ele) return NULL;
   target = EleStack_ini();
 
-  i = (int *)malloc(sizeof(int));
-
-  if (!target || !i){
-    fprintf(stderr, "%s\n",strerror(errno));
-    return NULL;
-  }
-
-  *i = *(ele->e);
-  target->e = i;
+  EleStack_setInfo(target,(void *)ele->e);
 
   return target;
 }
