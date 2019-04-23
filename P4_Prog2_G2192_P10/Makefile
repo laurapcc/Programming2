@@ -1,39 +1,34 @@
 ########################################################
 CC=gcc
 CFLAGS= -g -Wall -ansi -pedantic
-EJS = p3_testqueue p3_e1 p3_e2 p3_testqueuel
+EJS = p4_e1 p4_e2 p4_e3 p4_e4
 ########################################################
-OBJECTSP3TEST = p3_testqueue.o node.o queue.o
-OBJECTSP3E1 = p3_e1.o node.o queue.o graph.o
-OBJECTSP3E2 = p3_e2.o list.o integer.o
-OBJECTSP3TESTL = p3_testqueuel.o queuel.o list.o node.o
+OBJECTSP4E1 = p4_e1.o tree.o
+OBJECTSP4E2 = p4_e2.o #list.o integer.o
+OBJECTSP4E3 = p4_e3.o #queuel.o list.o node.o
 ########################################################
 
 all: $(EJS) clean
 
-p3_testqueue: $(OBJECTSP3TEST)
-	$(CC) $(CFLAGS) -o p3_testqueue $(OBJECTSP3TEST)
+p4_e1: $(OBJECTSP4E1)
+	$(CC) $(CFLAGS) -o p4_e1 $(OBJECTSP4E1)
 
-p3_e1: $(OBJECTSP3E1)
-	$(CC) $(CFLAGS) -o p3_e1 $(OBJECTSP3E1)
+p4_e2: $(OBJECTSP4E2)
+	$(CC) $(CFLAGS) -o p4_e2 $(OBJECTSP4E2)
 
-p3_e2: $(OBJECTSP3E2)
-	$(CC) $(CFLAGS) -o p3_e2 $(OBJECTSP3E2)
+p4_e3: $(OBJECTSP4E3)
+	$(CC) $(CFLAGS) -o p4_e3 $(OBJECTSP4E3)
 
-p3_testqueuel: $(OBJECTSP3TESTL)
-	$(CC) $(CFLAGS) -o p3_testqueuel $(OBJECTSP3TESTL)
 
-p3_testqueuel.o: p3_testqueuel.c queuel.h list.h node.h types.h
-	$(CC) $(CFLAGS) -c p3_testqueuel.c
+p4_e1.o: p4_e1.c tree.h types.h
+	$(CC) $(CFLAGS) -c p4_e1.c
 
-p3_e2.o: p3_e2.c list.h integer.h types.h
-	$(CC) $(CFLAGS) -c p3_e2.c
+p4_e2.o: p4_e2.c #list.h integer.h types.h
+	$(CC) $(CFLAGS) -c p4_e2.c
 
-p3_testqueue.o: p3_testqueue.c queue.h node.h types.h
-	$(CC) $(CFLAGS) -c p3_testqueue.c
+p4_e3.o: p4_e3.c #queue.h node.h types.h
+	$(CC) $(CFLAGS) -c p4_e3.c
 
-p3_e1.o: p3_e1.c graph.h queue.h node.h types.h
-	$(CC) $(CFLAGS) -c p3_e1.c
 
 
 integer.o: integer.c integer.h types.h
@@ -53,6 +48,9 @@ list.o: list.c list.h integer.h types.h
 
 queuel.o: queuel.c queuel.h list.h types.h
 	$(CC) $(CFLAGS) -c queuel.c
+
+tree.o: tree.c tree.h types.h
+	$(CC) $(CFLAGS) -c tree.c
 
 
 clear:
