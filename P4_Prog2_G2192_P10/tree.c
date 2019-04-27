@@ -44,10 +44,21 @@ void tree_freeRec(NodeBT* pn, destroy_element_function_type f){
 }
 
 
-NodeBT **iniNodeAB(){
-  
-}
+NodeBT *iniNodeAB(){
+  NodeBT *n = NULL;
 
+  n = (NodeBT*) malloc(sizeof (NodeBT));
+  if (!n){
+    fprintf(stderr, "Error initializing nodeAB: %s\n", strerror(errno));
+    return NULL;
+  }
+
+  INFO(n) = NULL;
+  LEFT(n) = NULL;
+  RIGHT(n) = NULL;
+  return n;
+}
+ /*
 Status tree_insertRec(NodeBT** ppn, const void*po, copy_element_function_type f, cmp_element_function_type c){
 
   int cmp;
@@ -80,12 +91,32 @@ Status tree_insertRec(NodeBT** ppn, const void*po, copy_element_function_type f,
   return ERROR;//raro
 
 }
+*/
+
+Status tree_insertRec(NodeBT** ppn, const void*po, copy_element_function_type f, cmp_element_function_type c){
+
+  int cmp;
+
+  if (!*ppn){
+    *ppn = iniNodeAB();
+    if (!*ppn) return ERROR;
+    INFO(*ppn) = f(po);
+    if (!INFO(*ppn)) return ERROR;
+    return OK;
+  }
+
+  cmp = c(po, INFO(*ppn));
+  if (cmp == 0) return ERROR;
+  if (cmp < 0) return tree_insertRec(&LEFT(*ppn), po, f, c);
+  return tree_insertRec(&RIGHT(*ppn), po, f, c);
+
+}
 
 
 /*Print the pn node information in the output stream pf.*/
 int printNodeAB(FILE* pf, const NodeBT *pn, print_element_function_type f){
   if (!pf || !pn) return -1;
-  f(pf,pn);
+  return f(pf,pn);
 }
 
 Status tree_preOrderRec(FILE* f, NodeBT* pn, print_element_function_type p){
@@ -114,6 +145,8 @@ Status tree_postOrderRec(FILE* f, NodeBT* pn, print_element_function_type p){
   tree_preOrderRec(f, LEFT(pn), p);
   tree_preOrderRec(f, RIGHT(pn), p);
   printNodeAB(f, pn, p);
+
+  return OK;
 }
 
 
@@ -147,8 +180,8 @@ NodeBT * lookABRec( NodeBT* pn, const void* po, cmp_element_function_type c){
 
   if (!pn || !po || !c) return NULL;
 
-  if (pn->cmp_element_function(po, INFO(pn) == 0) return pn;
-  if (pn->cmp_element_function(po, INFO(pn) > 0) return lookABRec(RIGHT(pn), po, c);
+  if (c(po, INFO(pn)) == 0) return pn;
+  if (c(po, INFO(pn)) > 0) return lookABRec(RIGHT(pn), po, c);
 
   return lookABRec(LEFT(pn), po, c);
 }
@@ -212,7 +245,7 @@ Status tree_insert(Tree *pa, const void *po){
 
   if (!pa || !po) return ERROR;
 
-  return tree_insertRec(&ROOT(po), po, pa->copy_element_function, pa->cmp_element_function);
+  return tree_insertRec(&ROOT(pa), po, pa->copy_element_function, pa->cmp_element_function);
 
 }
 
@@ -250,7 +283,7 @@ Status tree_postOrder(FILE *f, const Tree *pa){
 int tree_depth(const Tree *pa){
 
   if (!pa) return -1;
-  f (tree_isEmpty(pa)) return ERROR;
+  if (tree_isEmpty(pa)) return ERROR;
 
   return tree_depthRec(ROOT(pa));
 

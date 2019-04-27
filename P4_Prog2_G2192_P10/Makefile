@@ -3,7 +3,7 @@ CC=gcc
 CFLAGS= -g -Wall -ansi -pedantic
 EJS = p4_e1 p4_e2 p4_e3 p4_e4
 ########################################################
-OBJECTSP4E1 = p4_e1.o tree.o
+OBJECTSP4E1 = p4_e1.o tree.o integer.o
 OBJECTSP4E2 = p4_e2.o #list.o integer.o
 OBJECTSP4E3 = p4_e3.o #queuel.o list.o node.o
 ########################################################
@@ -20,7 +20,7 @@ p4_e3: $(OBJECTSP4E3)
 	$(CC) $(CFLAGS) -o p4_e3 $(OBJECTSP4E3)
 
 
-p4_e1.o: p4_e1.c tree.h types.h
+p4_e1.o: p4_e1.c tree.h types.h integer.h
 	$(CC) $(CFLAGS) -c p4_e1.c
 
 p4_e2.o: p4_e2.c #list.h integer.h types.h
