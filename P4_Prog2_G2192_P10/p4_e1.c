@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
   fprintf(stdout, "Depth: %d\n", depth);
 
   fprintf(stdout, "Introduce a number: ");
-  fscanf(stdout,"%d", &aux);
+  scanf("%d", &aux);
   fprintf(stdout, "Number introduced: %d\n", aux);
 
   int_setInfo(num,aux);
