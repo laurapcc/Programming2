@@ -27,7 +27,7 @@ void *int_copy(const void *e){
 
 int int_print(FILE *pf, const void *a){
 	if (!pf || !a) return -1;
-	return fprintf(pf,"[%d]\n", *((int *)a));
+	return fprintf(pf,"%d ", *((int *)a));
 }
 
 

@@ -121,7 +121,7 @@ Status tree_insertRec(NodeBT** ppn, const void*po, copy_element_function_type f,
 /*Print the pn node information in the output stream pf.*/
 int printNodeAB(FILE* pf, const NodeBT *pn, print_element_function_type f){
   if (!pf || !pn) return -1;
-  return f(pf,pn);
+  return f(pf,INFO(pn));
 }
 
 Status tree_preOrderRec(FILE* f, NodeBT* pn, print_element_function_type p){

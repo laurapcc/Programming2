@@ -1,5 +1,5 @@
 /*
- * File:   p4_e1.c
+ * File:   p4_e2.c
  * Author: Paula Samper and Laura de Paz
  *
  */
@@ -49,7 +49,27 @@ int main(int argc, char **argv) {
   fprintf(stdout, "Number of nodes: %d\n", nNodes);
   fprintf(stdout, "Depth: %d\n", depth);
 
-  fprintf(stdout, ">Introduce a number: ");
+  /* printing tree */
+  fprintf(stdout, "Pre-order: ");
+  if (tree_preOrder(stdout,t) == ERROR){
+    mainCleanUp (t, num, pf);
+    return EXIT_FAILURE;
+  }
+
+  fprintf(stdout, "\nIn-order: ");
+  if (tree_inOrder(stdout,t) == ERROR){
+    mainCleanUp (t, num, pf);
+    return EXIT_FAILURE;
+  }
+
+  fprintf(stdout, "\nPost-order: ");
+  if (tree_postOrder(stdout,t) == ERROR){
+    mainCleanUp (t, num, pf);
+    return EXIT_FAILURE;
+  }
+
+
+  fprintf(stdout, "\n>Introduce a number: ");
   scanf("%d", &aux);
   fprintf(stdout, "Number introduced: %d\n", aux);
 
