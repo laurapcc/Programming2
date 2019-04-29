@@ -40,7 +40,6 @@ int main(int argc, char **argv) {
       mainCleanUp (t, num, pf);
       return EXIT_FAILURE;
     }
-    int_destroy(num);
     /*hay que destroy num antes de volver a allocarlo?*/
   }
 

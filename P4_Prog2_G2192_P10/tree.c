@@ -66,7 +66,7 @@ Status tree_insertRec(NodeBT** ppn, const void*po, copy_element_function_type f,
   if (!po || !f || !c) return ERROR;
 
   if (*ppn == NULL) {
-    *ppn = iniNodeAB(); //no se si la funcion esta hecha
+    *ppn = iniNodeAB();
     if (*ppn == NULL) return ERROR;
 
     INFO(*ppn) = f(po);
@@ -97,11 +97,16 @@ Status tree_insertRec(NodeBT** ppn, const void*po, copy_element_function_type f,
 
   int cmp;
 
+  if (!po) return ERROR;
+
   if (!*ppn){
     *ppn = iniNodeAB();
     if (!*ppn) return ERROR;
     INFO(*ppn) = f(po);
-    if (!INFO(*ppn)) return ERROR;
+    if (!INFO(*ppn)){
+      /*destroyNodeAB(*ppn,);   falta un argumento*/
+      return ERROR;
+    }
     return OK;
   }
 
