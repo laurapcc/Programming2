@@ -32,7 +32,8 @@ extern int errno;
 
 void destroyNodeAB (NodeBT *pn, destroy_element_function_type f){
   if (!pn) return;
-  f(pn);
+  f(INFO(pn));
+  free(pn)
 }
 
 void tree_freeRec(NodeBT* pn, destroy_element_function_type f){
@@ -113,7 +114,8 @@ Status tree_insertRec(NodeBT** ppn, const void*po, copy_element_function_type f,
   cmp = c(po, INFO(*ppn));
   if (cmp == 0) return ERROR;
   if (cmp < 0) return tree_insertRec(&LEFT(*ppn), po, f, c);
-  return tree_insertRec(&RIGHT(*ppn), po, f, c);
+  if (cmp > 0) return tree_insertRec(&RIGHT(*ppn), po, f, c);
+  return ERROR;
 
 }
 

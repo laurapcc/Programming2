@@ -1,10 +1,11 @@
 ########################################################
 CC=gcc
 CFLAGS= -g -Wall -ansi -pedantic
-EJS = p4_e1 p4_e2 #p4_e3 p4_e4
+EJS = p4_e1 p4_e2 p4_test-node-tree #p4_e3 p4_e4
 ########################################################
 OBJECTSP4E1 = p4_e1.o tree.o integer.o
 OBJECTSP4E2 = p4_e2.o tree.o integer.o
+OBJECTSP4_TESTN = p4_test-node-tree.o tree.o node.o
 #OBJECTSP4E3 = p4_e3.o queuel.o list.o node.o
 ########################################################
 
@@ -16,6 +17,10 @@ p4_e1: $(OBJECTSP4E1)
 p4_e2: $(OBJECTSP4E2)
 	$(CC) $(CFLAGS) -o p4_e2 $(OBJECTSP4E2)
 
+p4_test-node-tree: $(OBJECTSP4_TESTN)
+	$(CC) $(CFLAGS) -o p4_test-node-tree $(OBJECTSP4_TESTN)
+
+
 #p4_e3: $(OBJECTSP4E3)
 #	$(CC) $(CFLAGS) -o p4_e3 $(OBJECTSP4E3)
 
@@ -23,8 +28,11 @@ p4_e2: $(OBJECTSP4E2)
 p4_e1.o: p4_e1.c tree.h types.h integer.h
 	$(CC) $(CFLAGS) -c p4_e1.c
 
-p4_e2.o: p4_e2.c #list.h integer.h types.h
+p4_e2.o: p4_e2.c tree.h types.h integer.h
 	$(CC) $(CFLAGS) -c p4_e2.c
+
+p4_test-node-tree.o: p4_test-node-tree.c tree.h types.h node.h
+	$(CC) $(CFLAGS) -c p4_test-node-tree.c
 
 #p4_e3.o: p4_e3.c #queue.h node.h types.h
 #	$(CC) $(CFLAGS) -c p4_e3.c
@@ -34,8 +42,8 @@ p4_e2.o: p4_e2.c #list.h integer.h types.h
 integer.o: integer.c integer.h types.h
 	$(CC) $(CFLAGS) -c integer.c
 
-#node.o: node.c node.h types.h
-#	$(CC) $(CFLAGS) -c node.c
+node.o: node.c node.h types.h
+	$(CC) $(CFLAGS) -c node.c
 
 #graph.o: graph.c graph.h queue.h node.h types.h
 #	$(CC) $(CFLAGS) -c graph.c
@@ -64,6 +72,8 @@ run:
 	./p4_e1 numeros.txt
 	@echo ">>>>>>Running p4_e2"
 	./p4_e2 numeros.txt
+	@echo ">>>>>>Running p4_test-node-tree"
+	./p4_test-node-tree nodos.txt
 
 
 runv:
@@ -71,3 +81,5 @@ runv:
 	valgrind --leak-check=full ./p4_e1 numeros.txt
 	@echo ">>>>>>Running p4_e2 with valgrind"
 	valgrind --leak-check=full ./p4_e2 numeros.txt
+	@echo ">>>>>>Running p4_test-node-tree with valgrind"
+	valgrind --leak-check=full ./p4_test-node-tree nodos.txt
