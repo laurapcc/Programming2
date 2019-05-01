@@ -14,7 +14,7 @@
 
 void string_destroy(void* e);
 void * string_copy(const void *e);
+int string_print (FILE *f, const void *e);
 int string_cmp(const void* e1, const void* e2);
-void * string_ini ();
 
 #endif /* FUNCTIONS_H_*/

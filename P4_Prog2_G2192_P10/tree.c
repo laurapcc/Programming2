@@ -29,11 +29,25 @@ extern int errno;
 
 /* ----------------------- PRIVATE FUNCTIONS ----------------------- */
 
+void destroyNodeAB (NodeBT *pn, destroy_element_function_type f);
+void tree_freeRec(NodeBT* pn, destroy_element_function_type f);
+NodeBT *iniNodeAB();
+Status tree_insertRec(NodeBT** ppn, const void*po, copy_element_function_type f, cmp_element_function_type c);
+int printNodeAB(FILE* pf, const NodeBT *pn, print_element_function_type f);
+Status tree_preOrderRec(FILE* f, NodeBT* pn, print_element_function_type p);
+Status tree_inOrderRec(FILE* f, NodeBT* pn, print_element_function_type p);
+Status tree_postOrderRec(FILE* f, NodeBT* pn, print_element_function_type p);
+int tree_depthRec(NodeBT* pn);
+int tree_numNodesRec(NodeBT* pn);
+NodeBT * lookABRec( NodeBT* pn, const void* po, cmp_element_function_type c);
+NodeBT * lookAB (const Tree *pa, const void* po);
+
+
 
 void destroyNodeAB (NodeBT *pn, destroy_element_function_type f){
   if (!pn) return;
   f(INFO(pn));
-  free(pn)
+  free(pn);
 }
 
 void tree_freeRec(NodeBT* pn, destroy_element_function_type f){
@@ -59,40 +73,7 @@ NodeBT *iniNodeAB(){
   RIGHT(n) = NULL;
   return n;
 }
- /*
-Status tree_insertRec(NodeBT** ppn, const void*po, copy_element_function_type f, cmp_element_function_type c){
 
-  int cmp;
-
-  if (!po || !f || !c) return ERROR;
-
-  if (*ppn == NULL) {
-    *ppn = iniNodeAB();
-    if (*ppn == NULL) return ERROR;
-
-    INFO(*ppn) = f(po);
-
-    if (INFO(*ppn) == NULL) {
-      bt_node_free(*ppn); //???
-      return ERROR;
-    }
-
-    return OK;
-    }
-
-
-  if (c(po, INFO(*ppn)) == 0){
-    return ERROR; //raro
-  } else if (c(po, INFO(*ppn)) > 0){
-    return tree_insertRec(&RIGHT(*ppn), po, f, c);
-  } else {
-    return tree_insertRec(&LEFT(*ppn), po, f, c);
-  }
-
-  return ERROR;//raro
-
-}
-*/
 
 Status tree_insertRec(NodeBT** ppn, const void*po, copy_element_function_type f, cmp_element_function_type c){
 
@@ -139,9 +120,9 @@ Status tree_preOrderRec(FILE* f, NodeBT* pn, print_element_function_type p){
 Status tree_inOrderRec(FILE* f, NodeBT* pn, print_element_function_type p){
   if (!f || !pn) return ERROR;
 
-  tree_preOrderRec(f, LEFT(pn), p);
+  tree_inOrderRec(f, LEFT(pn), p);
   printNodeAB(f, pn, p);
-  tree_preOrderRec(f, RIGHT(pn), p);
+  tree_inOrderRec(f, RIGHT(pn), p);
 
   return OK;
 }
@@ -149,8 +130,8 @@ Status tree_inOrderRec(FILE* f, NodeBT* pn, print_element_function_type p){
 Status tree_postOrderRec(FILE* f, NodeBT* pn, print_element_function_type p){
   if (!f || !pn) return ERROR;
 
-  tree_preOrderRec(f, LEFT(pn), p);
-  tree_preOrderRec(f, RIGHT(pn), p);
+  tree_postOrderRec(f, LEFT(pn), p);
+  tree_postOrderRec(f, RIGHT(pn), p);
   printNodeAB(f, pn, p);
 
   return OK;

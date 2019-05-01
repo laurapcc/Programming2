@@ -29,8 +29,7 @@ int main (int argc, char **argv){
   }
 
   /*read file line by line*/
-  while (fscanf (pf,"%d, %s", &id, name) == 2){
-
+  while (fscanf (pf,"%d %s", &id, name) == 2){
     n = node_ini();
     n = node_setId (n, id);
     n = node_setName (n, name);
@@ -52,19 +51,19 @@ int main (int argc, char **argv){
 
 
   /* printing tree */
-  fprintf(stdout, "Pre-order: ");
+  fprintf(stdout, "Pre-order: \n");
   if (tree_preOrder(stdout,t) == ERROR){
     mainCleanUp (t, n, pf);
     return EXIT_FAILURE;
   }
 
-  fprintf(stdout, "\nIn-order: ");
+  fprintf(stdout, "\nIn-order: \n");
   if (tree_inOrder(stdout,t) == ERROR){
     mainCleanUp (t, n, pf);
     return EXIT_FAILURE;
   }
 
-  fprintf(stdout, "\nPost-order: ");
+  fprintf(stdout, "\nPost-order: \n");
   if (tree_postOrder(stdout,t) == ERROR){
     mainCleanUp (t, n, pf);
     return EXIT_FAILURE;
@@ -75,7 +74,7 @@ int main (int argc, char **argv){
   fprintf(stdout, "\n>Create a node: ");
   fprintf(stdout, "\n--Introduce id of the node: ");
   scanf("%d", &nId);
-  fprintf(stdout, "\n--Introduce name of the node: ");
+  fprintf(stdout, "--Introduce name of the node: ");
   scanf("%s", nName);
 
   n2 = node_ini();
@@ -96,7 +95,9 @@ int main (int argc, char **argv){
   }
 
 
-  mainCleanUp (t, n, pf);
+  /*mainCleanUp (t, n, pf);*/
+  fclose(pf);
+  tree_free(t);
   node_destroy(n2);
   return EXIT_SUCCESS;
 

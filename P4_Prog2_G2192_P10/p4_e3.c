@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h> 
+#include <time.h>
 #include <string.h>
 
 #include "tree.h"
@@ -30,7 +30,7 @@ Node* read_node_from_file(FILE* f_in){
 			}
 		}
 	}
-	
+
 	return node;
 }
 
@@ -71,9 +71,9 @@ void balance(Node** data, Tree *t, int first, int last) {
     if (first <= last) {
         n = *(&(data[0]) + middle);
 		if (tree_insert(t, n) == ERROR){
-			fprintf(stdout, "Node ");			
+			fprintf(stdout, "Node ");
 			node_print(stdout, n);
-			fprintf(stdout, " not inserted!\n");			
+			fprintf(stdout, " not inserted!\n");
 		}
 
         balance(data, t, first, middle - 1);
@@ -83,11 +83,11 @@ void balance(Node** data, Tree *t, int first, int last) {
 
 Tree* loadBalancedTreeFromData(Node** data, int n) {
 	Tree* t;
-	
-	t = tree_ini(destroy_node_function, copy_node_function, print_node_function, cmp_node_function);
-	
+
+	t = tree_ini(node_destroy, node_copy, node_print, node_cmp);
+
     balance(data, t, 0, n - 1);
-    
+
     return t;
 }
 
@@ -95,28 +95,30 @@ Tree* loadTreeFromData(Node** data, int n) {
 	Tree* t;
 	Node* node;
 	int i;
-	
-	t = tree_ini(destroy_node_function, copy_node_function, print_node_function, cmp_node_function);
+
+	t = tree_ini(node_destroy, node_copy, node_print, node_cmp);
 
 	for (i=0; i<n; i++){
 		node = data[i];
 		if (tree_insert(t, node) == ERROR){
-			fprintf(stdout, "Node ");			
+			fprintf(stdout, "Node ");
 			node_print(stdout, node);
-			fprintf(stdout, " not inserted!\n");			
+			fprintf(stdout, " not inserted!\n");
 		}
 	}
 
     return t;
 }
 
+
+
 int main(int argc, char const *argv[]){
 	FILE *f_in = NULL, *f_out = NULL;
 	Tree* pa = NULL;
 	Node **data=NULL, *node=NULL;
 	int i,n;
-    time_t time;
-    double time_in_secs;
+  time_t time;
+  double time_in_secs;
 
 
 	if(argc < 3){
@@ -132,13 +134,13 @@ int main(int argc, char const *argv[]){
 
 	f_out = stdout;
 
-    n = getNumberLines(f_in);
-    fclose(f_in);
-    fprintf(f_out, "%d lineas leidas\n", n);
-    data = (Node**) malloc(n * sizeof (Node*));
-    f_in = fopen(argv[1], "r");
-    loadDataFromFile(f_in, &data);
-    fclose(f_in);
+  n = getNumberLines(f_in);
+  fclose(f_in);
+  fprintf(f_out, "%d lineas leidas\n", n);
+  data = (Node**) malloc(n * sizeof (Node*));
+  f_in = fopen(argv[1], "r");
+  loadDataFromFile(f_in, &data);
+  fclose(f_in);
 
 	if (strcmp("N", argv[2]) == 0)  {
 		time = clock();
@@ -158,7 +160,7 @@ int main(int argc, char const *argv[]){
     	node_destroy(data[i]);
     }
     free(data);
-	
+
     fprintf(f_out, "\nTiempo de creacion del Arbol: %ld ticks (%f segundos)\n", (long) time, time_in_secs);
 	fprintf(f_out, "Numero de nodos: %d\nProfundidad: %d\n", tree_numNodes(pa), tree_depth(pa));
 
