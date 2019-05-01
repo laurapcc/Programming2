@@ -87,7 +87,7 @@ int main (int argc, char **argv){
   }
   node_print(stdout, n2);
 
-  if (tree_find(t,n) == TRUE){
+  if (tree_find(t,n2) == TRUE){
     fprintf(stdout, "Your node is in the tree\n");
   }
   else{

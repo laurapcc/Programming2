@@ -49,10 +49,18 @@ Node *node_setName(Node *n, const char *name){
     return n;
 }
 
-int node_cmp (const Node *n1, const Node *n2){
-    if (n1->id == n2->id) return 0;
-    else if (n1->id < n2->id) return -1;
-    else return 1;
+int node_cmp (const void *n1, const void *n2){
+    int res;
+    Node *n1_c = NULL;
+    Node *n2_c = NULL;
+    n1_c = node_copy(n1);
+    n2_c = node_copy(n2);
+    if (n1_c->id == n2_c->id) res = 0;
+    else if (n1_c->id < n2_c->id) res = -1;
+    else res = 1;
+    node_destroy(n1_c);
+    node_destroy(n2_c);
+    return res;
 }
 
 void *node_copy(const void *src){
