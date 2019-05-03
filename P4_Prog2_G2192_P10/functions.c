@@ -21,7 +21,7 @@ void * string_copy(const void* e){
 
 	if (!e) return NULL;
 
-	aux = (char *)malloc(strlen((char *)e) * sizeof(char));
+	aux = (char *)malloc((1 + strlen((char *)e)) * sizeof(char));
   if (!aux){
     fprintf(stderr, "Error copying string: %s\n", strerror(errno));
     return NULL;
@@ -43,4 +43,18 @@ int string_print (FILE *f, const void *e){
 int string_cmp(const void* e1, const void* e2){
   if (!e1 || !e2) return -1;
   return strcmp((char *)e1,(char *)e2);
+}
+
+char* read_string_from_file(FILE* f_in){
+    char* ourstring;
+    char the_array_of_char_we_read_of_size[255];
+
+    /*fgets(s, 255, f_in)*/
+    fscanf(f_in, "%s\n", the_array_of_char_we_read_of_size);
+    ourstring = (char *)malloc((1 + strlen(the_array_of_char_we_read_of_size)) * sizeof(char));
+    if (!ourstring) return NULL;
+
+    strcpy (ourstring, the_array_of_char_we_read_of_size);
+
+    return ourstring
 }
