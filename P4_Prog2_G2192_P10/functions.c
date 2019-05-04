@@ -56,5 +56,5 @@ char* read_string_from_file(FILE* f_in){
 
     strcpy (ourstring, the_array_of_char_we_read_of_size);
 
-    return ourstring
+    return ourstring;
 }

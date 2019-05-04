@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
  FILE *pf = NULL;
  Tree *t = NULL;
  void *string = NULL;
- char aux[255]; //es lo que usa en la función nueva pero no estoy segura
+ char aux[255]; /*es lo que usa en la función nueva pero no estoy segura*/
  int depth, nNodes;
 
  /* check that there are 2 input elements , if not failure*/
@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
 
 
  /*read file line by line*/
- while (!feof){
+ while (!&feof){
    string = read_string_from_file(pf);
 
    if (!string){
@@ -77,9 +77,9 @@ int main(int argc, char **argv) {
 
  fprintf(stdout, "String introduced: %s\n", aux);
 
- //no estoy segura de las siguientes 3 lineas, como la entrada de la funcion es un pointer, lo copio en string
- (char*) string= (char *)malloc((1 + strlen(aux)) * sizeof(char));
- if (!string) return NULL;
+ /*no estoy segura de las siguientes 3 lineas, como la entrada de la funcion es un pointer, lo copio en string*/
+ string= (char *)malloc((1 + strlen(aux)) * sizeof(char));
+ if (!string) return EXIT_FAILURE;
  strcpy ((char*)string, aux);
 
  if (tree_find(t,string) == TRUE){
