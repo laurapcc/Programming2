@@ -12,7 +12,7 @@
 #include <string.h>
 #include "types.h"
 
-#define NAMEL 100
+#define NAMEL 256
 extern int errno;
 
 typedef struct _Node Node;
