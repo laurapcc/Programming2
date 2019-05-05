@@ -11,9 +11,6 @@
 #define MAX_LINE 350
 #define MAX 300
 
-
-
-
 Node* read_node_from_file(FILE* f_in){
 	Node* node = NULL;
 	int id=-1;

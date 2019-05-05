@@ -1,12 +1,13 @@
 ########################################################
 CC=gcc
 CFLAGS= -g -Wall -ansi -pedantic
-EJS = p4_e1 p4_e2 p4_test-node-tree p4_e3
+EJS = p4_e1 p4_e2 p4_test-node-tree p4_e3 p4_e4
 ########################################################
 OBJECTSP4E1 = p4_e1.o tree.o integer.o
 OBJECTSP4E2 = p4_e2.o tree.o integer.o
 OBJECTSP4_TESTN = p4_test-node-tree.o tree.o node.o
 OBJECTSP4E3 = p4_e3.o tree.o functions.o node.o
+OBJECTSP4E4 = p4_e4.o tree.o functions.o 
 ########################################################
 
 all: $(EJS) clean
@@ -23,6 +24,9 @@ p4_test-node-tree: $(OBJECTSP4_TESTN)
 p4_e3: $(OBJECTSP4E3)
 	$(CC) $(CFLAGS) -o p4_e3 $(OBJECTSP4E3)
 
+p4_e4: $(OBJECTSP4E4)
+	$(CC) $(CFLAGS) -o p4_e4 $(OBJECTSP4E4)
+
 
 p4_e1.o: p4_e1.c tree.h types.h integer.h
 	$(CC) $(CFLAGS) -c p4_e1.c
@@ -35,6 +39,9 @@ p4_test-node-tree.o: p4_test-node-tree.c tree.h types.h node.h
 
 p4_e3.o: p4_e3.c tree.h functions.h node.h types.h
 	$(CC) $(CFLAGS) -c p4_e3.c
+
+p4_e4.o: p4_e4.c tree.h functions.h types.h
+	$(CC) $(CFLAGS) -c p4_e4.c
 
 
 
@@ -80,6 +87,8 @@ run:
 	./p4_e3 dict10.dat B
 	@echo ">>>>>>Running p4_e3 not balanced"
 	./p4_e3 dict10.dat N
+	@echo ">>>>>>Running p4_e4"
+	./p4_e4 cadenas.txt
 
 
 runv:
@@ -93,3 +102,5 @@ runv:
 	valgrind --leak-check=full ./p4_e3 dict10.dat B
 	@echo ">>>>>>Running p4_e3 non balanced with valgrind"
 	valgrind --leak-check=full ./p4_e3 dict10.dat N
+	@echo ">>>>>>Running p4_e4 with valgrind"
+	valgrind --leak-check=full ./p4_e4 cadenas.txt

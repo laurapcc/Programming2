@@ -3,9 +3,10 @@
  * Author: Paula Samper and Laura de Paz
  *
  */
+#include <string.h>
+#include <stdlib.h>
 
 #include "tree.h"
-#include "integer.h"
 #include "functions.h"
 
 void mainCleanUp (Tree *pt, void *pe, FILE *pf);
@@ -38,7 +39,8 @@ int main(int argc, char **argv) {
 
 
  /*read file line by line*/
- while (!&feof){
+ while (!(feof(pf))){ /*da warning */
+ 
    string = read_string_from_file(pf);
 
    if (!string){
@@ -77,10 +79,14 @@ int main(int argc, char **argv) {
 
  fprintf(stdout, "String introduced: %s\n", aux);
 
- /*no estoy segura de las siguientes 3 lineas, como la entrada de la funcion es un pointer, lo copio en string*/
- string= (char *)malloc((1 + strlen(aux)) * sizeof(char));
- if (!string) return EXIT_FAILURE;
- strcpy ((char*)string, aux);
+/*no estoy segura de las siguientes 3 lineas, como la entrada de la funcion es un pointer, lo copio en string*/
+
+ string = (char *)malloc((1 + strlen(aux)) * sizeof(char));
+ if (!string){
+   mainCleanUp (t, NULL, pf);
+   return EXIT_FAILURE;;
+ }
+ strcpy (/*(char*)*/string, aux);
 
  if (tree_find(t,string) == TRUE){
    fprintf(stdout, "%s is in the tree\n", aux);

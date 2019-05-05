@@ -45,6 +45,10 @@ int string_cmp(const void* e1, const void* e2){
   return strcmp((char *)e1,(char *)e2);
 }
 
+ /*PRIVATE FUNCTION*/
+
+char* read_string_from_file(FILE* f_in);
+
 char* read_string_from_file(FILE* f_in){
     char* ourstring;
     char the_array_of_char_we_read_of_size[255];
