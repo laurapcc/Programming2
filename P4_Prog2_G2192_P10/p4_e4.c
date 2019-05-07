@@ -53,8 +53,6 @@ int main(int argc, char **argv) {
 
  }
 
- fclose(pf);
-
  nNodes = tree_numNodes(t);
  depth = tree_depth(t);
 
