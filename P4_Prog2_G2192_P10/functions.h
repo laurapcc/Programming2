@@ -17,4 +17,6 @@ void * string_copy(const void *e);
 int string_print (FILE *f, const void *e);
 int string_cmp(const void* e1, const void* e2);
 
+char* read_string_from_file(FILE* f_in);
+
 #endif /* FUNCTIONS_H_*/

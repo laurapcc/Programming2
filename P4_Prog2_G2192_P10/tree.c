@@ -86,7 +86,6 @@ Status tree_insertRec(NodeBT** ppn, const void*po, copy_element_function_type f,
     if (!*ppn) return ERROR;
     INFO(*ppn) = f(po);
     if (!INFO(*ppn)){
-      /*destroyNodeAB(*ppn,);   falta un argumento*/
       return ERROR;
     }
     return OK;
@@ -231,7 +230,9 @@ void tree_free(Tree *pa){
 
 Status tree_insert(Tree *pa, const void *po){
 
-  if (!pa || !po) return ERROR;
+  if (!pa || !po){
+    return ERROR;
+  }
 
   return tree_insertRec(&ROOT(pa), po, pa->copy_element_function, pa->cmp_element_function);
 

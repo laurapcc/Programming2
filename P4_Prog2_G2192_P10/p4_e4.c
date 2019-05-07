@@ -37,22 +37,18 @@ int main(int argc, char **argv) {
    return EXIT_FAILURE;
  }
 
-
  /*read file line by line*/
- while (!(feof(pf))){ /*da warning */
- 
-   string = read_string_from_file(pf);
+ while (!(feof(pf))){
+   string = (void *)read_string_from_file(pf);
 
    if (!string){
      mainCleanUp (t, NULL, pf);
      return EXIT_FAILURE;
    }
-
-   if (tree_insert(t, string) == ERROR) {
+   if (tree_insert(t, (void *)string) == ERROR) {
      mainCleanUp(t, string, pf);
      return EXIT_FAILURE;
    }
-
    string_destroy(string);
 
  }
